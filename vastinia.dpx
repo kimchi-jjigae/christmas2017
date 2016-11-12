@@ -1,0 +1,121 @@
+{
+    "data_types": [
+        {
+            "dependencies": [
+                "#include <cstdint>"
+            ],
+            "name": "int32",
+            "output": "int32_t"
+        },
+        {
+            "dependencies": [
+                "#include \"common.hpp\""
+            ],
+            "name": "table_id",
+            "output": "int32_t"
+        },
+        {
+            "dependencies": [
+                "#include <glm.hpp>"
+            ],
+            "name": "vec2",
+            "output": "glm::vec2"
+        },
+        {
+            "dependencies": [
+                "#include <fea/rendering/color.hpp>"
+            ],
+            "name": "color",
+            "output": "fea::Color"
+        },
+        {
+            "dependencies": [],
+            "name": "float",
+            "output": "float"
+        },
+        {
+            "dependencies": [
+                "#include <glm.hpp>"
+            ],
+            "name": "ivec2",
+            "output": "glm::ivec2"
+        },
+        {
+            "dependencies": [
+                "#include <string>"
+            ],
+            "name": "string",
+            "output": "std::string"
+        },
+        {
+            "dependencies": [
+                "#include <cstring>"
+            ],
+            "name": "size_t",
+            "output": "size_t"
+        }
+    ],
+    "field_types": [
+        {
+            "dependencies": [
+                ""
+            ],
+            "name": "default",
+            "output": "|type| |name|;"
+        },
+        {
+            "dependencies": [
+                "#include <thero/optional.hpp>"
+            ],
+            "name": "nullable",
+            "output": "th::Optional<|type|> |name|;"
+        },
+        {
+            "dependencies": [
+                "#include <vector>"
+            ],
+            "name": "list",
+            "output": "std::vector<|type|> |name|;"
+        }
+    ],
+    "settings": {
+        "human_readable": true,
+        "output_directory": "generated",
+        "templates": [
+            "dophax/templates/tables.dpt",
+            "dophax/templates/static_reflect.dpt",
+            "templates/gamedata.dpt",
+            "templates/debugguidata.dpt",
+            "templates/showdatatables.dpt"
+        ]
+    },
+    "tables": [
+        {
+            "columns": [
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "integer"
+                },
+                {
+                    "data_type": "vec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "vec2"
+                },
+                {
+                    "data_type": "string",
+                    "field_type": "list",
+                    "field_type_variables": [],
+                    "name": "texts"
+                }
+            ],
+            "description": "Temp table",
+            "display_name": "Hello World",
+            "external_id": false,
+            "inherits": null,
+            "name": "hello_world"
+        }
+    ]
+}

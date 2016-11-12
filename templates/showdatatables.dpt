@@ -1,0 +1,14 @@
+@file-showdatatables.hpp@
+#include <debuggui.hpp>
+namespace DebugGui
+{
+inline void showDataTables(th::Optional<int32_t>& clickedEntity, const GameData& data)
+{
+    showDataTables(clickedEntity
+@foreach-table@
+        ,data.t$table-Name$
+@end@
+    );
+}
+}
+@end@

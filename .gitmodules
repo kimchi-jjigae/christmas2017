@@ -1,0 +1,6 @@
+[submodule "dophax"]
+	path = dophax
+	url = git@github.com:therocode/dophax.git
+[submodule "json"]
+	path = json
+	url = https://github.com/nlohmann/json.git
