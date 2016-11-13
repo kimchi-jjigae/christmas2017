@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Wconv
 
 add_custom_target(
     dophax_gen
-    COMMAND dophax_gen ${CMAKE_CURRENT_LIST_DIR}/changeMe.dpx
+    COMMAND dophax_gen ${CMAKE_CURRENT_LIST_DIR}/changeme.dpx
 )
 
 file(GLOB_RECURSE source_files "src/*.cpp")

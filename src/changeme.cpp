@@ -37,6 +37,8 @@ ChangeMe::ChangeMe() :
     io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
     mImguiFontTexture.create({width, height}, pixels);
     io.Fonts->TexID = reinterpret_cast<void*>(mImguiFontTexture.getId());
+
+    startScenario();
 }
 
 void ChangeMe::handleMessage(const QuitMessage& message)
@@ -112,10 +114,8 @@ void ChangeMe::handleMessage(const MouseWheelMessage& message)
 
 void ChangeMe::startScenario()
 {
-    insert("I", mData.tHelloWorld);
-    insert("have", mData.tHelloWorld);
-    insert("some", mData.tHelloWorld);
-    insert("text", mData.tHelloWorld);
+    insert({10, {5.0f, 5.0f}, {"I", "have", "some", "text"}}, mData.tHelloWorld);
+    insert({20, {1.0f, 1.0f}, {"Me", "too"}}, mData.tHelloWorld);
 }
 
 void ChangeMe::loop()
