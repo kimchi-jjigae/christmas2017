@@ -9,7 +9,7 @@
 
 #include "renderlogic.hpp"
 
-class Vastinia : public fea::Application,
+class ChangeMe : public fea::Application,
     public fea::MessageReceiver<QuitMessage,
     ResizeMessage,
     KeyPressedMessage,
@@ -19,7 +19,7 @@ class Vastinia : public fea::Application,
     MouseWheelMessage>
 {
     public:
-        Vastinia();
+        ChangeMe();
         void handleMessage(const QuitMessage& message) override;
         void handleMessage(const ResizeMessage& message) override;
         void handleMessage(const KeyPressedMessage& message) override;

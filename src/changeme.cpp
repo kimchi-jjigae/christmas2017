@@ -1,4 +1,4 @@
-#include "vastinia.hpp"
+#include "changeme.hpp"
 #include <fea/ui/sdl2windowbackend.hpp>
 #include <fea/ui/sdl2inputbackend.hpp>
 #include <debugguidata.hpp>
@@ -13,9 +13,9 @@ const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::CORE;
 #endif
 
-Vastinia::Vastinia() :
+ChangeMe::ChangeMe() :
     mWindowSize(1366, 768),
-    mWindow(new fea::SDL2WindowBackend(), fea::VideoMode(static_cast<uint32_t>(mWindowSize.x), static_cast<uint32_t>(mWindowSize.y)), "Vastinia", fea::Style::Default, fea::ContextSettings(0, 0, 0, 2, 0, contextType)),
+    mWindow(new fea::SDL2WindowBackend(), fea::VideoMode(static_cast<uint32_t>(mWindowSize.x), static_cast<uint32_t>(mWindowSize.y)), "ChangeMe", fea::Style::Default, fea::ContextSettings(0, 0, 0, 2, 0, contextType)),
     mFeaRenderer(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2)))),
     mFeaInputHandler(new fea::SDL2InputBackend()),
     mInputHandler(mBus, mFeaInputHandler),
@@ -39,17 +39,17 @@ Vastinia::Vastinia() :
     io.Fonts->TexID = reinterpret_cast<void*>(mImguiFontTexture.getId());
 }
 
-void Vastinia::handleMessage(const QuitMessage& message)
+void ChangeMe::handleMessage(const QuitMessage& message)
 {
     (void)message;
     quit();
 }
 
-void Vastinia::handleMessage(const KeyPressedMessage& message)
+void ChangeMe::handleMessage(const KeyPressedMessage& message)
 {
 }
 
-void Vastinia::handleMessage(const ResizeMessage& message)
+void ChangeMe::handleMessage(const ResizeMessage& message)
 {
     mWindowSize = message.size;
     ImGuiIO& io = ImGui::GetIO();
@@ -58,7 +58,7 @@ void Vastinia::handleMessage(const ResizeMessage& message)
     mFeaRenderer.setViewport(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2))));
 }
 
-void Vastinia::handleMessage(const MouseClickMessage& message)
+void ChangeMe::handleMessage(const MouseClickMessage& message)
 {
     if(!mGuiBlocksMouse)
     {
@@ -73,7 +73,7 @@ void Vastinia::handleMessage(const MouseClickMessage& message)
         io.MouseDown[1] = true;
 }
 
-void Vastinia::handleMessage(const MouseReleaseMessage& message)
+void ChangeMe::handleMessage(const MouseReleaseMessage& message)
 {
     if(!mGuiBlocksMouse)
     {
@@ -88,7 +88,7 @@ void Vastinia::handleMessage(const MouseReleaseMessage& message)
         io.MouseDown[1] = false;
 }
 
-void Vastinia::handleMessage(const MouseMoveMessage& message)
+void ChangeMe::handleMessage(const MouseMoveMessage& message)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.MousePos = (glm::vec2)message.position;
@@ -104,17 +104,21 @@ void Vastinia::handleMessage(const MouseMoveMessage& message)
     }
 }
 
-void Vastinia::handleMessage(const MouseWheelMessage& message)
+void ChangeMe::handleMessage(const MouseWheelMessage& message)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.MouseWheel = static_cast<float>(message.delta);
 }
 
-void Vastinia::startScenario()
+void ChangeMe::startScenario()
 {
+    insert("I", mData.tHelloWorld);
+    insert("have", mData.tHelloWorld);
+    insert("some", mData.tHelloWorld);
+    insert("text", mData.tHelloWorld);
 }
 
-void Vastinia::loop()
+void ChangeMe::loop()
 {
     //grab input
     mInputHandler.process();
@@ -153,6 +157,6 @@ void Vastinia::loop()
     mWindow.swapBuffers();
 }
 
-void Vastinia::temp()
+void ChangeMe::temp()
 {
 }

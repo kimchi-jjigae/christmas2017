@@ -5,14 +5,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for executables
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
 #project name
-set(project_name vastinia)
+set(project_name changeMe)
 project(${project_name})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Wconversion -Wno-long-long -Wno-unused-parameter -Wno-unused-variable -Wno-format-pedantic -Wno-conversion")
 
 add_custom_target(
     dophax_gen
-    COMMAND dophax_gen ${CMAKE_CURRENT_LIST_DIR}/vastinia.dpx
+    COMMAND dophax_gen ${CMAKE_CURRENT_LIST_DIR}/changeMe.dpx
 )
 
 file(GLOB_RECURSE source_files "src/*.cpp")

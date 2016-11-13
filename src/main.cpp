@@ -1,7 +1,7 @@
-#include "vastinia.hpp"
+#include "changeme.hpp"
 
 int main(int argc, char *argv[])
 {
-    Vastinia vastinia;
-    vastinia.run(argc, argv);
+    ChangeMe changeMe;
+    changeMe.run(argc, argv);
 }
