@@ -5,11 +5,12 @@
 #include "inputhandler.hpp"
 #include "messages.hpp"
 #include "audioplayer.hpp"
+#include "land/chunkpipeline.hpp"
 #include <data.hpp>
 
 #include "renderlogic.hpp"
 
-class ChangeMe : public fea::Application,
+class ForgottenWoods : public fea::Application,
     public fea::MessageReceiver<QuitMessage,
     ResizeMessage,
     KeyPressedMessage,
@@ -19,7 +20,7 @@ class ChangeMe : public fea::Application,
     MouseWheelMessage>
 {
     public:
-        ChangeMe();
+        ForgottenWoods();
         void handleMessage(const QuitMessage& message) override;
         void handleMessage(const ResizeMessage& message) override;
         void handleMessage(const KeyPressedMessage& message) override;
@@ -55,6 +56,8 @@ class ChangeMe : public fea::Application,
         bool mGuiBlocksMouse;
 
         //logic
+        ChunkPipeline mChunkPipeline;
+
         //InterfaceLogic mInterfaceLogic;
         RenderLogic mRenderLogic;
 

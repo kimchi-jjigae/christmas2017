@@ -11,11 +11,16 @@ RenderLogic::RenderLogic(fea::Renderer2D& feaRenderer, const GameData& data):
 
 void RenderLogic::frameStart()
 {
+    mFeaRenderer.clear();
     ImGui::NewFrame();
 }
 
 void RenderLogic::update()
 {
+    for(const auto& tileIter : mData.worldTileMaps)
+    {
+        mFeaRenderer.render(tileIter.second);
+    }
 }
 
 void RenderLogic::frameEnd()

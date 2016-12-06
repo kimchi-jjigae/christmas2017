@@ -5,6 +5,11 @@
 //#include "wallmap.hpp"
 //#include "zones.hpp"
 //#include "gridneighbors.hpp"
+#include "land/chunk.hpp"
+#include <unordered_map>
+#include <deque>
+#include <fea/rendering/tilemap.hpp>
+#include <fea/rendering/texture.hpp>
 
 struct GameData
 {

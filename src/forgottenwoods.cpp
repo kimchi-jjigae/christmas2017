@@ -1,4 +1,4 @@
-#include "changeme.hpp"
+#include "forgottenwoods.hpp"
 #include <fea/ui/sdl2windowbackend.hpp>
 #include <fea/ui/sdl2inputbackend.hpp>
 #include <debugguidata.hpp>
@@ -6,6 +6,7 @@
 #include "debug.hpp"
 #include <showdatatables.hpp>
 #include <imgui.h>
+#include "texturemaker.hpp"
 
 #ifdef EMSCRIPTEN
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
@@ -13,12 +14,13 @@ const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::CORE;
 #endif
 
-ChangeMe::ChangeMe() :
+ForgottenWoods::ForgottenWoods() :
     mWindowSize(1366, 768),
-    mWindow(new fea::SDL2WindowBackend(), fea::VideoMode(static_cast<uint32_t>(mWindowSize.x), static_cast<uint32_t>(mWindowSize.y)), "ChangeMe", fea::Style::Default, fea::ContextSettings(0, 0, 0, 2, 0, contextType)),
+    mWindow(new fea::SDL2WindowBackend(), fea::VideoMode(static_cast<uint32_t>(mWindowSize.x), static_cast<uint32_t>(mWindowSize.y)), "ForgottenWoods", fea::Style::Default, fea::ContextSettings(0, 0, 0, 2, 0, contextType)),
     mFeaRenderer(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2)))),
     mFeaInputHandler(new fea::SDL2InputBackend()),
     mInputHandler(mBus, mFeaInputHandler),
+    mChunkPipeline(mData),
     mRenderLogic(mFeaRenderer, mData)
 {
     mWindow.setVSyncEnabled(true);
@@ -41,17 +43,17 @@ ChangeMe::ChangeMe() :
     startScenario();
 }
 
-void ChangeMe::handleMessage(const QuitMessage& message)
+void ForgottenWoods::handleMessage(const QuitMessage& message)
 {
     (void)message;
     quit();
 }
 
-void ChangeMe::handleMessage(const KeyPressedMessage& message)
+void ForgottenWoods::handleMessage(const KeyPressedMessage& message)
 {
 }
 
-void ChangeMe::handleMessage(const ResizeMessage& message)
+void ForgottenWoods::handleMessage(const ResizeMessage& message)
 {
     mWindowSize = message.size;
     ImGuiIO& io = ImGui::GetIO();
@@ -60,7 +62,7 @@ void ChangeMe::handleMessage(const ResizeMessage& message)
     mFeaRenderer.setViewport(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2))));
 }
 
-void ChangeMe::handleMessage(const MouseClickMessage& message)
+void ForgottenWoods::handleMessage(const MouseClickMessage& message)
 {
     if(!mGuiBlocksMouse)
     {
@@ -75,7 +77,7 @@ void ChangeMe::handleMessage(const MouseClickMessage& message)
         io.MouseDown[1] = true;
 }
 
-void ChangeMe::handleMessage(const MouseReleaseMessage& message)
+void ForgottenWoods::handleMessage(const MouseReleaseMessage& message)
 {
     if(!mGuiBlocksMouse)
     {
@@ -90,7 +92,7 @@ void ChangeMe::handleMessage(const MouseReleaseMessage& message)
         io.MouseDown[1] = false;
 }
 
-void ChangeMe::handleMessage(const MouseMoveMessage& message)
+void ForgottenWoods::handleMessage(const MouseMoveMessage& message)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.MousePos = (glm::vec2)message.position;
@@ -106,22 +108,30 @@ void ChangeMe::handleMessage(const MouseMoveMessage& message)
     }
 }
 
-void ChangeMe::handleMessage(const MouseWheelMessage& message)
+void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
 {
     ImGuiIO& io = ImGui::GetIO();
     io.MouseWheel = static_cast<float>(message.delta);
 }
 
-void ChangeMe::startScenario()
+void ForgottenWoods::startScenario()
 {
+    mData.tilesTexture = makeTexture("data/textures/tiles.png"); 
     insert({10, {5.0f, 5.0f}, {"I", "have", "some", "text"}}, mData.tHelloWorld);
     insert({20, {1.0f, 1.0f}, {"Me", "too"}}, mData.tHelloWorld);
+
+    mData.chunksToLoad =
+    {
+        {0, 0},
+    };
 }
 
-void ChangeMe::loop()
+void ForgottenWoods::loop()
 {
     //grab input
     mInputHandler.process();
+
+    mChunkPipeline.update();
 
     //imgui
     ImGuiIO& io = ImGui::GetIO();
@@ -157,6 +167,6 @@ void ChangeMe::loop()
     mWindow.swapBuffers();
 }
 
-void ChangeMe::temp()
+void ForgottenWoods::temp()
 {
 }

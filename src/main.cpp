@@ -1,7 +1,7 @@
-#include "changeme.hpp"
+#include "forgottenwoods.hpp"
 
 int main(int argc, char *argv[])
 {
-    ChangeMe changeMe;
-    changeMe.run(argc, argv);
+    ForgottenWoods forgottenWoods;
+    forgottenWoods.run(argc, argv);
 }
