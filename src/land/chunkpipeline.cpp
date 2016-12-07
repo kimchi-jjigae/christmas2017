@@ -1,5 +1,6 @@
 #include "chunkpipeline.hpp"
 #include "chunk.hpp"
+#include "tileutil.hpp"
 #include <fea/rendering/tilemap.hpp>
 
 ChunkPipeline::ChunkPipeline(GameData& data):
@@ -11,15 +12,19 @@ void ChunkPipeline::update()
 {
     for(glm::ivec2 coordinate : mData.chunksToLoad)
     {
-        TH_ASSERT(mData.worldChunks.count(coordinate) == 0, "cannot load already loaded chunk");
+        TH_ASSERT(mData.worldChunks.count(coordinate) == 0, "cannot load already loaded chunk" << coordinate);
         Chunk& chunk = mData.worldChunks[coordinate];
 
         size_t tileIndex = 0;
         for(int32_t y = 0; y < ChunkWidth; ++y)
         {
+            bool path = y % 8 == 0;
             for(int32_t x = 0; x < ChunkWidth; ++x)
             {
-                chunk.tiles[tileIndex] = (rand() % 8 != 0) ? Tile{TileType::GRASS} : Tile{TileType::TREES};
+                glm::vec2 simplexCoord = glm::vec2((coordinate * ChunkWidth + glm::ivec2(x, y)) * TileWidth) / 1600.0f;
+                int32_t goodness = ((glm::simplex(simplexCoord) + 1.0f) / 2.0f) * 100;
+                goodness = std::max(0, std::min(99, goodness));
+                chunk.tiles[tileIndex] = path ? Tile{TileType::Path, goodness} : ((rand() % 8 != 0) ? Tile{TileType::Grass, goodness} : Tile{TileType::Trees, goodness});
                 ++tileIndex;
             }
         }
@@ -32,11 +37,11 @@ void ChunkPipeline::update()
     for(glm::ivec2 coordinate : mData.chunksToBuildTileMap)
     {
         TH_ASSERT(mData.worldTileMaps.count(coordinate) == 0, "cannot setup tiles when already setup");
-        fea::TileMap& tiles = mData.worldTileMaps.emplace(coordinate, fea::TileMap({64, 64} , {TileWidth, TileWidth})).first->second;
-
-        tiles.addTileDefinition(TileType::GRASS, fea::TileDefinition{{0,0}});
-        tiles.addTileDefinition(TileType::TREES, fea::TileDefinition{{1,0}});
-        tiles.setTexture(mData.tilesTexture);
+        LayeredTiles& tiles = mData.worldTileMaps.emplace(coordinate, LayeredTiles
+        {
+            createTileMap(TileLayer::Background, coordinate, mData),
+            createTileMap(TileLayer::Center, coordinate, mData),
+        }).first->second;
 
         const Chunk& chunk = mData.worldChunks.at(coordinate);
 
@@ -45,7 +50,7 @@ void ChunkPipeline::update()
         {
             for(int32_t x = 0; x < ChunkWidth; ++x)
             {
-                tiles.setTile({x, y}, chunk.tiles[tileIndex].type);
+                setTile({x, y}, chunk.tiles[tileIndex], tiles);
                 ++tileIndex;
             }
         }

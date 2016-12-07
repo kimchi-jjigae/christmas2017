@@ -2,7 +2,7 @@
 #include "tile.hpp"
 #include <array>
 
-constexpr int32_t TileWidth = 16;
+constexpr int32_t TileWidth = 64;
 constexpr int32_t ChunkWidth = 64;
 constexpr int32_t ChunkWidthP2 = ChunkWidth * ChunkWidth;
 

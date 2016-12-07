@@ -8,7 +8,7 @@
 #include "land/chunk.hpp"
 #include <unordered_map>
 #include <deque>
-#include <fea/rendering/tilemap.hpp>
+#include "layeredtiles.hpp"
 #include <fea/rendering/texture.hpp>
 
 struct GameData

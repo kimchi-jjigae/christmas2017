@@ -17,9 +17,12 @@ void RenderLogic::frameStart()
 
 void RenderLogic::update()
 {
+    mFeaRenderer.getViewport().getCamera().setPosition(mData.cameraPosition);
+
     for(const auto& tileIter : mData.worldTileMaps)
     {
-        mFeaRenderer.render(tileIter.second);
+        mFeaRenderer.render(tileIter.second.background);
+        mFeaRenderer.render(tileIter.second.center);
     }
 }
 

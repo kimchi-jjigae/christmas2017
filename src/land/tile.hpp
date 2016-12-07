@@ -1,8 +1,9 @@
 #pragma once
 
-enum TileType { GRASS, TREES };
+enum TileType { Grass, Trees, Path };
 
 struct Tile
 {
     TileType type;
+    int32_t goodness;
 };

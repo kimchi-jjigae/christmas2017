@@ -51,6 +51,14 @@ void ForgottenWoods::handleMessage(const QuitMessage& message)
 
 void ForgottenWoods::handleMessage(const KeyPressedMessage& message)
 {
+    if(message.key == fea::Keyboard::A)
+        mData.cameraPosition.x += -80;
+    else if(message.key == fea::Keyboard::D)
+        mData.cameraPosition.x += 80;
+    else if(message.key == fea::Keyboard::W)
+        mData.cameraPosition.y += -80;
+    else if(message.key == fea::Keyboard::S)
+        mData.cameraPosition.y += 80;
 }
 
 void ForgottenWoods::handleMessage(const ResizeMessage& message)
@@ -116,20 +124,19 @@ void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
 
 void ForgottenWoods::startScenario()
 {
-    mData.tilesTexture = makeTexture("data/textures/tiles.png"); 
+    mData.cameraPosition = {30000, 30000};
+    mData.tilesBackgroundTexture = makeTexture("data/textures/bgtiles.png"); 
+    mData.tilesCenterTexture = makeTexture("data/textures/centertiles.png"); 
     insert({10, {5.0f, 5.0f}, {"I", "have", "some", "text"}}, mData.tHelloWorld);
     insert({20, {1.0f, 1.0f}, {"Me", "too"}}, mData.tHelloWorld);
-
-    mData.chunksToLoad =
-    {
-        {0, 0},
-    };
 }
 
 void ForgottenWoods::loop()
 {
     //grab input
     mInputHandler.process();
+
+    temp();
 
     mChunkPipeline.update();
 
@@ -169,4 +176,26 @@ void ForgottenWoods::loop()
 
 void ForgottenWoods::temp()
 {
+    glm::ivec2 size = {mWindow.getSize().x, mWindow.getSize().y};
+
+    auto start = mData.cameraPosition - size / 2;
+    auto end = mData.cameraPosition + size / 2;
+
+    std::deque<glm::ivec2> points =
+    {
+        {start.x, start.y},
+        {start.x, end.y},
+        {end.x, start.y},
+        {end.x, end.y},
+    };
+
+    for(auto point : points)
+    {
+        auto chunkCoord = point / TileWidth / ChunkWidth;
+
+        if(mData.worldChunks.count(chunkCoord) == 0 && std::count(mData.chunksToLoad.begin(), mData.chunksToLoad.end(), chunkCoord) == 0)
+        {
+            mData.chunksToLoad.emplace_back(chunkCoord);
+        }
+    }
 }
