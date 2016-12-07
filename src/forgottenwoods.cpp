@@ -59,6 +59,10 @@ void ForgottenWoods::handleMessage(const KeyPressedMessage& message)
         mData.cameraPosition.y += -80;
     else if(message.key == fea::Keyboard::S)
         mData.cameraPosition.y += 80;
+    else if(message.key == fea::Keyboard::R)
+        mData.zoom *= 2.0f;
+    else if(message.key == fea::Keyboard::F)
+        mData.zoom *= 0.5f;
 }
 
 void ForgottenWoods::handleMessage(const ResizeMessage& message)

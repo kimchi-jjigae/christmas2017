@@ -29,7 +29,6 @@ fea::TileMap createTileMap(TileLayer layer, glm::ivec2 chunkCoordinate, GameData
         TH_ASSERT(false, "unknown tile layer");
     }
 
-    std::cout << "created at position " << chunkCoordinate * ChunkWidth * TileWidth << "\n";
     result.setPosition(chunkCoordinate * ChunkWidth * TileWidth);
 
     return result;

@@ -18,6 +18,7 @@ void RenderLogic::frameStart()
 void RenderLogic::update()
 {
     mFeaRenderer.getViewport().getCamera().setPosition(mData.cameraPosition);
+    mFeaRenderer.getViewport().getCamera().setZoom({mData.zoom, mData.zoom});
 
     for(const auto& tileIter : mData.worldTileMaps)
     {

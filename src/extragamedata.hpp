@@ -6,6 +6,7 @@ std::unordered_map<glm::ivec2, Chunk> worldChunks;
 
 //graphics
 glm::ivec2 cameraPosition;
+float zoom = 1.0f;
 std::unordered_map<glm::ivec2, LayeredTiles> worldTileMaps;
 fea::Texture tilesBackgroundTexture;
 fea::Texture tilesCenterTexture;
