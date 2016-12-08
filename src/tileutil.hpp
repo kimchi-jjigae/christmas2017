@@ -10,3 +10,6 @@ enum TileLayer { Background, Center };
 
 fea::TileMap createTileMap(TileLayer layer, glm::ivec2 chunkCoordinate, GameData& data);
 void setTile(glm::ivec2 coordinate, Tile tile, LayeredTiles& tiles);
+
+void setTileGoodness(glm::ivec2 tileCoord, int32_t goodness, GameData& data);
+int32_t tileGoodness(glm::ivec2 tileCoord, GameData& data);

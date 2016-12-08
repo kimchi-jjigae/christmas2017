@@ -32,6 +32,7 @@ class ForgottenWoods : public fea::Application,
     protected:
         void loop() override;
     private:
+        void spreadHappiness();
 
         glm::ivec2 mWindowSize;
 

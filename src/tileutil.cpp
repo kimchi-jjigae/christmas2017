@@ -1,4 +1,5 @@
 #include "tileutil.hpp"
+#include "land/chunkutil.hpp"
 
 fea::TileMap createTileMap(TileLayer layer, glm::ivec2 chunkCoordinate, GameData& data)
 {
@@ -55,4 +56,32 @@ void setTile(glm::ivec2 coordinate, Tile tile, LayeredTiles& tiles)
         tiles.background.setTile(coordinate, GfxBackgroundTile::Grass0 + goodnessOffset);
         tiles.center.unsetTile(coordinate);
     }
+}
+
+void setTileGoodness(glm::ivec2 tileCoord, int32_t goodness, GameData& data)
+{
+    auto chunkCoord = tileToChunk(tileCoord);
+    auto chunkTileCoord = tileToChunkTile(tileCoord);
+
+    auto& tile = data.worldChunks.at(chunkCoord).tiles[tileIndex(chunkTileCoord)];
+    tile.goodness = goodness;
+    auto& overlayData = data.chunksInView.at(chunkCoord);
+
+    int32_t color = goodness / 100.0f * 255 + 35;
+    for(size_t i = 0; i < overlayData.overlayMasks.size(); ++i)
+    {
+        overlayData.overlayMasks[i].setPixel({chunkTileCoord.x, chunkTileCoord.y}, fea::Color(color, color, color, color));
+        overlayData.overlayMasks[i].update();
+    }
+
+    auto& tileMaps = data.worldTileMaps.at(chunkCoord);
+    setTile(chunkTileCoord, tile, tileMaps);
+}
+
+int32_t tileGoodness(glm::ivec2 tileCoord, GameData& data)
+{
+    auto chunkCoord = tileToChunk(tileCoord);
+    auto chunkTileCoord = tileToChunkTile(tileCoord);
+
+    return data.worldChunks.at(chunkCoord).tiles[tileIndex(chunkTileCoord)].goodness;
 }

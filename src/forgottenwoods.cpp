@@ -9,6 +9,8 @@
 #include "texturemaker.hpp"
 #include "renderingutil.hpp"
 #include <unordered_set>
+#include "land/chunkutil.hpp"
+#include "tileutil.hpp"
 
 #ifdef EMSCRIPTEN
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
@@ -67,6 +69,8 @@ void ForgottenWoods::handleMessage(const KeyPressedMessage& message)
         mData.zoom *= 2.0f;
     else if(message.key == fea::Keyboard::F)
         mData.zoom *= 0.5f;
+    else if(message.key == fea::Keyboard::C)
+        spreadHappiness();
 }
 
 void ForgottenWoods::handleMessage(const ResizeMessage& message)
@@ -221,5 +225,21 @@ void ForgottenWoods::temp()
     {
         if(chunksThatWereInView.count(iter.first) == 0)
             mData.chunksThatLeftView.emplace_back(iter.first);
+    }
+}
+
+void ForgottenWoods::spreadHappiness()
+{
+    auto tileCoord = worldToTile(mData.cameraPosition);
+
+
+    for(int32_t y = tileCoord.y - 10; y < tileCoord.y + 10; ++y)
+    {
+        for(int32_t x = tileCoord.x - 10; x < tileCoord.x + 10; ++x)
+        {
+            float distance = glm::distance(static_cast<glm::vec2>(tileCoord), glm::vec2(x, y));
+            int32_t increase = std::max(0.0f, 8.5f - distance)/ 2;
+            setTileGoodness({x, y}, std::min(99, tileGoodness({x, y}, mData) + increase), mData);
+        }
     }
 }
