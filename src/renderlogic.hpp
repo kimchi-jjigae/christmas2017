@@ -27,4 +27,9 @@ class RenderLogic
         fea::Camera mGuiCamera;
         GameData& mData;
         int32_t mSinCounter;
+        fea::Animation mWizardAnimationUp;
+        fea::Animation mWizardAnimationDown;
+        fea::Animation mWizardAnimationLeft;
+        fea::Animation mWizardAnimationRight;
+        fea::AnimatedQuad mWizardQuad;
 };

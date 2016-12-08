@@ -58,13 +58,25 @@ void ForgottenWoods::handleMessage(const QuitMessage& message)
 void ForgottenWoods::handleMessage(const KeyPressedMessage& message)
 {
     if(message.key == fea::Keyboard::A)
+    {
         mData.cameraPosition.x += -80;
+        mData.currentDirection = Direction::Left;
+    }
     else if(message.key == fea::Keyboard::D)
+    {
         mData.cameraPosition.x += 80;
+        mData.currentDirection = Direction::Right;
+    }
     else if(message.key == fea::Keyboard::W)
+    {
         mData.cameraPosition.y += -80;
+        mData.currentDirection = Direction::Up;
+    }
     else if(message.key == fea::Keyboard::S)
+    {
         mData.cameraPosition.y += 80;
+        mData.currentDirection = Direction::Down;
+    }
     else if(message.key == fea::Keyboard::R)
         mData.zoom *= 2.0f;
     else if(message.key == fea::Keyboard::F)
@@ -143,6 +155,7 @@ void ForgottenWoods::startScenario()
     mData.tilesCenterTexture = makeTexture("data/textures/centertiles.png"); 
     mData.fogTexture = makeTexture("data/textures/fog.png"); 
     mData.noiseTexture = makeTexture("data/textures/noise.png"); 
+    mData.wizardTexture = makeTexture("data/textures/wizard.png"); 
     insert({10, {5.0f, 5.0f}, {"I", "have", "some", "text"}}, mData.tHelloWorld);
     insert({20, {1.0f, 1.0f}, {"Me", "too"}}, mData.tHelloWorld);
 }

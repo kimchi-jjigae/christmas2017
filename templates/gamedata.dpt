@@ -10,6 +10,7 @@
 #include <deque>
 #include "layeredtiles.hpp"
 #include "chunkviewdata.hpp"
+#include "direction.hpp"
 #include <fea/rendering/texture.hpp>
 
 struct GameData

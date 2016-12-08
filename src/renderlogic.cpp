@@ -32,6 +32,14 @@ RenderLogic::RenderLogic(fea::Renderer2D& feaRenderer, GameData& data):
     mFogOverlay.setTileSize(glm::ivec2{256, 256});
     mFogOverlay.setScrollSpeed({0.00001f, 0.0f});
     mFogOverlay.setParallax({0.1f, 0.1f});
+
+    mWizardAnimationUp = {{0,14}, {12, 14}, 2, 30};
+    mWizardAnimationDown = {{0,0}, {12, 14}, 2, 30};
+    mWizardAnimationLeft = {{0,28}, {12, 14}, 2, 30};
+    mWizardAnimationRight = {{0,42}, {12, 14}, 2, 30};
+    mWizardQuad.setSize(glm::ivec2{12,14} * 4);
+    mWizardQuad.setTexture(mData.wizardTexture);
+    mWizardQuad.setAnimation(mWizardAnimationUp);
 }
 
 void RenderLogic::frameStart()
@@ -74,6 +82,20 @@ void RenderLogic::update()
         mFeaRenderer.render(tileIter.second.background);
         mFeaRenderer.render(tileIter.second.center);
     }
+
+    if(mData.currentDirection == Direction::Up)
+        mWizardQuad.setAnimation(mWizardAnimationUp);
+    else if(mData.currentDirection == Direction::Down)
+        mWizardQuad.setAnimation(mWizardAnimationDown);
+    else if(mData.currentDirection == Direction::Left)
+        mWizardQuad.setAnimation(mWizardAnimationLeft);
+    else if(mData.currentDirection == Direction::Right)
+        mWizardQuad.setAnimation(mWizardAnimationRight);
+    mData.currentDirection = None;
+    mWizardQuad.tick();
+
+    mWizardQuad.setPosition(mData.cameraPosition);
+    mFeaRenderer.render(mWizardQuad);
 
     mFeaRenderer.render(mFogOverlay);
     mFeaRenderer.render(mNoiseOverlay);
