@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <deque>
 #include "layeredtiles.hpp"
+#include "chunkviewdata.hpp"
 #include <fea/rendering/texture.hpp>
 
 struct GameData

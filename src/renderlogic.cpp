@@ -2,29 +2,77 @@
 #include "debug.hpp"
 #include "drawables/linerect.hpp"
 #include "drawables/imguidrawable.hpp"
+#include "renderingutil.hpp"
 
-RenderLogic::RenderLogic(fea::Renderer2D& feaRenderer, const GameData& data):
+RenderLogic::RenderLogic(fea::Renderer2D& feaRenderer, GameData& data):
     mFeaRenderer(feaRenderer),
     mData(data)
 {
+    mOverlayTarget.create({2048, 2048});
+    mOverlayQuad.setSize({2048, 2048});
+    mOverlayQuad.setTexture(mOverlayTarget.getTexture());
+    mOverlayQuad.setVFlip(true);
+
+    mDefaultViewport = mFeaRenderer.getViewport();
+    mOverlayViewport = fea::Viewport({2048, 2048}, {}, fea::Camera{});
 }
 
 void RenderLogic::frameStart()
 {
     mFeaRenderer.clear();
+    mFeaRenderer.clear(mOverlayTarget, fea::Color::Transparent);
     ImGui::NewFrame();
 }
 
 void RenderLogic::update()
 {
-    mFeaRenderer.getViewport().getCamera().setPosition(mData.cameraPosition);
-    mFeaRenderer.getViewport().getCamera().setZoom({mData.zoom, mData.zoom});
+    for(const auto& coordinate : mData.chunksToPutInView)
+    {
+        TH_ASSERT(mData.chunksInView.count(coordinate) == 0, "Was about to emplace chunk in view, but it was already there " << coordinate);
+        setupOverlay(coordinate, mData.chunksInView.emplace(coordinate, ChunkViewData{std::move(mData.chunkOverlayPool.back()), {}, {}}).first->second, mData.worldChunks.at(coordinate), mData);
+        mData.chunkOverlayPool.pop_back();
+    }
+    mData.chunksToPutInView.clear();
+
+    for(const auto& coordinate : mData.chunksThatLeftView)
+    {
+        TH_ASSERT(mData.chunksInView.count(coordinate) != 0, "Was about to erase chunk from view, but it was not there " << coordinate);
+        mData.chunkOverlayPool.emplace_back(std::move(mData.chunksInView.at(coordinate).overlayMasks));
+        mData.chunksInView.erase(coordinate);
+    }
+    mData.chunksThatLeftView.clear();
+
+
+    mWorldCamera.setPosition(mData.cameraPosition);
+    mWorldCamera.setZoom({mData.zoom, mData.zoom});
+    mDefaultViewport.setCamera(mWorldCamera);
+    mWorldOverlayCamera.setPosition(mData.cameraPosition);// - glm::ivec2(-342, 0));
+    //mWorldOverlayCamera.setZoom({1, mData.zoom});
+    mFeaRenderer.setViewport(mDefaultViewport);
 
     for(const auto& tileIter : mData.worldTileMaps)
     {
         mFeaRenderer.render(tileIter.second.background);
         mFeaRenderer.render(tileIter.second.center);
     }
+
+    mOverlayViewport.setCamera(mWorldOverlayCamera);
+    mFeaRenderer.setViewport(mOverlayViewport);
+    //overlay stuff
+    for(auto& overlays : mData.chunksInView)
+    {
+        mFeaRenderer.setBlendMode(fea::ADD);
+        mFeaRenderer.render(overlays.second.overlayDecorationQuad, mOverlayTarget);
+        mFeaRenderer.setBlendMode(fea::MULTIPLY);
+        mFeaRenderer.render(overlays.second.overlayQuad, mOverlayTarget);
+
+        overlays.second.overlayDecorationQuad.tick();
+    }
+
+    mFeaRenderer.setBlendMode(fea::ALPHA);
+    mFeaRenderer.setViewport(mDefaultViewport);
+    mOverlayQuad.setPosition(mData.cameraPosition - glm::ivec2(1024.0f, 1024.0f));
+    mFeaRenderer.render(mOverlayQuad);
 }
 
 void RenderLogic::frameEnd()
@@ -33,8 +81,14 @@ void RenderLogic::frameEnd()
     renderImGui(*ImGui::GetDrawData());
 }
 
+void RenderLogic::resize(glm::ivec2 newSize)
+{
+    mDefaultViewport = fea::Viewport(newSize, {}, {});
+}
+
 void RenderLogic::renderImGui(ImDrawData& drawData)
 {
+    mFeaRenderer.getViewport().setCamera(mGuiCamera);
     // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
     ImGuiIO& io = ImGui::GetIO();
     int fb_width = (int)(io.DisplaySize.x * io.DisplayFramebufferScale.x);

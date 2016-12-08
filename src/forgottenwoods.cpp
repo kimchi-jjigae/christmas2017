@@ -7,6 +7,8 @@
 #include <showdatatables.hpp>
 #include <imgui.h>
 #include "texturemaker.hpp"
+#include "renderingutil.hpp"
+#include <unordered_set>
 
 #ifdef EMSCRIPTEN
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
@@ -71,7 +73,8 @@ void ForgottenWoods::handleMessage(const ResizeMessage& message)
     ImGuiIO& io = ImGui::GetIO();
     io.DisplaySize.x = mWindowSize.x;
     io.DisplaySize.y = mWindowSize.y;
-    mFeaRenderer.setViewport(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2))));
+    mRenderLogic.resize(mWindowSize);
+    //mFeaRenderer.setViewport(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2))));
 }
 
 void ForgottenWoods::handleMessage(const MouseClickMessage& message)
@@ -128,9 +131,11 @@ void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
 
 void ForgottenWoods::startScenario()
 {
+    initializeChunkMasks(mData);
     mData.cameraPosition = {30000, 30000};
     mData.tilesBackgroundTexture = makeTexture("data/textures/bgtiles.png"); 
     mData.tilesCenterTexture = makeTexture("data/textures/centertiles.png"); 
+    mData.fogTexture = makeTexture("data/textures/fog.png"); 
     insert({10, {5.0f, 5.0f}, {"I", "have", "some", "text"}}, mData.tHelloWorld);
     insert({20, {1.0f, 1.0f}, {"Me", "too"}}, mData.tHelloWorld);
 }
@@ -185,13 +190,15 @@ void ForgottenWoods::temp()
     auto start = mData.cameraPosition - size / 2;
     auto end = mData.cameraPosition + size / 2;
 
-    std::deque<glm::ivec2> points =
+    std::unordered_set<glm::ivec2> points =
     {
         {start.x, start.y},
         {start.x, end.y},
         {end.x, start.y},
         {end.x, end.y},
     };
+    
+    std::unordered_set<glm::ivec2> chunksThatWereInView;
 
     for(auto point : points)
     {
@@ -201,5 +208,15 @@ void ForgottenWoods::temp()
         {
             mData.chunksToLoad.emplace_back(chunkCoord);
         }
+
+        if(mData.chunksInView.count(chunkCoord) == 0 && std::count(mData.chunksToPutInView.begin(), mData.chunksToPutInView.end(), chunkCoord) == 0)
+            mData.chunksToPutInView.emplace_back(chunkCoord);
+        chunksThatWereInView.emplace(chunkCoord);
+    }
+
+    for(const auto& iter : mData.chunksInView)
+    {
+        if(chunksThatWereInView.count(iter.first) == 0)
+            mData.chunksThatLeftView.emplace_back(iter.first);
     }
 }

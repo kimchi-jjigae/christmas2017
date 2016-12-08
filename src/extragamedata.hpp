@@ -10,3 +10,8 @@ float zoom = 1.0f;
 std::unordered_map<glm::ivec2, LayeredTiles> worldTileMaps;
 fea::Texture tilesBackgroundTexture;
 fea::Texture tilesCenterTexture;
+fea::Texture fogTexture;
+std::deque<std::array<fea::Texture, 4>> chunkOverlayPool;
+std::deque<glm::ivec2> chunksToPutInView;
+std::unordered_map<glm::ivec2, ChunkViewData> chunksInView;
+std::deque<glm::ivec2> chunksThatLeftView;
