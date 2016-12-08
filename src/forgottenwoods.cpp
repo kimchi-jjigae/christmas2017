@@ -42,6 +42,8 @@ ForgottenWoods::ForgottenWoods() :
     mImguiFontTexture.create({width, height}, pixels);
     io.Fonts->TexID = reinterpret_cast<void*>(mImguiFontTexture.getId());
 
+    mRenderLogic.resize(mWindowSize);
+
     startScenario();
 }
 
