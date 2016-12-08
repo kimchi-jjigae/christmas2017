@@ -105,6 +105,7 @@ void RenderLogic::frameEnd()
 void RenderLogic::resize(glm::ivec2 newSize)
 {
     mDefaultViewport = fea::Viewport(newSize, {}, {});
+    mGuiCamera.setPosition(newSize / 2);
 }
 
 void RenderLogic::renderImGui(ImDrawData& drawData)
