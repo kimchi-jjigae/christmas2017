@@ -233,9 +233,9 @@ void ForgottenWoods::spreadHappiness()
     auto tileCoord = worldToTile(mData.cameraPosition);
 
 
-    for(int32_t y = tileCoord.y - 10; y < tileCoord.y + 10; ++y)
+    for(int32_t y = tileCoord.y - 6; y < tileCoord.y + 6; ++y)
     {
-        for(int32_t x = tileCoord.x - 10; x < tileCoord.x + 10; ++x)
+        for(int32_t x = tileCoord.x - 6; x < tileCoord.x + 6; ++x)
         {
             float distance = glm::distance(static_cast<glm::vec2>(tileCoord), glm::vec2(x, y));
             int32_t increase = std::max(0.0f, 8.5f - distance + (rand() % 8) / 10.0f) / 2;
