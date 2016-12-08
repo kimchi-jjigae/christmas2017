@@ -238,7 +238,7 @@ void ForgottenWoods::spreadHappiness()
         for(int32_t x = tileCoord.x - 10; x < tileCoord.x + 10; ++x)
         {
             float distance = glm::distance(static_cast<glm::vec2>(tileCoord), glm::vec2(x, y));
-            int32_t increase = std::max(0.0f, 8.5f - distance)/ 2;
+            int32_t increase = std::max(0.0f, 8.5f - distance + (rand() % 8) / 10.0f) / 2;
             setTileGoodness({x, y}, std::min(99, tileGoodness({x, y}, mData) + increase), mData);
         }
     }
