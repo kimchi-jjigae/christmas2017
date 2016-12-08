@@ -2,6 +2,18 @@
 #include <algorithm>
 #include <iostream>
 
+GoodnessLevel goodnessAmountLevel(int32_t goodnessAmount)
+{
+    if(goodnessAmount < 25)
+        return GoodnessLevel::Evil;
+    else if(goodnessAmount < 50)
+        return GoodnessLevel::Dying;
+    else if(goodnessAmount < 75)
+        return GoodnessLevel::Corrupt;
+    else
+        return GoodnessLevel::Good;
+}
+
 int32_t goodnessLevelAmount(GoodnessLevel level, int32_t goodnessAmount)
 {
     int32_t base = 0;

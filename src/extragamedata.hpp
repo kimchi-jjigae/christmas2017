@@ -11,6 +11,7 @@ std::unordered_map<glm::ivec2, LayeredTiles> worldTileMaps;
 fea::Texture tilesBackgroundTexture;
 fea::Texture tilesCenterTexture;
 fea::Texture fogTexture;
+fea::Texture noiseTexture;
 std::deque<std::array<fea::Texture, 4>> chunkOverlayPool;
 std::deque<glm::ivec2> chunksToPutInView;
 std::unordered_map<glm::ivec2, ChunkViewData> chunksInView;

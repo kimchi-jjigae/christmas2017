@@ -8,5 +8,4 @@ struct ChunkViewData
 {
     std::array<fea::Texture, 4> overlayMasks;
     fea::Quad overlayQuad;
-    fea::RepeatedQuad overlayDecorationQuad;
 };

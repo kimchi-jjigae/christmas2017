@@ -136,6 +136,7 @@ void ForgottenWoods::startScenario()
     mData.tilesBackgroundTexture = makeTexture("data/textures/bgtiles.png"); 
     mData.tilesCenterTexture = makeTexture("data/textures/centertiles.png"); 
     mData.fogTexture = makeTexture("data/textures/fog.png"); 
+    mData.noiseTexture = makeTexture("data/textures/noise.png"); 
     insert({10, {5.0f, 5.0f}, {"I", "have", "some", "text"}}, mData.tHelloWorld);
     insert({20, {1.0f, 1.0f}, {"Me", "too"}}, mData.tHelloWorld);
 }
