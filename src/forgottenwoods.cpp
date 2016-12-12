@@ -25,6 +25,7 @@ ForgottenWoods::ForgottenWoods() :
     mFeaInputHandler(new fea::SDL2InputBackend()),
     mInputHandler(mBus, mFeaInputHandler),
     mChunkPipeline(mData),
+    mEntityStatesLogic(mData),
     mRenderLogic(mFeaRenderer, mData)
 {
     mWindow.setVSyncEnabled(true);
@@ -156,8 +157,6 @@ void ForgottenWoods::startScenario()
     mData.fogTexture = makeTexture("data/textures/fog.png"); 
     mData.noiseTexture = makeTexture("data/textures/noise.png"); 
     mData.wizardTexture = makeTexture("data/textures/wizard.png"); 
-    insert({10, {5.0f, 5.0f}, {"I", "have", "some", "text"}}, mData.tHelloWorld);
-    insert({20, {1.0f, 1.0f}, {"Me", "too"}}, mData.tHelloWorld);
 }
 
 void ForgottenWoods::loop()
@@ -168,6 +167,7 @@ void ForgottenWoods::loop()
     temp();
 
     mChunkPipeline.update();
+    mEntityStatesLogic.update();
 
     //imgui
     ImGuiIO& io = ImGui::GetIO();

@@ -53,6 +53,41 @@
             ],
             "name": "size_t",
             "output": "size_t"
+        },
+        {
+            "dependencies": [
+                "#include \"entitystates/statehash.hpp\""
+            ],
+            "name": "state_set_hash",
+            "output": "StateSetHash"
+        },
+        {
+            "dependencies": [
+                "#include \"entitystates/statecontext.hpp\""
+            ],
+            "name": "state_context",
+            "output": "StateContext"
+        },
+        {
+            "dependencies": [
+                "#include \"entitystates/duration.hpp\""
+            ],
+            "name": "state_duration",
+            "output": "Duration"
+        },
+        {
+            "dependencies": [
+                "#include \"entitystates/statehash.hpp\""
+            ],
+            "name": "state_hash",
+            "output": "StateHash"
+        },
+        {
+            "dependencies": [
+                "#include \"entitystates/executor.hpp\""
+            ],
+            "name": "state_executor",
+            "output": "Executor"
         }
     ],
     "field_types": [
@@ -76,6 +111,13 @@
             ],
             "name": "list",
             "output": "std::vector<|type|> |name|;"
+        },
+        {
+            "dependencies": [
+                "#include <unordered_map>"
+            ],
+            "name": "hash_map",
+            "output": "std::unordered_map<|t:key|,|type|> |name|;"
         }
     ],
     "settings": {
@@ -93,29 +135,94 @@
         {
             "columns": [
                 {
-                    "data_type": "int32",
+                    "data_type": "table_id",
                     "field_type": "default",
                     "field_type_variables": [],
-                    "name": "integer"
+                    "name": "entityId"
                 },
                 {
-                    "data_type": "vec2",
+                    "data_type": "state_set_hash",
                     "field_type": "default",
                     "field_type_variables": [],
-                    "name": "vec2"
+                    "name": "currentStateSet"
                 },
                 {
-                    "data_type": "string",
-                    "field_type": "list",
+                    "data_type": "table_id",
+                    "field_type": "default",
                     "field_type_variables": [],
-                    "name": "texts"
+                    "name": "currentState"
+                },
+                {
+                    "data_type": "state_context",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "stateContext"
                 }
             ],
-            "description": "Temp table",
-            "display_name": "Hello World",
+            "description": "State machines that govern the execution of entity states",
+            "display_name": "Entity State Machine",
             "external_id": false,
             "inherits": null,
-            "name": "hello_world"
+            "name": "entity_state_machine"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "state_duration",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "duration"
+                },
+                {
+                    "data_type": "state_hash",
+                    "field_type": "hash_map",
+                    "field_type_variables": [
+                        {
+                            "name": "key",
+                            "value": "StateAction"
+                        }
+                    ],
+                    "name": "transitions"
+                },
+                {
+                    "data_type": "state_executor",
+                    "field_type": "list",
+                    "field_type_variables": [],
+                    "name": "executors"
+                }
+            ],
+            "description": "A state that an entity can attain",
+            "display_name": "Entity State",
+            "external_id": false,
+            "inherits": null,
+            "name": "entity_state"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "state_set_hash",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "stateSet"
+                },
+                {
+                    "data_type": "state_hash",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "stateHash"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "stateId"
+                }
+            ],
+            "description": "Index of entity states that store which sets and such they belong to",
+            "display_name": "Entity State Set",
+            "external_id": false,
+            "inherits": null,
+            "name": "entity_state_index"
         }
     ]
 }

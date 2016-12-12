@@ -19,3 +19,26 @@ std::vector<std::string> toStringList(const fea::Color& color)
             "a: " + std::to_string(+color.a),
     };
 }
+
+std::vector<std::string> toStringList(const Executor& executor)
+{
+    return
+    {
+        toString(executor.condition),
+    };
+}
+
+std::vector<std::string> toStringList(const StateContext& stateContext)
+{
+    return
+    {
+        std::to_string(stateContext.entityId),
+        std::to_string(stateContext.stateFrameCount),
+    };
+}
+
+std::ostream& operator<<(std::ostream& os, const Executor& executor)
+{
+    os << toString(executor.condition);
+    return os;
+}

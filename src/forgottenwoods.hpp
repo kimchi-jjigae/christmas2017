@@ -9,6 +9,7 @@
 #include <data.hpp>
 
 #include "renderlogic.hpp"
+#include "entitystates/entitystateslogic.hpp"
 
 class ForgottenWoods : public fea::Application,
     public fea::MessageReceiver<QuitMessage,
@@ -58,6 +59,7 @@ class ForgottenWoods : public fea::Application,
 
         //logic
         ChunkPipeline mChunkPipeline;
+        EntityStatesLogic mEntityStatesLogic;
 
         //InterfaceLogic mInterfaceLogic;
         RenderLogic mRenderLogic;
