@@ -8,6 +8,14 @@ std::vector<std::string> toStringList(int32_t number)
     };
 }
 
+std::vector<std::string> toStringList(StringHash hash)
+{
+    return
+    {
+        hash.string,
+    };
+}
+
 std::vector<std::string> toStringList(const fea::Color& color)
 {
     return
@@ -39,6 +47,6 @@ std::vector<std::string> toStringList(const StateContext& stateContext)
 
 std::ostream& operator<<(std::ostream& os, const Executor& executor)
 {
-    os << toString(executor.condition);
+    os << executor.descriptor;
     return os;
 }

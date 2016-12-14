@@ -1,5 +1,6 @@
 #include "entitystateslogic.hpp"
 #include "../random.hpp"
+#include "../stringhash.hpp"
 
 EntityStatesLogic::EntityStatesLogic(GameData& data):
     mData(data)
@@ -41,7 +42,27 @@ void EntityStatesLogic::update()
             }
         }
 
+        th::Optional<StateHash> changeToState;
+
         if(stateMachine.stateContext.emitTransition)
+        {
+            auto foundState = state.transitions.find(*stateMachine.stateContext.emitTransition);
+            TH_ASSERT(foundState != state.transitions.end(), "Cannot switch using nonexisting state action " << *stateMachine.stateContext.emitTransition);
+            changeToState = foundState->second;
+        }
+        else
+        {
+            ++stateMachine.stateContext.stateFrameCount;
+
+            if(stateMachine.stateContext.stateFrameCount == state.duration)
+            {
+                auto foundState = state.transitions.find("_next"_hash);
+                TH_ASSERT(foundState != state.transitions.end(), "Duration of state reached, but action '_next' doesn't exist");
+                changeToState = foundState->second;
+            }
+        }
+
+        if(changeToState)
         {//state requested changed. find and setup new state
             //call any onStateEnd executors
             for(const Executor& executor : state.executors)
@@ -57,7 +78,7 @@ void EntityStatesLogic::update()
             th::Optional<int32_t> foundState;
             forEach([&] (int32_t, const EntityStateIndex& stateIndex)
             {
-                if(stateIndex.stateSet == stateMachine.currentStateSet && stateIndex.stateHash == *stateMachine.stateContext.emitTransition)
+                if(stateIndex.stateSet == stateMachine.currentStateSet && stateIndex.stateHash == *changeToState)
                 {
                     foundState = stateIndex.stateId;
                     return LoopResult::Break;
@@ -75,10 +96,6 @@ void EntityStatesLogic::update()
                 {}
             };
             stateMachine.currentState = *foundState;
-        }
-        else
-        {
-            ++stateMachine.stateContext.stateFrameCount;
         }
     }, mData.tEntityStateMachine);
 }

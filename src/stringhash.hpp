@@ -1,8 +1,25 @@
 #pragma once
 #include <cstdint>
+#include <functional>
+#include <ostream>
 
-constexpr size_t operator "" _hash( const char* data, size_t len)
+struct StringHash
 {
+    size_t hash;
+    const char* string;
+    constexpr operator size_t()
+    {
+        return hash;
+    }
+};
+
+bool operator==(const StringHash& a, const StringHash& b);
+bool operator<(const StringHash& a, const StringHash& b);
+std::ostream& operator<<(std::ostream& out, const StringHash& hash);
+
+constexpr StringHash operator "" _hash( const char* data, size_t len)
+{
+    const char* original = data;
     unsigned int seed = 1337;
     const unsigned int m = 0x5bd1e995;
     const int r = 24;
@@ -39,7 +56,18 @@ constexpr size_t operator "" _hash( const char* data, size_t len)
     h *= m;
     h ^= h >> 15;
 
-    return h;
+    return {h, original};
 } 
 
-static_assert("run_left"_hash == 1811686161, "nice");
+static_assert("run_left"_hash == size_t{1811686161}, "nice");
+
+namespace std
+{
+    template <> struct hash<StringHash>
+    {
+        size_t operator()(const StringHash& h) const
+        {
+            return h.hash;
+        }
+    };
+}

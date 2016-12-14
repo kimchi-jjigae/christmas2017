@@ -7,6 +7,7 @@
 #include "entitystates/executor.hpp"
 
 std::vector<std::string> toStringList(int32_t number);
+std::vector<std::string> toStringList(StringHash hash);
 
 template<typename Vec2Type>
 std::vector<std::string> toStringList(const glm::tvec2<Vec2Type>& vec2)

@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include "land/chunkutil.hpp"
 #include "tileutil.hpp"
+#include "entitystates/states/entitystates.hpp"
 
 #ifdef EMSCRIPTEN
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
@@ -157,6 +158,8 @@ void ForgottenWoods::startScenario()
     mData.fogTexture = makeTexture("data/textures/fog.png"); 
     mData.noiseTexture = makeTexture("data/textures/noise.png"); 
     mData.wizardTexture = makeTexture("data/textures/wizard.png"); 
+
+    registerEntityStates(mData);
 }
 
 void ForgottenWoods::loop()

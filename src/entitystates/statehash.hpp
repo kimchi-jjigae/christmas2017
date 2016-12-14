@@ -1,6 +1,7 @@
 #pragma once
-#include <cstdint>
+#include <cstddef>
+#include "../stringhash.hpp"
 
-using StateAction = size_t;
-using StateHash = size_t;
-using StateSetHash = size_t;
+using StateAction = StringHash;
+using StateHash = StringHash;
+using StateSetHash = StringHash;
