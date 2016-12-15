@@ -12,6 +12,7 @@
 #include "land/chunkutil.hpp"
 #include "tileutil.hpp"
 #include "entitystates/states/entitystates.hpp"
+#include "entitystates/stateutil.hpp"
 
 #ifdef EMSCRIPTEN
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
@@ -160,6 +161,14 @@ void ForgottenWoods::startScenario()
     mData.wizardTexture = makeTexture("data/textures/wizard.png"); 
 
     registerEntityStates(mData);
+
+    insert(EntityStateMachine
+    {
+        0,
+        "player"_hash,
+        getEntityState("player"_hash, "idle"_hash, mData).id,
+        {},
+    } ,mData.tEntityStateMachine);
 }
 
 void ForgottenWoods::loop()
