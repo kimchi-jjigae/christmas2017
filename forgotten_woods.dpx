@@ -223,6 +223,21 @@
             "external_id": false,
             "inherits": null,
             "name": "entity_state_index"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "vec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "coordinate"
+                }
+            ],
+            "description": "Entity positions in the world",
+            "display_name": "Position",
+            "external_id": false,
+            "inherits": null,
+            "name": "position"
         }
     ]
 }

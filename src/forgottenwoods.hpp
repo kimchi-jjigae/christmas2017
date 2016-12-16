@@ -8,7 +8,7 @@
 #include "land/chunkpipeline.hpp"
 #include <data.hpp>
 
-#include "renderlogic.hpp"
+#include "rendering/renderlogic.hpp"
 #include "entitystates/entitystateslogic.hpp"
 
 class ForgottenWoods : public fea::Application,
@@ -34,8 +34,6 @@ class ForgottenWoods : public fea::Application,
         void loop() override;
     private:
         void spreadHappiness();
-
-        glm::ivec2 mWindowSize;
 
         //fea
         fea::MessageBus mBus;

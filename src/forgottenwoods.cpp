@@ -12,6 +12,7 @@
 #include "land/chunkutil.hpp"
 #include "tileutil.hpp"
 #include "entitystates/states/entitystates.hpp"
+#include "rendering/renderpasses/renderpasses.hpp"
 #include "entitystates/stateutil.hpp"
 
 #ifdef EMSCRIPTEN
@@ -21,9 +22,8 @@ const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::CORE;
 #endif
 
 ForgottenWoods::ForgottenWoods() :
-    mWindowSize(1366, 768),
-    mWindow(new fea::SDL2WindowBackend(), fea::VideoMode(static_cast<uint32_t>(mWindowSize.x), static_cast<uint32_t>(mWindowSize.y)), "ForgottenWoods", fea::Style::Default, fea::ContextSettings(0, 0, 0, 2, 0, contextType)),
-    mFeaRenderer(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2)))),
+    mWindow(new fea::SDL2WindowBackend(), fea::VideoMode(static_cast<uint32_t>(initialScreenSize.x), static_cast<uint32_t>(initialScreenSize.y)), "ForgottenWoods", fea::Style::Default, fea::ContextSettings(0, 0, 0, 2, 0, contextType)),
+    mFeaRenderer(fea::Viewport(initialScreenSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(initialScreenSize / 2)))),
     mFeaInputHandler(new fea::SDL2InputBackend()),
     mInputHandler(mBus, mFeaInputHandler),
     mChunkPipeline(mData),
@@ -37,8 +37,8 @@ ForgottenWoods::ForgottenWoods() :
 
     //imgui
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize.x = mWindowSize.x;
-    io.DisplaySize.y = mWindowSize.y;
+    io.DisplaySize.x = mData.screenSize.x;
+    io.DisplaySize.y = mData.screenSize.y;
     io.IniFilename = "data/imgui.ini";
     io.MousePos = {0, 0};
     unsigned char* pixels;
@@ -47,7 +47,7 @@ ForgottenWoods::ForgottenWoods() :
     mImguiFontTexture.create({width, height}, pixels);
     io.Fonts->TexID = reinterpret_cast<void*>(mImguiFontTexture.getId());
 
-    mRenderLogic.resize(mWindowSize);
+    mRenderLogic.resize(mData.screenSize);
 
     startScenario();
 }
@@ -90,12 +90,12 @@ void ForgottenWoods::handleMessage(const KeyPressedMessage& message)
 
 void ForgottenWoods::handleMessage(const ResizeMessage& message)
 {
-    mWindowSize = message.size;
+    mData.screenSize = message.size;
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize.x = mWindowSize.x;
-    io.DisplaySize.y = mWindowSize.y;
-    mRenderLogic.resize(mWindowSize);
-    //mFeaRenderer.setViewport(fea::Viewport(mWindowSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mWindowSize / 2))));
+    io.DisplaySize.x = mData.screenSize.x;
+    io.DisplaySize.y = mData.screenSize.y;
+    mRenderLogic.resize(mData.screenSize);
+    //mFeaRenderer.setViewport(fea::Viewport(mData.screenSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mData.screenSize / 2))));
 }
 
 void ForgottenWoods::handleMessage(const MouseClickMessage& message)
@@ -160,6 +160,7 @@ void ForgottenWoods::startScenario()
     mData.noiseTexture = makeTexture("data/textures/noise.png"); 
     mData.wizardTexture = makeTexture("data/textures/wizard.png"); 
 
+    registerRenderPasses(mData);
     registerEntityStates(mData);
 
     insert(EntityStateMachine

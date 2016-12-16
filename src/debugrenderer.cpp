@@ -1,5 +1,5 @@
 #include "debugrenderer.hpp"
-#include "drawables/line.hpp"
+#include "rendering/drawables/line.hpp"
 #include <algorithm>
 
 void DRen::initialize(fea::Renderer2D& renderer, const fea::Camera& camera)

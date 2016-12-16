@@ -1,9 +1,13 @@
-
 //land
 std::deque<glm::ivec2> chunksToLoad;
 std::deque<glm::ivec2> chunksToBuildTileMap;
 std::unordered_map<glm::ivec2, Chunk> worldChunks;
 
+//system
+glm::ivec2 screenSize = initialScreenSize;
+
+//rendering
+std::map<int32_t, RenderPass> renderPasses;
 //graphics
 glm::ivec2 cameraPosition;
 float zoom = 1.0f;

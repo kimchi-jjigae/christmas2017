@@ -8,9 +8,12 @@
 #include "land/chunk.hpp"
 #include <unordered_map>
 #include <deque>
+#include <map>
 #include "layeredtiles.hpp"
 #include "chunkviewdata.hpp"
 #include "direction.hpp"
+#include "startupconstants.hpp"
+#include "rendering/renderpass.hpp"
 #include <fea/rendering/texture.hpp>
 
 struct GameData
