@@ -14,6 +14,7 @@
 #include "direction.hpp"
 #include "startupconstants.hpp"
 #include "rendering/renderpass.hpp"
+#include "rendering/effectoverlaydata.hpp"
 #include <fea/rendering/texture.hpp>
 #include <fea/rendering/viewport.hpp>
 

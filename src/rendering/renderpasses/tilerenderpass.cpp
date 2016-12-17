@@ -8,7 +8,7 @@ RenderPass createTileRenderPass()
     {
         AllocateFunction(nullptr),
         PreRenderFunction(nullptr),
-        RenderFunction([](RenderContext& context, const GameData& data)
+        RenderFunction([](RenderContext& context, GameData& data)
         {
             context.renderer.setViewport(data.defaultViewport);
 

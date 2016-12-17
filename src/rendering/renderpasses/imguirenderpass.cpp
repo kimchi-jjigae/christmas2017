@@ -10,11 +10,11 @@ RenderPass createImguiRenderPass()
     {
         //maybe allocate gui    
         AllocateFunction(nullptr),
-        PreRenderFunction([](RenderContext& context, const GameData& data)
+        PreRenderFunction([](RenderContext& context, GameData& data)
         {
             ImGui::NewFrame();
         }),
-        RenderFunction([](RenderContext& context, const GameData& data)
+        RenderFunction([](RenderContext& context, GameData& data)
         {
             ImGui::Render();
             ImDrawData& drawData = *ImGui::GetDrawData();

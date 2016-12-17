@@ -12,6 +12,10 @@ fea::Camera worldCamera;
 fea::Viewport defaultViewport;
 fea::Camera guiCamera;
 fea::Viewport guiViewport;
+fea::Camera overlayCamera;
+fea::Viewport overlayViewport;
+EffectOverlayData effectOverlayData;
+
 //graphics
 glm::ivec2 cameraPosition;
 float zoom = 1.0f;

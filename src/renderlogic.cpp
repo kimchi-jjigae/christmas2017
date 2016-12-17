@@ -7,30 +7,7 @@
 //RenderLogic::RenderLogic(fea::Renderer2D& feaRenderer, GameData& data):
 //    mFeaRenderer(feaRenderer),
 //    mData(data),
-//    mSinCounter(0)
 //{
-//    mOverlayTarget.create({2048, 2048});
-//    mOverlayQuad.setSize({2048, 2048});
-//    mOverlayQuad.setTexture(mOverlayTarget.getTexture());
-//    mOverlayQuad.setVFlip(true);
-//
-//    mDefaultViewport = mFeaRenderer.getViewport();
-//    mOverlayViewport = fea::Viewport({2048, 2048}, {}, fea::Camera{});
-//    
-//    mNoiseAnimation = {{0,0}, {32, 32}, 4, 4};
-//    mNoiseOverlay.setSize({130000.0f, 130000.0f});
-//    mNoiseOverlay.setPosition(-mNoiseOverlay.getSize() / 2.0f);
-//    mNoiseOverlay.setTexture(mData.noiseTexture);
-//    mNoiseOverlay.setAnimation(mNoiseAnimation);
-//    mNoiseOverlay.setTileSize(glm::ivec2{64, 64});
-//    mNoiseOverlay.setParallax({0.0f, 0.0f});
-//    mFogOverlay.setSize({130000.0f, 130000.0f});
-//    mFogOverlay.setPosition(-mFogOverlay.getSize() / 2.0f);
-//    mFogOverlay.setTexture(mData.fogTexture);
-//    mFogOverlay.setTileSize(glm::ivec2{256, 256});
-//    mFogOverlay.setScrollSpeed({0.00001f, 0.0f});
-//    mFogOverlay.setParallax({0.1f, 0.1f});
-//
 //    mWizardAnimationUp = {{0,14}, {12, 14}, 2, 30};
 //    mWizardAnimationDown = {{0,0}, {12, 14}, 2, 30};
 //    mWizardAnimationLeft = {{0,28}, {12, 14}, 2, 30};
@@ -43,18 +20,10 @@
 //void RenderLogic::frameStart()
 //{
 //    mFeaRenderer.clear();
-//    mFeaRenderer.clear(mOverlayTarget, fea::Color::Transparent);
-//    ImGui::NewFrame();
 //}
 //
 //void RenderLogic::update()
 //{
-//
-//    updateEvilnessVisuals();
-//
-//
-//    mWorldOverlayCamera.setPosition(mData.cameraPosition);// - glm::ivec2(-342, 0));
-//    mWorldOverlayCamera.setZoom({1, mData.zoom});
 //    mFeaRenderer.setViewport(mDefaultViewport);
 //
 //
@@ -72,51 +41,4 @@
 //    mWizardQuad.setPosition(mData.cameraPosition);
 //    mFeaRenderer.render(mWizardQuad);
 //
-//    mFeaRenderer.render(mFogOverlay);
-//    mFeaRenderer.render(mNoiseOverlay);
-//    mFogOverlay.tick();
-//    mNoiseOverlay.tick();
-//
-//    mOverlayViewport.setCamera(mWorldOverlayCamera);
-//    mFeaRenderer.setViewport(mOverlayViewport);
-//    //overlay stuff
-//    for(auto& overlays : mData.chunksInView)
-//    {
-//        mFeaRenderer.setBlendMode(fea::ADD);
-//        mFeaRenderer.render(overlays.second.overlayQuad, mOverlayTarget);
-//    }
-//
-//    mFeaRenderer.setViewport(mDefaultViewport);
-//    mOverlayQuad.setPosition(mData.cameraPosition - glm::ivec2(1024.0f, 1024.0f));
-//    mFeaRenderer.setBlendMode(fea::MULTIPLY);
-//    mFeaRenderer.render(mOverlayQuad);
-//    mFeaRenderer.setBlendMode(fea::ALPHA);
-//}
-//
-//void RenderLogic::resize(glm::ivec2 newSize)
-//{
-//    mDefaultViewport = fea::Viewport(newSize, {}, {});
-//}
-//
-//
-//void RenderLogic::updateEvilnessVisuals()
-//{
-//    glm::ivec2 cameraTile = worldToTile(mData.cameraPosition);
-//    glm::ivec2 cameraChunk = tileToChunk(cameraTile);
-//    int32_t goodnessAmount = mData.worldChunks.at(cameraChunk).tiles[tileIndex(tileToChunkTile(cameraTile))].goodness;
-//    GoodnessLevel goodnessLevel = goodnessAmountLevel(goodnessAmount);
-//    int32_t evilAmount = goodnessLevelAmount(GoodnessLevel::Evil, goodnessAmount);
-//    int32_t dyingAmount = goodnessLevelAmount(GoodnessLevel::Dying, goodnessAmount);
-//    int32_t corruptAmount = goodnessLevelAmount(GoodnessLevel::Corrupt, goodnessAmount);
-//    int32_t goodAmount = goodnessLevelAmount(GoodnessLevel::Good, goodnessAmount);
-//
-//    mSinCounter += 4000;
-//    if(mSinCounter > 314159)
-//        mSinCounter = 0;
-//
-//    float sinInput = mSinCounter / 100000.0f;
-//    float sinOut = std::sin(sinInput);
-//    mNoiseOverlay.setColor({static_cast<int32_t>(255 * std::fabs(sinOut)), 0, 0, 255});
-//    mNoiseOverlay.setOpacity(std::max(0.0f, evilAmount / 100.0f - 0.15f));
-//    mFogOverlay.setOpacity(std::max(0.0f, dyingAmount / 100.0f - 0.15f));
 //}

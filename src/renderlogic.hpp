@@ -15,18 +15,6 @@
 //        void renderImGui(ImDrawData& drawData);
 //        void updateEvilnessVisuals();
 //        fea::Renderer2D& mFeaRenderer;
-//        fea::RenderTarget mOverlayTarget;
-//        fea::Quad mOverlayQuad;
-//        fea::RepeatedQuad mFogOverlay;
-//        fea::RepeatedQuad mNoiseOverlay;
-//        fea::Animation mNoiseAnimation;
-//        fea::Viewport mDefaultViewport;
-//        fea::Viewport mOverlayViewport;
-//        fea::Camera mWorldCamera;
-//        fea::Camera mWorldOverlayCamera;
-//        fea::Camera mGuiCamera;
-//        GameData& mData;
-//        int32_t mSinCounter;
 //        fea::Animation mWizardAnimationUp;
 //        fea::Animation mWizardAnimationDown;
 //        fea::Animation mWizardAnimationLeft;
