@@ -3,6 +3,7 @@
 #include "../drawables/imguidrawable.hpp"
 #include "../../land/chunkutil.hpp"
 #include "../../land/goodness.hpp"
+#include "../../resources/textureutil.hpp"
 #include <imgui.h>
 #include <data.hpp>
 
@@ -21,13 +22,13 @@ RenderPass createOverlayRenderPass()
             data.overlayViewport = fea::Viewport({2048, 2048}, {}, fea::Camera{});
             data.effectOverlayData.noiseOverlay.setSize({130000.0f, 130000.0f});
             data.effectOverlayData.noiseOverlay.setPosition(-data.effectOverlayData.noiseOverlay.getSize() / 2.0f);
-            data.effectOverlayData.noiseOverlay.setTexture(data.noiseTexture);
+            data.effectOverlayData.noiseOverlay.setTexture(getFeaTexture(data.noiseTexture, data));
             data.effectOverlayData.noiseOverlay.setAnimation(data.effectOverlayData.noiseAnimation);
             data.effectOverlayData.noiseOverlay.setTileSize(glm::ivec2{64, 64});
             data.effectOverlayData.noiseOverlay.setParallax({0.0f, 0.0f});
             data.effectOverlayData.fogOverlay.setSize({130000.0f, 130000.0f});
             data.effectOverlayData.fogOverlay.setPosition(-data.effectOverlayData.fogOverlay.getSize() / 2.0f);
-            data.effectOverlayData.fogOverlay.setTexture(data.fogTexture);
+            data.effectOverlayData.fogOverlay.setTexture(getFeaTexture(data.fogTexture, data));
             data.effectOverlayData.fogOverlay.setTileSize(glm::ivec2{256, 256});
             data.effectOverlayData.fogOverlay.setScrollSpeed({0.00001f, 0.0f});
             data.effectOverlayData.fogOverlay.setParallax({0.1f, 0.1f});

@@ -6,7 +6,7 @@
 #include "debug.hpp"
 #include <showdatatables.hpp>
 #include <imgui.h>
-#include "texturemaker.hpp"
+#include "resources/textureutil.hpp"
 #include "renderingutil.hpp"
 #include <unordered_set>
 #include "land/chunkutil.hpp"
@@ -154,11 +154,11 @@ void ForgottenWoods::startScenario()
 {
     initializeChunkMasks(mData);
     mData.cameraPosition = {30000, 30000};
-    mData.tilesBackgroundTexture = makeTexture("data/textures/bgtiles.png"); 
-    mData.tilesCenterTexture = makeTexture("data/textures/centertiles.png"); 
-    mData.fogTexture = makeTexture("data/textures/fog.png"); 
-    mData.noiseTexture = makeTexture("data/textures/noise.png"); 
-    mData.wizardTexture = makeTexture("data/textures/wizard.png"); 
+    mData.tilesBackgroundTexture = loadAndAddTexture("tiles_background"_hash, "data/textures/bgtiles.png", mData); 
+    mData.tilesCenterTexture = loadAndAddTexture("tiles_center"_hash, "data/textures/centertiles.png", mData); 
+    mData.fogTexture = loadAndAddTexture("fog"_hash, "data/textures/fog.png", mData); 
+    mData.noiseTexture = loadAndAddTexture("noise"_hash, "data/textures/noise.png", mData); 
+    mData.wizardTexture = loadAndAddTexture("wizard"_hash, "data/textures/wizard.png", mData); 
 
     registerRenderPasses(mData);
     registerEntityStates(mData);

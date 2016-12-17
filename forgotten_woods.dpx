@@ -56,13 +56,6 @@
         },
         {
             "dependencies": [
-                "#include \"entitystates/statehash.hpp\""
-            ],
-            "name": "state_set_hash",
-            "output": "StateSetHash"
-        },
-        {
-            "dependencies": [
                 "#include \"entitystates/statecontext.hpp\""
             ],
             "name": "state_context",
@@ -77,10 +70,10 @@
         },
         {
             "dependencies": [
-                "#include \"entitystates/statehash.hpp\""
+                "#include \"stringhash.hpp\""
             ],
-            "name": "state_hash",
-            "output": "StateHash"
+            "name": "string_hash",
+            "output": "StringHash"
         },
         {
             "dependencies": [
@@ -88,6 +81,13 @@
             ],
             "name": "state_executor",
             "output": "Executor"
+        },
+        {
+            "dependencies": [
+                "#include <fea/rendering/texture.hpp>"
+            ],
+            "name": "texture",
+            "output": "fea::Texture"
         }
     ],
     "field_types": [
@@ -117,7 +117,14 @@
                 "#include <unordered_map>"
             ],
             "name": "hash_map",
-            "output": "std::unordered_map<|t:key|,|type|> |name|;"
+            "output": "std::unordered_map<|t:key|, |type|> |name|;"
+        },
+        {
+            "dependencies": [
+                "#include <memory>"
+            ],
+            "name": "shared_ptr",
+            "output": "std::shared_ptr<|type|> |name|;"
         }
     ],
     "settings": {
@@ -141,7 +148,7 @@
                     "name": "entityId"
                 },
                 {
-                    "data_type": "state_set_hash",
+                    "data_type": "string_hash",
                     "field_type": "default",
                     "field_type_variables": [],
                     "name": "currentStateSet"
@@ -174,7 +181,7 @@
                     "name": "duration"
                 },
                 {
-                    "data_type": "state_hash",
+                    "data_type": "string_hash",
                     "field_type": "hash_map",
                     "field_type_variables": [
                         {
@@ -200,13 +207,13 @@
         {
             "columns": [
                 {
-                    "data_type": "state_set_hash",
+                    "data_type": "string_hash",
                     "field_type": "default",
                     "field_type_variables": [],
                     "name": "stateSet"
                 },
                 {
-                    "data_type": "state_hash",
+                    "data_type": "string_hash",
                     "field_type": "default",
                     "field_type_variables": [],
                     "name": "stateHash"
@@ -238,6 +245,42 @@
             "external_id": false,
             "inherits": null,
             "name": "position"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "texture",
+                    "field_type": "shared_ptr",
+                    "field_type_variables": [],
+                    "name": "texture"
+                }
+            ],
+            "description": "Texture resource",
+            "display_name": "Texture",
+            "external_id": false,
+            "inherits": null,
+            "name": "texture"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "string_hash",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "hash"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "id"
+                }
+            ],
+            "description": "Index of all textures using hashes",
+            "display_name": "Texture Index",
+            "external_id": false,
+            "inherits": null,
+            "name": "texture_index"
         }
     ]
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <fea/rendering/color.hpp>
+#include <fea/rendering/texture.hpp>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -8,6 +9,11 @@
 
 std::vector<std::string> toStringList(int32_t number);
 std::vector<std::string> toStringList(StringHash hash);
+
+std::vector<std::string> toStringList(const fea::Color& color);
+std::vector<std::string> toStringList(const fea::Texture& texture);
+std::vector<std::string> toStringList(const Executor& executor);
+std::vector<std::string> toStringList(const StateContext& stateContext);
 
 template<typename Vec2Type>
 std::vector<std::string> toStringList(const glm::tvec2<Vec2Type>& vec2)
@@ -47,6 +53,19 @@ std::vector<std::string> toStringList(const std::vector<T>& list)
     return result;
 }
 
+template<typename T>
+std::vector<std::string> toStringList(const std::shared_ptr<T>& ptr)
+{
+    if(ptr)
+    {
+        return toStringList(*ptr);
+    }
+    else
+    {
+        return {"nullptr"};
+    }
+}
+
 template<typename Key, typename Value>
 std::vector<std::string> toStringList(const std::unordered_map<Key, Value>& map)
 {
@@ -73,9 +92,5 @@ std::vector<std::string> toStringList(const std::unordered_map<Key, Value>& map)
     result.insert(result.begin(), totalString);
     return result;
 }
-
-std::vector<std::string> toStringList(const fea::Color& color);
-std::vector<std::string> toStringList(const Executor& executor);
-std::vector<std::string> toStringList(const StateContext& stateContext);
 
 std::ostream& operator<<(std::ostream& os, const Executor& executor);

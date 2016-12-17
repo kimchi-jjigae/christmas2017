@@ -28,6 +28,14 @@ std::vector<std::string> toStringList(const fea::Color& color)
     };
 }
 
+std::vector<std::string> toStringList(const fea::Texture& texture)
+{
+    return
+    {
+        toStringList(texture.getSize())
+    };
+}
+
 std::vector<std::string> toStringList(const Executor& executor)
 {
     return

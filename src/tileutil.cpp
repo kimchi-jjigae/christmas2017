@@ -1,5 +1,6 @@
 #include "tileutil.hpp"
 #include "land/chunkutil.hpp"
+#include "resources/textureutil.hpp"
 
 fea::TileMap createTileMap(TileLayer layer, glm::ivec2 chunkCoordinate, GameData& data)
 {
@@ -15,7 +16,7 @@ fea::TileMap createTileMap(TileLayer layer, glm::ivec2 chunkCoordinate, GameData
         result.addTileDefinition(GfxBackgroundTile::Path1, fea::TileDefinition{{5,0}});
         result.addTileDefinition(GfxBackgroundTile::Path2, fea::TileDefinition{{6,0}});
         result.addTileDefinition(GfxBackgroundTile::Path3, fea::TileDefinition{{7,0}});
-        result.setTexture(data.tilesBackgroundTexture);
+        result.setTexture(getFeaTexture(data.tilesBackgroundTexture, data));
     }
     else if(layer == TileLayer::Center)
     {
@@ -23,7 +24,7 @@ fea::TileMap createTileMap(TileLayer layer, glm::ivec2 chunkCoordinate, GameData
         result.addTileDefinition(GfxCenterTile::Trees1, fea::TileDefinition{{1,0}});
         result.addTileDefinition(GfxCenterTile::Trees2, fea::TileDefinition{{2,0}});
         result.addTileDefinition(GfxCenterTile::Trees3, fea::TileDefinition{{3,0}});
-        result.setTexture(data.tilesCenterTexture);
+        result.setTexture(getFeaTexture(data.tilesCenterTexture, data));
     }
     else
     {
