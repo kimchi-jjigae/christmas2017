@@ -7,7 +7,7 @@ struct GameData;
 using AllocateFunction   = void(*)(RenderContext& context, const GameData& data);
 using PreRenderFunction  = void(*)(RenderContext& context, const GameData& data);
 using RenderFunction     = void(*)(RenderContext& context, const GameData& data);
-using ResizeFunction     = void(*)(glm::ivec2 newSize, const GameData& data);
+using ResizeFunction     = void(*)(glm::ivec2 newSize, GameData& data);
 using PostRenderFunction = void(*)(RenderContext& context, const GameData& data);
 using DeallocateFunction = void(*)(RenderContext& context, const GameData& data);
 

@@ -5,7 +5,7 @@
 #include "inputhandler.hpp"
 #include "messages.hpp"
 #include "audioplayer.hpp"
-#include "land/chunkpipeline.hpp"
+#include "land/chunklogic.hpp"
 #include <data.hpp>
 
 #include "rendering/renderlogic.hpp"
@@ -56,7 +56,7 @@ class ForgottenWoods : public fea::Application,
         bool mGuiBlocksMouse;
 
         //logic
-        ChunkPipeline mChunkPipeline;
+        ChunkLogic mChunkLogic;
         EntityStatesLogic mEntityStatesLogic;
 
         //InterfaceLogic mInterfaceLogic;

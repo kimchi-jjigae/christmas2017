@@ -8,6 +8,10 @@ glm::ivec2 screenSize = initialScreenSize;
 
 //rendering
 std::map<int32_t, RenderPass> renderPasses;
+fea::Camera worldCamera;
+fea::Viewport defaultViewport;
+fea::Camera guiCamera;
+fea::Viewport guiViewport;
 //graphics
 glm::ivec2 cameraPosition;
 float zoom = 1.0f;

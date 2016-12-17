@@ -1,14 +1,40 @@
-#include "chunkpipeline.hpp"
+#include "chunklogic.hpp"
 #include "chunk.hpp"
 #include "tileutil.hpp"
+#include "renderingutil.hpp"
 #include <fea/rendering/tilemap.hpp>
 
-ChunkPipeline::ChunkPipeline(GameData& data):
+ChunkLogic::ChunkLogic(GameData& data):
     mData(data)
 {
 }
 
-void ChunkPipeline::update()
+void ChunkLogic::update()
+{
+    //load pipeline
+    loadPipeLine();
+
+    //view detection
+    for(const auto& coordinate : mData.chunksToPutInView)
+    {
+        TH_ASSERT(mData.chunksInView.count(coordinate) == 0, "Was about to emplace chunk in view, but it was already there " << coordinate);
+        setupOverlay(coordinate, mData.chunksInView.emplace(coordinate, ChunkViewData{std::move(mData.chunkOverlayPool.back()), {}}).first->second, mData.worldChunks.at(coordinate), mData);
+        mData.chunkOverlayPool.pop_back();
+    }
+    mData.chunksToPutInView.clear();
+
+    for(const auto& coordinate : mData.chunksThatLeftView)
+    {
+        TH_ASSERT(mData.chunksInView.count(coordinate) != 0, "Was about to erase chunk from view, but it was not there " << coordinate);
+        mData.chunkOverlayPool.emplace_back(std::move(mData.chunksInView.at(coordinate).overlayMasks));
+        mData.chunksInView.erase(coordinate);
+    }
+    mData.chunksThatLeftView.clear();
+
+    mData.chunksToBuildTileMap.clear();
+}
+
+void ChunkLogic::loadPipeLine()
 {
     for(glm::ivec2 coordinate : mData.chunksToLoad)
     {
@@ -56,5 +82,4 @@ void ChunkPipeline::update()
         }
     }
 
-    mData.chunksToBuildTileMap.clear();
 }

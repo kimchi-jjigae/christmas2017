@@ -26,7 +26,7 @@ ForgottenWoods::ForgottenWoods() :
     mFeaRenderer(fea::Viewport(initialScreenSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(initialScreenSize / 2)))),
     mFeaInputHandler(new fea::SDL2InputBackend()),
     mInputHandler(mBus, mFeaInputHandler),
-    mChunkPipeline(mData),
+    mChunkLogic(mData),
     mEntityStatesLogic(mData),
     mRenderLogic(mFeaRenderer, mData)
 {
@@ -179,7 +179,7 @@ void ForgottenWoods::loop()
 
     temp();
 
-    mChunkPipeline.update();
+    mChunkLogic.update();
     mEntityStatesLogic.update();
 
     //imgui

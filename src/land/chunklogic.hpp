@@ -1,11 +1,12 @@
 #pragma once
 #include <data.hpp>
 
-class ChunkPipeline
+class ChunkLogic
 {
     public:
-        ChunkPipeline(GameData& data);
+        ChunkLogic(GameData& data);
         void update();
     private:
+        void loadPipeLine();
         GameData& mData;
 };

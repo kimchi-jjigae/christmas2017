@@ -6,6 +6,8 @@ RenderLogic::RenderLogic(fea::Renderer2D& feaRenderer, GameData& data):
     mFeaRenderer(feaRenderer),
     mData(data)
 {
+    mData.defaultViewport = feaRenderer.getViewport();
+    mData.guiViewport = feaRenderer.getViewport();
 }
 
 void RenderLogic::frameStart()
@@ -24,6 +26,12 @@ void RenderLogic::frameStart()
         if(preRenderFunction)
             preRenderFunction(context, mData);
     }
+
+    //setup position and zoom
+    mData.worldCamera.setPosition(mData.cameraPosition);
+    mData.worldCamera.setZoom({mData.zoom, mData.zoom});
+    mData.defaultViewport.setCamera(mData.worldCamera);
+    mData.guiViewport.setCamera(mData.guiCamera);
 }
 
 void RenderLogic::update()
@@ -66,5 +74,7 @@ void RenderLogic::resize(glm::ivec2 newSize)
         if(resizeFunction)
             resizeFunction(newSize, mData);
     }
-    //mDefaultViewport = fea::Viewport(newSize, {}, {});
+
+    mData.defaultViewport = fea::Viewport(newSize, {}, {});
+    mData.guiViewport = fea::Viewport(newSize, {}, {});
 }

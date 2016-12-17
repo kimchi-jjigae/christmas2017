@@ -2,6 +2,7 @@
 #include "../rendercontext.hpp"
 #include "../drawables/imguidrawable.hpp"
 #include <imgui.h>
+#include <data.hpp>
 
 RenderPass createImguiRenderPass()
 {
@@ -18,6 +19,7 @@ RenderPass createImguiRenderPass()
             ImGui::Render();
             ImDrawData& drawData = *ImGui::GetDrawData();
 
+            context.renderer.setViewport(data.guiViewport);
             //context.renderer.getViewport().setCamera(mGuiCamera); NOTE: fix GUI CAMERA
            
             // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
@@ -56,8 +58,10 @@ RenderPass createImguiRenderPass()
             
             glDisable(GL_SCISSOR_TEST);
         }),
-        //mGuiCamera.setPosition(newSize / 2);
-        ResizeFunction(nullptr),
+        ResizeFunction([](glm::ivec2 newSize, GameData& data)
+        {
+            data.guiCamera.setPosition(newSize / 2);
+        }),
         PostRenderFunction(nullptr),
         //deallocate gui
         DeallocateFunction(nullptr),

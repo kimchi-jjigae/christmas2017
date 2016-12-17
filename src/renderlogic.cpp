@@ -1,8 +1,6 @@
 //#include "renderlogic.hpp"
 //#include "debug.hpp"
 //#include "drawables/linerect.hpp"
-//#include "drawables/imguidrawable.hpp"
-//#include "renderingutil.hpp"
 //#include "land/chunkutil.hpp"
 //#include "land/goodness.hpp"
 //
@@ -51,37 +49,14 @@
 //
 //void RenderLogic::update()
 //{
-//    for(const auto& coordinate : mData.chunksToPutInView)
-//    {
-//        TH_ASSERT(mData.chunksInView.count(coordinate) == 0, "Was about to emplace chunk in view, but it was already there " << coordinate);
-//        setupOverlay(coordinate, mData.chunksInView.emplace(coordinate, ChunkViewData{std::move(mData.chunkOverlayPool.back()), {}}).first->second, mData.worldChunks.at(coordinate), mData);
-//        mData.chunkOverlayPool.pop_back();
-//    }
-//    mData.chunksToPutInView.clear();
-//
-//    for(const auto& coordinate : mData.chunksThatLeftView)
-//    {
-//        TH_ASSERT(mData.chunksInView.count(coordinate) != 0, "Was about to erase chunk from view, but it was not there " << coordinate);
-//        mData.chunkOverlayPool.emplace_back(std::move(mData.chunksInView.at(coordinate).overlayMasks));
-//        mData.chunksInView.erase(coordinate);
-//    }
-//    mData.chunksThatLeftView.clear();
 //
 //    updateEvilnessVisuals();
 //
 //
-//    mWorldCamera.setPosition(mData.cameraPosition);
-//    mWorldCamera.setZoom({mData.zoom, mData.zoom});
-//    mDefaultViewport.setCamera(mWorldCamera);
 //    mWorldOverlayCamera.setPosition(mData.cameraPosition);// - glm::ivec2(-342, 0));
 //    mWorldOverlayCamera.setZoom({1, mData.zoom});
 //    mFeaRenderer.setViewport(mDefaultViewport);
 //
-//    for(const auto& tileIter : mData.worldTileMaps)
-//    {
-//        mFeaRenderer.render(tileIter.second.background);
-//        mFeaRenderer.render(tileIter.second.center);
-//    }
 //
 //    if(mData.currentDirection == Direction::Up)
 //        mWizardQuad.setAnimation(mWizardAnimationUp);
@@ -118,16 +93,9 @@
 //    mFeaRenderer.setBlendMode(fea::ALPHA);
 //}
 //
-//void RenderLogic::frameEnd()
-//{
-//    ImGui::Render();
-//    renderImGui(*ImGui::GetDrawData());
-//}
-//
 //void RenderLogic::resize(glm::ivec2 newSize)
 //{
 //    mDefaultViewport = fea::Viewport(newSize, {}, {});
-//    mGuiCamera.setPosition(newSize / 2);
 //}
 //
 //
