@@ -7,6 +7,7 @@
 #include <showdatatables.hpp>
 #include <imgui.h>
 #include "resources/textureutil.hpp"
+#include "resources/animationutil.hpp"
 #include "renderingutil.hpp"
 #include <unordered_set>
 #include "land/chunkutil.hpp"
@@ -159,6 +160,35 @@ void ForgottenWoods::startScenario()
     mData.fogTexture = loadAndAddTexture("fog"_hash, "data/textures/fog.png", mData); 
     mData.noiseTexture = loadAndAddTexture("noise"_hash, "data/textures/noise.png", mData); 
     mData.wizardTexture = loadAndAddTexture("wizard"_hash, "data/textures/wizard.png", mData); 
+
+    addSpriteAnimation("wizard_idle_down"_hash, SpriteAnimation
+    {
+        {0, 0},
+        {12, 14},
+        1,
+        1
+    }, mData);
+    addSpriteAnimation("wizard_idle_up"_hash, SpriteAnimation
+    {
+        {0, 14},
+        {12, 14},
+        1,
+        1
+    }, mData);
+    addSpriteAnimation("wizard_idle_left"_hash, SpriteAnimation
+    {
+        {0, 28},
+        {12, 14},
+        1,
+        1
+    }, mData);
+    addSpriteAnimation("wizard_idle_right"_hash, SpriteAnimation
+    {
+        {0, 36},
+        {12, 14},
+        1,
+        1
+    }, mData);
 
     registerRenderPasses(mData);
     registerEntityStates(mData);

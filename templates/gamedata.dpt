@@ -17,6 +17,7 @@
 #include "rendering/effectoverlaydata.hpp"
 #include <fea/rendering/texture.hpp>
 #include <fea/rendering/viewport.hpp>
+#include "datainsertutil.hpp"
 
 struct GameData
 {

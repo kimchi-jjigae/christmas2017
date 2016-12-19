@@ -88,6 +88,13 @@
             ],
             "name": "texture",
             "output": "fea::Texture"
+        },
+        {
+            "dependencies": [
+                "#include \"direction.hpp\""
+            ],
+            "name": "direction",
+            "output": "Direction"
         }
     ],
     "field_types": [
@@ -134,6 +141,7 @@
             "dophax/templates/tables.dpt",
             "dophax/templates/static_reflect.dpt",
             "templates/gamedata.dpt",
+            "templates/addutil.dpt",
             "templates/debugguidata.dpt",
             "templates/showdatatables.dpt"
         ]
@@ -281,6 +289,161 @@
             "external_id": false,
             "inherits": null,
             "name": "texture_index"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "ivec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "start"
+                },
+                {
+                    "data_type": "ivec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "size"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "frameAmount"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "frameTime"
+                }
+            ],
+            "description": "Animation data for a sprite",
+            "display_name": "Sprite Animation",
+            "external_id": false,
+            "inherits": null,
+            "name": "sprite_animation"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "string_hash",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "hash"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "id"
+                }
+            ],
+            "description": "Hash index for animations",
+            "display_name": "Sprite Animation Index",
+            "external_id": false,
+            "inherits": null,
+            "name": "sprite_animation_index"
+        },
+        {
+            "columns": [],
+            "description": "Relationship describing a sprite instance that belongs to an object",
+            "display_name": "Object Sprite Instance",
+            "external_id": false,
+            "inherits": null,
+            "name": "object_sprite_instance"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "vec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "position"
+                },
+                {
+                    "data_type": "vec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "size"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "texture"
+                }
+            ],
+            "description": "2D Image in the gameworld",
+            "display_name": "Sprite",
+            "external_id": false,
+            "inherits": null,
+            "name": "sprite"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "animation"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "animationClock"
+                }
+            ],
+            "description": "A sprite with animation capabilities",
+            "display_name": "Animated Sprite",
+            "external_id": true,
+            "inherits": "sprite",
+            "name": "animated_sprite"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "direction",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "currentDirection"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "upAnimation"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "downAnimation"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "leftAnimation"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "rightAnimation"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "animationClock"
+                }
+            ],
+            "description": "A sprite that is animatable in four directions",
+            "display_name": "Four Directional Sprite",
+            "external_id": true,
+            "inherits": "sprite",
+            "name": "four_directional_sprite"
         }
     ]
 }
