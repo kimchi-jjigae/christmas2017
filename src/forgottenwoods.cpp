@@ -12,6 +12,7 @@
 #include <unordered_set>
 #include "land/chunkutil.hpp"
 #include "tileutil.hpp"
+#include "entity/entityutil.hpp"
 #include "entitystates/states/entitystates.hpp"
 #include "rendering/renderpasses/renderpasses.hpp"
 #include "entitystates/stateutil.hpp"
@@ -200,6 +201,8 @@ void ForgottenWoods::startScenario()
         getEntityState("player"_hash, "idle"_hash, mData).id,
         {},
     } ,mData.tEntityStateMachine);
+
+    addEntity({{}, {{}, {}, {}}}, mData);
 }
 
 void ForgottenWoods::loop()
