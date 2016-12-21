@@ -6,3 +6,16 @@ int32_t addSpriteAnimation(StringHash hash, SpriteAnimation animation, GameData&
     insert(SpriteAnimationIndex{hash, newId}, data.tSpriteAnimationIndex);
     return newId;
 }
+
+th::Optional<int32_t> findAnimation(StringHash hash, GameData& data)
+{
+    auto found = findOne([&](int32_t id, const SpriteAnimationIndex& animationIndex)
+    {
+        return animationIndex.hash == hash;
+    }, data.tSpriteAnimationIndex);
+
+    if(found)
+        return {found->id};
+    else
+        return {};
+}

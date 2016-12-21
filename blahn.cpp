@@ -6,10 +6,10 @@
 ==Object sprite instance
 **add when objects are created
 ==Sprite
-render these
+**render these
 ==Animated sprite
 apply the animations of these
-tick their clock
+**tick their clock
 ==Four directional sprite
 apply the animations of these
-tick their clock
+**tick their clock

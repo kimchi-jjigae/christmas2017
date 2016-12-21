@@ -29,7 +29,7 @@ void registerPlayerStates(GameData& gameData)
                         onStateStart(),
                         [] (StateContext& context, GameData& data)
                         {
-                            std::cout << "on start\n";
+                            //std::cout << "on start\n";
                         },
                     },
                     Executor
@@ -38,7 +38,7 @@ void registerPlayerStates(GameData& gameData)
                         everyNthFrame(10, 100),
                         [] (StateContext& context, GameData& data)
                         {
-                            std::cout << "nth frame\n";
+                            //std::cout << "nth frame\n";
                             glm::vec2& pos = get(context.entityId, data.tPosition).coordinate;
                             pos.x += 4.0f;
                         },
@@ -70,7 +70,7 @@ void registerPlayerStates(GameData& gameData)
                         onStateStart(),
                         [] (StateContext& context, GameData& data)
                         {
-                            std::cout << "on POOP\n";
+                            //std::cout << "on POOP\n";
                         },
                     },
                     Executor
@@ -79,7 +79,7 @@ void registerPlayerStates(GameData& gameData)
                         everyNthFrame(10, 100),
                         [] (StateContext& context, GameData& data)
                         {
-                            std::cout << "nth POOP\n";
+                            //std::cout << "nth POOP\n";
                             context.emitTransition = "blapp"_hash;
                         },
                     },

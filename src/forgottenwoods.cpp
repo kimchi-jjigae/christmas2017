@@ -186,23 +186,58 @@ void ForgottenWoods::startScenario()
     }, mData);
     addSpriteAnimation("wizard_idle_right"_hash, SpriteAnimation
     {
-        {0, 36},
+        {0, 42},
         {12, 14},
         1,
         1
     }, mData);
 
+    addSpriteAnimation("wizard_walk_down"_hash, SpriteAnimation
+    {
+        {0, 0},
+        {12, 14},
+        2,
+        10
+    }, mData);
+    addSpriteAnimation("wizard_walk_up"_hash, SpriteAnimation
+    {
+        {0, 14},
+        {12, 14},
+        2,
+        10
+    }, mData);
+    addSpriteAnimation("wizard_walk_left"_hash, SpriteAnimation
+    {
+        {0, 28},
+        {12, 14},
+        2,
+        10
+    }, mData);
+    addSpriteAnimation("wizard_walk_right"_hash, SpriteAnimation
+    {
+        {0, 42},
+        {12, 14},
+        2,
+        10
+    }, mData);
+
     registerRenderPasses(mData);
     registerEntityStates(mData);
 
-    addEntity(Entity{{{30000.0f, 30000.0f}}, {Entity::EntitySprite
+    addEntity(Entity{{{30000.0f, 30000.0f}},
     {
-        {},
-        {},
-        *findTexture("wizard"_hash, mData),
-        {12*4, 14*4},
-        {},
-    }},
+        Entity::EntitySprite
+        {
+            Sprite::AnimatedSprite,
+            {0.0f, 0.0f},
+            *findTexture("wizard"_hash, mData),
+            {12*4, 14*4},
+            {Entity::EntitySprite::AnimatedSprite
+            {
+                *findAnimation("wizard_walk_right"_hash, mData),
+            }},
+        }
+    },
     Entity::EntityState
     {
         "player"_hash,
