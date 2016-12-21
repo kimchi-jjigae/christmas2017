@@ -345,7 +345,26 @@
             "name": "sprite_animation_index"
         },
         {
-            "columns": [],
+            "columns": [
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "objectId"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "spriteId"
+                },
+                {
+                    "data_type": "vec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "offset"
+                }
+            ],
             "description": "Relationship describing a sprite instance that belongs to an object",
             "display_name": "Object Sprite Instance",
             "external_id": false,

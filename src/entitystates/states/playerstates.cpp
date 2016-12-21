@@ -39,6 +39,8 @@ void registerPlayerStates(GameData& gameData)
                         [] (StateContext& context, GameData& data)
                         {
                             std::cout << "nth frame\n";
+                            glm::vec2& pos = get(context.entityId, data.tPosition).coordinate;
+                            pos.x += 4.0f;
                         },
                     },
                     //standard sprite animation manipulating executor that plays run animation

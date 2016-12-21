@@ -4,7 +4,7 @@
 ==Sprite anim index
 **add when others are added
 ==Object sprite instance
-add when objects are created
+**add when objects are created
 ==Sprite
 render these
 ==Animated sprite

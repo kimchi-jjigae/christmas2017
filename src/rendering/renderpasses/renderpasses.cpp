@@ -2,6 +2,7 @@
 #include "imguirenderpass.hpp"
 #include "tilerenderpass.hpp"
 #include "overlayrenderpass.hpp"
+#include "spriterenderpass.hpp"
 #include <data.hpp>
 
 void registerRenderPasses(GameData& data)
@@ -14,6 +15,7 @@ void registerRenderPasses(GameData& data)
     };
 
     addRenderPass(50, createTileRenderPass());
+    addRenderPass(60, createSpriteRenderPass());
     addRenderPass(70, createOverlayRenderPass());
     addRenderPass(100, createImguiRenderPass());
 }

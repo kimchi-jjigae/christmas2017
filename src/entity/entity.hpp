@@ -28,6 +28,13 @@ struct Entity
         };
     };
 
+    struct EntityState
+    {
+        StringHash stateSet;
+        StringHash state;
+    };
+
     Position position;
     std::vector<EntitySprite> sprites;
+    th::Optional<EntityState> entityState;
 };

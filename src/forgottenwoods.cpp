@@ -30,6 +30,7 @@ ForgottenWoods::ForgottenWoods() :
     mInputHandler(mBus, mFeaInputHandler),
     mChunkLogic(mData),
     mEntityStatesLogic(mData),
+    mEntityLogic(mData),
     mRenderLogic(mFeaRenderer, mData)
 {
     mWindow.setVSyncEnabled(true);
@@ -194,15 +195,19 @@ void ForgottenWoods::startScenario()
     registerRenderPasses(mData);
     registerEntityStates(mData);
 
-    insert(EntityStateMachine
+    addEntity(Entity{{{30000.0f, 30000.0f}}, {Entity::EntitySprite
     {
-        0,
-        "player"_hash,
-        getEntityState("player"_hash, "idle"_hash, mData).id,
         {},
-    } ,mData.tEntityStateMachine);
-
-    addEntity({{}, {{}, {}, {}}}, mData);
+        {},
+        *findTexture("wizard"_hash, mData),
+        {12*4, 14*4},
+        {},
+    }},
+    Entity::EntityState
+    {
+        "player"_hash,
+        "idle"_hash,
+    }}, mData);
 }
 
 void ForgottenWoods::loop()
@@ -214,6 +219,7 @@ void ForgottenWoods::loop()
 
     mChunkLogic.update();
     mEntityStatesLogic.update();
+    mEntityLogic.update();
 
     //imgui
     ImGuiIO& io = ImGui::GetIO();

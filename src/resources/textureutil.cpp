@@ -13,6 +13,19 @@ int32_t addTexture(StringHash hash, Texture texture, GameData& data)
     return newId;
 }
 
+th::Optional<int32_t> findTexture(StringHash hash, GameData& data)
+{
+    auto found = findOne([&](int32_t id, const TextureIndex& textureIndex)
+    {
+        return textureIndex.hash == hash;
+    }, data.tTextureIndex);
+
+    if(found)
+        return {found->id};
+    else
+        return {};
+}
+
 const fea::Texture& getFeaTexture(int32_t textureId, GameData& data)
 {
     return *get(textureId, data.tTexture).texture;

@@ -1,8 +1,8 @@
-#include "tilerenderpass.hpp"
+#include "spriterenderpass.hpp"
 #include "../rendercontext.hpp"
 #include <data.hpp>
 
-RenderPass createTileRenderPass()
+RenderPass createSpriteRenderPass()
 {
     return
     {
@@ -12,11 +12,13 @@ RenderPass createTileRenderPass()
         {
             context.renderer.setViewport(data.defaultViewport);
 
-            for(const auto& tileIter : data.worldTileMaps)
+            forEach([&](int32_t id, const Sprite& sprite)
             {
-                context.renderer.render(tileIter.second.background);
-                context.renderer.render(tileIter.second.center);
-            }
+                fea::Quad quad(sprite.size);
+                quad.setPosition(sprite.position);
+                quad.setTexture(*get(sprite.texture, data.tTexture).texture);
+                context.renderer.render(quad);
+            }, data.tSprite);
         }),
         ResizeFunction(nullptr),
         PostRenderFunction(nullptr),

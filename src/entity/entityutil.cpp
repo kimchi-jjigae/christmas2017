@@ -1,4 +1,5 @@
 #include "entityutil.hpp"
+#include "../entitystates/stateutil.hpp"
 #include <data.hpp>
 
 int32_t addEntity(Entity entity, GameData& data)
@@ -8,6 +9,8 @@ int32_t addEntity(Entity entity, GameData& data)
 
     for(auto sprite : entity.sprites)
     {
+        int32_t spriteId = 0;
+
         Sprite newSprite
         {
             {},
@@ -18,7 +21,7 @@ int32_t addEntity(Entity entity, GameData& data)
 
         if(sprite.type == Sprite::AnimatedSprite)
         {
-            int32_t spriteId = insertAnimatedSprite(std::move(newSprite),
+            spriteId = insertAnimatedSprite(std::move(newSprite),
             AnimatedSprite
             {
                 sprite.animatedSprite.animation,
@@ -27,7 +30,7 @@ int32_t addEntity(Entity entity, GameData& data)
         }
         else if(sprite.type == Sprite::FourDirectionalSprite)
         {
-            int32_t spriteId = insertFourDirectionalSprite(std::move(newSprite),
+            spriteId = insertFourDirectionalSprite(std::move(newSprite),
             FourDirectionalSprite
             {
                 Direction::Up,
@@ -38,6 +41,24 @@ int32_t addEntity(Entity entity, GameData& data)
                 0,
             }, data);
         }
+
+        insert(ObjectSpriteInstance
+        {
+            newId,
+            spriteId,
+            sprite.offset,
+        }, data.tObjectSpriteInstance);
+    }
+
+    if(entity.entityState)
+    {
+        insert(EntityStateMachine
+        {
+            0,
+            entity.entityState->stateSet,
+            getEntityState(entity.entityState->stateSet, entity.entityState->state, data).id,
+            {},
+        }, data.tEntityStateMachine);
     }
 
     return newId;
