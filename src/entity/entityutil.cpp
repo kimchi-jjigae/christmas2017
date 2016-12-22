@@ -63,3 +63,17 @@ int32_t addEntity(Entity entity, GameData& data)
 
     return newId;
 }
+
+void setEntitySpritesDirection(int32_t entityId, Direction direction, GameData& data)
+{
+    auto objectSpriteInstances = findAll([&](int32_t id, const ObjectSpriteInstance& obj)
+    {
+        return obj.objectId == entityId;
+    }, data.tObjectSpriteInstance);
+
+    for(auto& objectSpriteInstance : objectSpriteInstances)
+    {
+        auto& sprite = get(objectSpriteInstance.data.spriteId, data.tFourDirectionalSprite);
+        sprite.currentDirection = direction;
+    }
+}

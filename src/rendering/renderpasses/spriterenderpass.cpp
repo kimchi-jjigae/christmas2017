@@ -50,8 +50,41 @@ RenderPass createSpriteRenderPass()
                 }
                 else if(sprite.type == Sprite::FourDirectionalSprite)
                 {
-                    TH_ASSERT(false, "tbi");
-                    //tbi
+                    fea::AnimatedQuad quad(sprite.size);
+                    quad.setPosition(sprite.position);
+                    quad.setTexture(*get(sprite.texture, data.tTexture).texture);
+
+                    const FourDirectionalSprite& animSprite = get(id, data.tFourDirectionalSprite);
+
+                    int32_t animationId = 0;
+
+                    if(animSprite.currentDirection == Direction::Up)
+                        animationId = animSprite.upAnimation;
+                    else if(animSprite.currentDirection == Direction::Down)
+                        animationId = animSprite.downAnimation;
+                    else if(animSprite.currentDirection == Direction::Left)
+                        animationId = animSprite.leftAnimation;
+                    else if(animSprite.currentDirection == Direction::Right)
+                        animationId = animSprite.rightAnimation;
+                    const SpriteAnimation& animation = get(animationId, data.tSpriteAnimation);
+
+                    fea::Animation feaAnimation
+                    {
+                        animation.start,
+                        animation.size,
+                        static_cast<uint32_t>(animation.frameAmount),
+                        static_cast<uint32_t>(animation.frameTime),
+                    };
+
+                    quad.setAnimation(feaAnimation);
+
+                    int32_t totalTickAmount = animation.frameAmount * animation.frameTime;
+                    int32_t toTick = animSprite.animationClock % totalTickAmount;
+
+                    for(int32_t i = 0; i < toTick; ++i)
+                        quad.tick();
+
+                    context.renderer.render(quad);
                 }
             }, data.tSprite);
         }),

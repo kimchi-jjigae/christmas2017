@@ -228,12 +228,15 @@ void ForgottenWoods::startScenario()
     {
         Entity::EntitySprite
         {
-            Sprite::AnimatedSprite,
+            Sprite::FourDirectionalSprite,
             {0.0f, 0.0f},
             *findTexture("wizard"_hash, mData),
             {12*4, 14*4},
-            {Entity::EntitySprite::AnimatedSprite
+            {.fourDirectionalSprite=Entity::EntitySprite::FourDirectionalSprite
             {
+                *findAnimation("wizard_walk_up"_hash, mData),
+                *findAnimation("wizard_walk_down"_hash, mData),
+                *findAnimation("wizard_walk_left"_hash, mData),
                 *findAnimation("wizard_walk_right"_hash, mData),
             }},
         }

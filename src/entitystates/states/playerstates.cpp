@@ -1,5 +1,6 @@
 #include "playerstates.hpp"
 #include "registerstateset.hpp"
+#include "../../entity/entityutil.hpp"
 
 void registerPlayerStates(GameData& gameData)
 {
@@ -41,6 +42,20 @@ void registerPlayerStates(GameData& gameData)
                             //std::cout << "nth frame\n";
                             glm::vec2& pos = get(context.entityId, data.tPosition).coordinate;
                             pos.x += 4.0f;
+
+                            if(rand() % 10 == 0)
+                            {
+                                int32_t r = rand() % 4;
+
+                                if(r == 0)
+                                    setEntitySpritesDirection(context.entityId, Direction::Up, data);
+                                else if(r == 1)
+                                    setEntitySpritesDirection(context.entityId, Direction::Down, data);
+                                else if(r == 2)
+                                    setEntitySpritesDirection(context.entityId, Direction::Left, data);
+                                else if(r == 3)
+                                    setEntitySpritesDirection(context.entityId, Direction::Right, data);
+                            }
                         },
                     },
                     //standard sprite animation manipulating executor that plays run animation
