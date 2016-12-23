@@ -1,69 +1,16 @@
 #include "playerstates.hpp"
 #include "registerstateset.hpp"
 #include "../../entity/entityutil.hpp"
+#include "../../resources/animationutil.hpp"
+#include "../../directionutil.hpp"
+#include "../../random.hpp"
 
 void registerPlayerStates(GameData& gameData)
 {
     //states for a typical mario 2d platform character
     registerStateSet("player"_hash, StateSet
     {
-        //our run state, which is when the player holds the run button while mario is moving
         {"idle"_hash,
-            EntityState
-            {
-                //duration of the state
-                Duration(600),
-                //state actions that lead to transitioning to another state
-                Transitions
-                {
-                    { StateAction("_next"_hash), StateHash("poop"_hash) },
-                    //{ StateAction("slow_down"_hash), StateHash("walk"_hash) },
-                    //{ StateAction("turn"_hash), StateHash("turn_slide"_hash) },
-                    //{ StateAction("jump"_hash), StateHash("jump"_hash) },
-                },
-                //any state can have zero or more executors
-                Executors
-                {
-                    Executor
-                    {
-                        "on start printer",
-                        onStateStart(),
-                        [] (StateContext& context, GameData& data)
-                        {
-                            //std::cout << "on start\n";
-                        },
-                    },
-                    Executor
-                    {
-                        "every frame printer",
-                        everyNthFrame(10, 100),
-                        [] (StateContext& context, GameData& data)
-                        {
-                            //std::cout << "nth frame\n";
-                            glm::vec2& pos = get(context.entityId, data.tPosition).coordinate;
-                            pos.x += 4.0f;
-
-                            if(rand() % 10 == 0)
-                            {
-                                int32_t r = rand() % 4;
-
-                                if(r == 0)
-                                    setEntitySpritesDirection(context.entityId, Direction::Up, data);
-                                else if(r == 1)
-                                    setEntitySpritesDirection(context.entityId, Direction::Down, data);
-                                else if(r == 2)
-                                    setEntitySpritesDirection(context.entityId, Direction::Left, data);
-                                else if(r == 3)
-                                    setEntitySpritesDirection(context.entityId, Direction::Right, data);
-                            }
-                        },
-                    },
-                    //standard sprite animation manipulating executor that plays run animation
-                    //spriteAnimateExecutor({0, 36}, {12, 14}, 3, 10, Animation::Loop),
-                },
-            }
-        },
-        {"poop"_hash,
             EntityState
             {
                 //duration of the state
@@ -71,7 +18,7 @@ void registerPlayerStates(GameData& gameData)
                 //state actions that lead to transitioning to another state
                 Transitions
                 {
-                    { StateAction("blapp"_hash), StateHash("idle"_hash) },
+                    { StateAction("bored"_hash), StateHash("wander"_hash) },
                     //{ StateAction("slow_down"_hash), StateHash("walk"_hash) },
                     //{ StateAction("turn"_hash), StateHash("turn_slide"_hash) },
                     //{ StateAction("jump"_hash), StateHash("jump"_hash) },
@@ -81,21 +28,71 @@ void registerPlayerStates(GameData& gameData)
                 {
                     Executor
                     {
-                        "on start printer",
+                        "animation setter",
                         onStateStart(),
                         [] (StateContext& context, GameData& data)
                         {
-                            //std::cout << "on POOP\n";
+                            setEntityFourDirectionalAnimationGroup(context.entityId, *findFourDirectionalAnimationGroup("wizard_idle"_hash, data), data);
                         },
                     },
                     Executor
                     {
                         "every frame printer",
+                        everyNthFrame(1, 0),
+                        [] (StateContext& context, GameData& data)
+                        {
+                            if(context.stateFrameCount > 300)
+                                context.emitTransition = "bored"_hash;
+                        },
+                    },
+                    //standard sprite animation manipulating executor that plays run animation
+                    //spriteAnimateExecutor({0, 36}, {12, 14}, 3, 10, Animation::Loop),
+                },
+            }
+        },
+        //our run state, which is when the player holds the run button while mario is moving
+        {"wander"_hash,
+            EntityState
+            {
+                //duration of the state
+                Duration(600),
+                //state actions that lead to transitioning to another state
+                Transitions
+                {
+                    { StateAction("_next"_hash), StateHash("idle"_hash) },
+                    //{ StateAction("slow_down"_hash), StateHash("walk"_hash) },
+                    //{ StateAction("turn"_hash), StateHash("turn_slide"_hash) },
+                    //{ StateAction("jump"_hash), StateHash("jump"_hash) },
+                },
+                //any state can have zero or more executors
+                Executors
+                {
+                    Executor
+                    {
+                        "animation setter",
+                        onStateStart(),
+                        [] (StateContext& context, GameData& data)
+                        {
+                            setEntityFourDirectionalAnimationGroup(context.entityId, *findFourDirectionalAnimationGroup("wizard_walk"_hash, data), data);
+                        },
+                    },
+                    Executor
+                    {
+                        "every frame",
                         everyNthFrame(10, 100),
                         [] (StateContext& context, GameData& data)
                         {
-                            //std::cout << "nth POOP\n";
-                            context.emitTransition = "blapp"_hash;
+                            glm::vec2& pos = get(context.entityId, data.tPosition).coordinate;
+
+                            Direction currentDir = get(context.entityId, data.tOrientation).direction;
+
+                            pos += 4.0f * toVec2(currentDir);
+
+                            if(rand() % 10 == 0)
+                            {
+                                Direction randomDir = randomDirection(data);
+                                set(context.entityId, Orientation{randomDir}, data.tOrientation);
+                            }
                         },
                     },
                     //standard sprite animation manipulating executor that plays run animation

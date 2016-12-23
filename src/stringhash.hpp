@@ -7,10 +7,6 @@ struct StringHash
 {
     size_t hash;
     const char* string;
-    constexpr operator size_t()
-    {
-        return hash;
-    }
 };
 
 bool operator==(const StringHash& a, const StringHash& b);
@@ -59,7 +55,7 @@ constexpr StringHash operator "" _hash( const char* data, size_t len)
     return {h, original};
 } 
 
-static_assert("run_left"_hash == size_t{1811686161}, "nice");
+static_assert("run_left"_hash.hash == size_t{1811686161}, "nice");
 
 namespace std
 {

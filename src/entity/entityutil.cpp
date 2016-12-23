@@ -6,6 +6,7 @@ int32_t addEntity(Entity entity, GameData& data)
 {
     glm::vec2 position = entity.position.coordinate;
     int32_t newId = insert(std::move(entity.position), data.tPosition).id;
+    insert(newId, std::move(entity.orientation), data.tOrientation);
 
     for(auto sprite : entity.sprites)
     {
@@ -34,20 +35,17 @@ int32_t addEntity(Entity entity, GameData& data)
             FourDirectionalSprite
             {
                 Direction::Up,
-                sprite.fourDirectionalSprite.upAnimation,
-                sprite.fourDirectionalSprite.downAnimation,
-                sprite.fourDirectionalSprite.leftAnimation,
-                sprite.fourDirectionalSprite.rightAnimation,
+                sprite.fourDirectionalSprite.animationGroup,
                 0,
             }, data);
         }
 
-        insert(ObjectSpriteInstance
+        insert(EntitySpriteInstance
         {
             newId,
             spriteId,
             sprite.offset,
-        }, data.tObjectSpriteInstance);
+        }, data.tEntitySpriteInstance);
     }
 
     if(entity.entityState)
@@ -64,16 +62,16 @@ int32_t addEntity(Entity entity, GameData& data)
     return newId;
 }
 
-void setEntitySpritesDirection(int32_t entityId, Direction direction, GameData& data)
+void setEntityFourDirectionalAnimationGroup(int32_t entityId, int32_t animationGroup, GameData& data)
 {
-    auto objectSpriteInstances = findAll([&](int32_t id, const ObjectSpriteInstance& obj)
+    auto found = findOne([&](int32_t id, const EntitySpriteInstance& objSpriteInstance)
     {
-        return obj.objectId == entityId;
-    }, data.tObjectSpriteInstance);
+        return objSpriteInstance.entityId == entityId;
+    }, data.tEntitySpriteInstance);
 
-    for(auto& objectSpriteInstance : objectSpriteInstances)
-    {
-        auto& sprite = get(objectSpriteInstance.data.spriteId, data.tFourDirectionalSprite);
-        sprite.currentDirection = direction;
-    }
+    TH_ASSERT(found, "trying to set four directional animation group on entity " << entityId << " which lacks an objSpriteInstance");
+    TH_ASSERT(has(found->data.spriteId, data.tFourDirectionalSprite), "trying to set four directional animation group on entity " << entityId << " which doesn't have a FourDirectionalSprite");
+    FourDirectionalSprite& sprite = get(found->data.spriteId, data.tFourDirectionalSprite);
+
+    sprite.animationGroup = animationGroup;
 }

@@ -11,10 +11,7 @@ struct Entity
         };
         struct FourDirectionalSprite
         {
-            int32_t upAnimation;
-            int32_t downAnimation;
-            int32_t leftAnimation;
-            int32_t rightAnimation;
+            int32_t animationGroup;
         };
 
         Sprite::Type type;
@@ -35,6 +32,7 @@ struct Entity
     };
 
     Position position;
+    Orientation orientation;
     std::vector<EntitySprite> sprites;
     th::Optional<EntityState> entityState;
 };

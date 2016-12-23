@@ -257,6 +257,21 @@
         {
             "columns": [
                 {
+                    "data_type": "direction",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "direction"
+                }
+            ],
+            "description": "How an entity is turned",
+            "display_name": "Orientation",
+            "external_id": true,
+            "inherits": null,
+            "name": "orientation"
+        },
+        {
+            "columns": [
+                {
                     "data_type": "texture",
                     "field_type": "shared_ptr",
                     "field_type_variables": [],
@@ -350,7 +365,61 @@
                     "data_type": "table_id",
                     "field_type": "default",
                     "field_type_variables": [],
-                    "name": "objectId"
+                    "name": "up"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "down"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "left"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "right"
+                }
+            ],
+            "description": "A four directional grouping of animations",
+            "display_name": "Four Directional Animation Group",
+            "external_id": false,
+            "inherits": null,
+            "name": "four_directional_animation_group"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "string_hash",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "hash"
+                },
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "id"
+                }
+            ],
+            "description": "Hash index for four directional animation groups",
+            "display_name": "Four Directional Animation Group Index",
+            "external_id": false,
+            "inherits": null,
+            "name": "four_directional_animation_group_index"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "table_id",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "entityId"
                 },
                 {
                     "data_type": "table_id",
@@ -365,11 +434,11 @@
                     "name": "offset"
                 }
             ],
-            "description": "Relationship describing a sprite instance that belongs to an object",
-            "display_name": "Object Sprite Instance",
+            "description": "Relationship describing a sprite instance that belongs to an entity",
+            "display_name": "Entity Sprite Instance",
             "external_id": false,
             "inherits": null,
-            "name": "object_sprite_instance"
+            "name": "entity_sprite_instance"
         },
         {
             "columns": [
@@ -428,28 +497,10 @@
                     "name": "currentDirection"
                 },
                 {
-                    "data_type": "int32",
+                    "data_type": "table_id",
                     "field_type": "default",
                     "field_type_variables": [],
-                    "name": "upAnimation"
-                },
-                {
-                    "data_type": "int32",
-                    "field_type": "default",
-                    "field_type_variables": [],
-                    "name": "downAnimation"
-                },
-                {
-                    "data_type": "int32",
-                    "field_type": "default",
-                    "field_type_variables": [],
-                    "name": "leftAnimation"
-                },
-                {
-                    "data_type": "int32",
-                    "field_type": "default",
-                    "field_type_variables": [],
-                    "name": "rightAnimation"
+                    "name": "animationGroup"
                 },
                 {
                     "data_type": "int32",

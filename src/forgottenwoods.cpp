@@ -191,6 +191,13 @@ void ForgottenWoods::startScenario()
         1,
         1
     }, mData);
+    addFourDirectionalAnimationGroup("wizard_idle"_hash, FourDirectionalAnimationGroup
+    {
+        *findAnimation("wizard_idle_up"_hash, mData),
+        *findAnimation("wizard_idle_down"_hash, mData),
+        *findAnimation("wizard_idle_left"_hash, mData),
+        *findAnimation("wizard_idle_right"_hash, mData),
+    }, mData);
 
     addSpriteAnimation("wizard_walk_down"_hash, SpriteAnimation
     {
@@ -220,11 +227,18 @@ void ForgottenWoods::startScenario()
         2,
         10
     }, mData);
+    addFourDirectionalAnimationGroup("wizard_walk"_hash, FourDirectionalAnimationGroup
+    {
+        *findAnimation("wizard_walk_up"_hash, mData),
+        *findAnimation("wizard_walk_down"_hash, mData),
+        *findAnimation("wizard_walk_left"_hash, mData),
+        *findAnimation("wizard_walk_right"_hash, mData),
+    }, mData);
 
     registerRenderPasses(mData);
     registerEntityStates(mData);
 
-    addEntity(Entity{{{30000.0f, 30000.0f}},
+    addEntity(Entity{{{30000.0f, 30000.0f}},{Direction::Down},
     {
         Entity::EntitySprite
         {
@@ -234,10 +248,7 @@ void ForgottenWoods::startScenario()
             {12*4, 14*4},
             {.fourDirectionalSprite=Entity::EntitySprite::FourDirectionalSprite
             {
-                *findAnimation("wizard_walk_up"_hash, mData),
-                *findAnimation("wizard_walk_down"_hash, mData),
-                *findAnimation("wizard_walk_left"_hash, mData),
-                *findAnimation("wizard_walk_right"_hash, mData),
+                *findFourDirectionalAnimationGroup("wizard_walk"_hash, mData),
             }},
         }
     },

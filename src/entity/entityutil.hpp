@@ -5,4 +5,4 @@
 struct GameData;
 
 int32_t addEntity(Entity entity, GameData& data);
-void setEntitySpritesDirection(int32_t entityId, Direction direction, GameData& data);
+void setEntityFourDirectionalAnimationGroup(int32_t entityId, int32_t animationGroup, GameData& data);

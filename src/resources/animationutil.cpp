@@ -19,3 +19,23 @@ th::Optional<int32_t> findAnimation(StringHash hash, GameData& data)
     else
         return {};
 }
+
+int32_t addFourDirectionalAnimationGroup(StringHash hash, FourDirectionalAnimationGroup animationGroup, GameData& data)
+{
+    int32_t newId = insert(std::move(animationGroup), data.tFourDirectionalAnimationGroup).id;
+    insert(FourDirectionalAnimationGroupIndex{hash, newId}, data.tFourDirectionalAnimationGroupIndex);
+    return newId;
+}
+
+th::Optional<int32_t> findFourDirectionalAnimationGroup(StringHash hash, GameData& data)
+{
+    auto found = findOne([&](int32_t id, const FourDirectionalAnimationGroupIndex& animationGroupIndex)
+    {
+        return animationGroupIndex.hash == hash;
+    }, data.tFourDirectionalAnimationGroupIndex);
+
+    if(found)
+        return {found->id};
+    else
+        return {};
+}

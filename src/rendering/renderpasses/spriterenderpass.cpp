@@ -55,17 +55,18 @@ RenderPass createSpriteRenderPass()
                     quad.setTexture(*get(sprite.texture, data.tTexture).texture);
 
                     const FourDirectionalSprite& animSprite = get(id, data.tFourDirectionalSprite);
+                    const FourDirectionalAnimationGroup& animGroup = get(animSprite.animationGroup, data.tFourDirectionalAnimationGroup);
 
                     int32_t animationId = 0;
 
                     if(animSprite.currentDirection == Direction::Up)
-                        animationId = animSprite.upAnimation;
+                        animationId = animGroup.up;
                     else if(animSprite.currentDirection == Direction::Down)
-                        animationId = animSprite.downAnimation;
+                        animationId = animGroup.down;
                     else if(animSprite.currentDirection == Direction::Left)
-                        animationId = animSprite.leftAnimation;
+                        animationId = animGroup.left;
                     else if(animSprite.currentDirection == Direction::Right)
-                        animationId = animSprite.rightAnimation;
+                        animationId = animGroup.right;
                     const SpriteAnimation& animation = get(animationId, data.tSpriteAnimation);
 
                     fea::Animation feaAnimation
