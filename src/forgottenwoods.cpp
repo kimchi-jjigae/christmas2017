@@ -37,6 +37,8 @@ ForgottenWoods::ForgottenWoods() :
     mWindow.setVSyncEnabled(true);
     mWindow.setFramerateLimit(60);
 
+    mFeaInputHandler.setKeyRepeatEnabled(false);
+
     subscribe(mBus, *this, false);
 
     //imgui

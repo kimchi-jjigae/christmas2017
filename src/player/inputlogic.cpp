@@ -66,8 +66,6 @@ void InputLogic::update()
                 mData.stoppedPlayerActions.insert(PlayerAction::WalkRight);
                 mData.ongoingPlayerActions.erase(PlayerAction::WalkRight);
             }
-
-            mBus.send(KeyPressedMessage{event.key.code});
         }
         else if(event.type == fea::Event::CLOSED)
         {

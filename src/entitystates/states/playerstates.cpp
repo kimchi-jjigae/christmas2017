@@ -62,7 +62,7 @@ void registerPlayerStates(GameData& gameData)
         {"wander"_hash,
             EntityState
             {
-                Duration(600),
+                indefinite,
                 Transitions
                 {
                     { StateAction("_next"_hash), StateHash("idle"_hash) },
