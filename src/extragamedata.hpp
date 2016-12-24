@@ -6,6 +6,11 @@ std::unordered_map<glm::ivec2, Chunk> worldChunks;
 //system
 glm::ivec2 screenSize = initialScreenSize;
 
+//input
+std::unordered_set<PlayerAction> startedPlayerActions;
+std::unordered_set<PlayerAction> ongoingPlayerActions;
+std::unordered_set<PlayerAction> stoppedPlayerActions;
+
 //rendering
 std::map<int32_t, RenderPass> renderPasses;
 fea::Camera worldCamera;
@@ -17,8 +22,7 @@ fea::Viewport overlayViewport;
 EffectOverlayData effectOverlayData;
 
 //graphics
-glm::ivec2 cameraPosition;
-float zoom = 1.0f;
+Camera camera;
 std::unordered_map<glm::ivec2, LayeredTiles> worldTileMaps;
 int32_t tilesBackgroundTexture;
 int32_t tilesCenterTexture;

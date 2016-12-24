@@ -28,8 +28,8 @@ void RenderLogic::frameStart()
     }
 
     //setup position and zoom
-    mData.worldCamera.setPosition(mData.cameraPosition);
-    mData.worldCamera.setZoom({mData.zoom, mData.zoom});
+    mData.worldCamera.setPosition(mData.camera.position);
+    mData.worldCamera.setZoom({mData.camera.zoom, mData.camera.zoom});
     mData.defaultViewport.setCamera(mData.worldCamera);
     mData.guiViewport.setCamera(mData.guiCamera);
 }

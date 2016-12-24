@@ -7,12 +7,15 @@
 //#include "gridneighbors.hpp"
 #include "land/chunk.hpp"
 #include <unordered_map>
+#include <unordered_set>
 #include <deque>
 #include <map>
 #include "layeredtiles.hpp"
 #include "chunkviewdata.hpp"
 #include "direction.hpp"
 #include "startupconstants.hpp"
+#include "player/playeraction.hpp"
+#include "camera/camera.hpp"
 #include "rendering/renderpass.hpp"
 #include "rendering/effectoverlaydata.hpp"
 #include <fea/rendering/texture.hpp>

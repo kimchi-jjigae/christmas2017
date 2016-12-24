@@ -13,3 +13,20 @@ glm::vec2 toVec2(Direction direction)
     else
         return {0.0f, 0.0f};
 }
+
+Direction toDirection(glm::vec2 vec)
+{
+    if(glm::length(vec) < 0.001f)
+        return Direction::None;
+
+    if(vec.y < 0.0f)
+        return Direction::Up;
+    if(vec.y > 0.0f)
+        return Direction::Down;
+    if(vec.x < 0.0f)
+        return Direction::Left;
+    if(vec.x > 0.0f)
+        return Direction::Right;
+
+    return Direction::None;
+}

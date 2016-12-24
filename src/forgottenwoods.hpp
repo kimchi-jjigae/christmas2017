@@ -2,13 +2,14 @@
 #include <fea/util.hpp>
 #include <fea/userinterface.hpp>
 #include <fea/render2d.hpp>
-#include "inputhandler.hpp"
+#include "player/inputlogic.hpp"
 #include "messages.hpp"
 #include "audioplayer.hpp"
 #include "land/chunklogic.hpp"
 #include <data.hpp>
 
 #include "rendering/renderlogic.hpp"
+#include "camera/cameralogic.hpp"
 #include "entitystates/entitystateslogic.hpp"
 #include "entity/entitylogic.hpp"
 
@@ -42,13 +43,13 @@ class ForgottenWoods : public fea::Application,
         fea::Renderer2D mFeaRenderer;
         fea::InputHandler mFeaInputHandler;
 
+        GameData mData;
+
         //input
-        InputHandler mInputHandler;
+        InputLogic mInputLogic;
 
         //system
         th::Optional<int32_t> mClickedEntity;
-
-        GameData mData;
 
         //AudioPlayer mAudioPlayer;
         
@@ -58,6 +59,7 @@ class ForgottenWoods : public fea::Application,
 
         //logic
         ChunkLogic mChunkLogic;
+        CameraLogic mCameraLogic;
         EntityStatesLogic mEntityStatesLogic;
         EntityLogic mEntityLogic;
 

@@ -27,8 +27,9 @@ ForgottenWoods::ForgottenWoods() :
     mWindow(new fea::SDL2WindowBackend(), fea::VideoMode(static_cast<uint32_t>(initialScreenSize.x), static_cast<uint32_t>(initialScreenSize.y)), "ForgottenWoods", fea::Style::Default, fea::ContextSettings(0, 0, 0, 2, 0, contextType)),
     mFeaRenderer(fea::Viewport(initialScreenSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(initialScreenSize / 2)))),
     mFeaInputHandler(new fea::SDL2InputBackend()),
-    mInputHandler(mBus, mFeaInputHandler),
+    mInputLogic(mBus, mFeaInputHandler, mData),
     mChunkLogic(mData),
+    mCameraLogic(mData),
     mEntityStatesLogic(mData),
     mEntityLogic(mData),
     mRenderLogic(mFeaRenderer, mData)
@@ -63,30 +64,30 @@ void ForgottenWoods::handleMessage(const QuitMessage& message)
 
 void ForgottenWoods::handleMessage(const KeyPressedMessage& message)
 {
-    if(message.key == fea::Keyboard::A)
-    {
-        mData.cameraPosition.x += -80;
-        mData.currentDirection = Direction::Left;
-    }
-    else if(message.key == fea::Keyboard::D)
-    {
-        mData.cameraPosition.x += 80;
-        mData.currentDirection = Direction::Right;
-    }
-    else if(message.key == fea::Keyboard::W)
-    {
-        mData.cameraPosition.y += -80;
-        mData.currentDirection = Direction::Up;
-    }
-    else if(message.key == fea::Keyboard::S)
-    {
-        mData.cameraPosition.y += 80;
-        mData.currentDirection = Direction::Down;
-    }
-    else if(message.key == fea::Keyboard::R)
-        mData.zoom *= 2.0f;
+    //if(message.key == fea::Keyboard::A)
+    //{
+    //    mData.cameraPosition.x += -80;
+    //    mData.currentDirection = Direction::Left;
+    //}
+    //else if(message.key == fea::Keyboard::D)
+    //{
+    //    mData.cameraPosition.x += 80;
+    //    mData.currentDirection = Direction::Right;
+    //}
+    //else if(message.key == fea::Keyboard::W)
+    //{
+    //    mData.cameraPosition.y += -80;
+    //    mData.currentDirection = Direction::Up;
+    //}
+    //else if(message.key == fea::Keyboard::S)
+    //{
+    //    mData.cameraPosition.y += 80;
+    //    mData.currentDirection = Direction::Down;
+    //}
+    if(message.key == fea::Keyboard::R)
+        mData.camera.zoom *= 2.0f;
     else if(message.key == fea::Keyboard::F)
-        mData.zoom *= 0.5f;
+        mData.camera.zoom *= 0.5f;
     else if(message.key == fea::Keyboard::C)
         spreadHappiness();
 }
@@ -156,7 +157,6 @@ void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
 void ForgottenWoods::startScenario()
 {
     initializeChunkMasks(mData);
-    mData.cameraPosition = {30000, 30000};
     mData.tilesBackgroundTexture = loadAndAddTexture("tiles_background"_hash, "data/textures/bgtiles.png", mData); 
     mData.tilesCenterTexture = loadAndAddTexture("tiles_center"_hash, "data/textures/centertiles.png", mData); 
     mData.fogTexture = loadAndAddTexture("fog"_hash, "data/textures/fog.png", mData); 
@@ -238,7 +238,7 @@ void ForgottenWoods::startScenario()
     registerRenderPasses(mData);
     registerEntityStates(mData);
 
-    addEntity(Entity{{{30000.0f, 30000.0f}},{Direction::Down},
+    int32_t player = addEntity(Entity{{{30000.0f, 30000.0f}},{Direction::Down},
     {
         Entity::EntitySprite
         {
@@ -257,14 +257,16 @@ void ForgottenWoods::startScenario()
         "player"_hash,
         "idle"_hash,
     }}, mData);
+
+    mData.camera.cameraEntity = player;
 }
 
 void ForgottenWoods::loop()
 {
     //grab input
-    mInputHandler.process();
+    mInputLogic.update();
 
-    temp();
+    mCameraLogic.update();
 
     mChunkLogic.update();
     mEntityStatesLogic.update();
@@ -306,45 +308,11 @@ void ForgottenWoods::loop()
 
 void ForgottenWoods::temp()
 {
-    glm::ivec2 size = {mWindow.getSize().x, mWindow.getSize().y};
-
-    auto start = mData.cameraPosition - size / 2;
-    auto end = mData.cameraPosition + size / 2;
-
-    std::unordered_set<glm::ivec2> points =
-    {
-        {start.x, start.y},
-        {start.x, end.y},
-        {end.x, start.y},
-        {end.x, end.y},
-    };
-    
-    std::unordered_set<glm::ivec2> chunksThatWereInView;
-
-    for(auto point : points)
-    {
-        auto chunkCoord = point / TileWidth / ChunkWidth;
-
-        if(mData.worldChunks.count(chunkCoord) == 0 && std::count(mData.chunksToLoad.begin(), mData.chunksToLoad.end(), chunkCoord) == 0)
-        {
-            mData.chunksToLoad.emplace_back(chunkCoord);
-        }
-
-        if(mData.chunksInView.count(chunkCoord) == 0 && std::count(mData.chunksToPutInView.begin(), mData.chunksToPutInView.end(), chunkCoord) == 0)
-            mData.chunksToPutInView.emplace_back(chunkCoord);
-        chunksThatWereInView.emplace(chunkCoord);
-    }
-
-    for(const auto& iter : mData.chunksInView)
-    {
-        if(chunksThatWereInView.count(iter.first) == 0)
-            mData.chunksThatLeftView.emplace_back(iter.first);
-    }
 }
 
 void ForgottenWoods::spreadHappiness()
 {
-    auto tileCoord = worldToTile(mData.cameraPosition);
+    auto tileCoord = worldToTile(mData.camera.position);
 
 
     for(int32_t y = tileCoord.y - 6; y < tileCoord.y + 6; ++y)

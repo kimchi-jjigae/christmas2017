@@ -7,20 +7,16 @@
 
 void registerPlayerStates(GameData& gameData)
 {
-    //states for a typical mario 2d platform character
     registerStateSet("player"_hash, StateSet
     {
         {"idle"_hash,
             EntityState
             {
-                //duration of the state
                 indefinite,
-                //state actions that lead to transitioning to another state
                 Transitions
                 {
-                    { StateAction("bored"_hash), StateHash("wander"_hash) },
+                    { StateAction("start_walk"_hash), StateHash("wander"_hash) },
                 },
-                //any state can have zero or more executors
                 Executors
                 {
                     Executor
@@ -38,25 +34,40 @@ void registerPlayerStates(GameData& gameData)
                         everyNthFrame(1, 0),
                         [] (StateContext& context, GameData& data)
                         {
-                            if(context.stateFrameCount > 300)
-                                context.emitTransition = "bored"_hash;
+                            if(data.startedPlayerActions.count(PlayerAction::WalkUp))
+                            {
+                                set(context.entityId, Orientation{Direction::Up}, data.tOrientation);
+                                context.emitTransition = "start_walk"_hash;
+                            }
+                            else if(data.startedPlayerActions.count(PlayerAction::WalkDown))
+                            {
+                                set(context.entityId, Orientation{Direction::Down}, data.tOrientation);
+                                context.emitTransition = "start_walk"_hash;
+                            }
+                            else if(data.startedPlayerActions.count(PlayerAction::WalkLeft))
+                            {
+                                set(context.entityId, Orientation{Direction::Left}, data.tOrientation);
+                                context.emitTransition = "start_walk"_hash;
+                            }
+                            else if(data.startedPlayerActions.count(PlayerAction::WalkRight))
+                            {
+                                set(context.entityId, Orientation{Direction::Right}, data.tOrientation);
+                                context.emitTransition = "start_walk"_hash;
+                            }
                         },
                     },
                 },
             }
         },
-        //our run state, which is when the player holds the run button while mario is moving
         {"wander"_hash,
             EntityState
             {
-                //duration of the state
                 Duration(600),
-                //state actions that lead to transitioning to another state
                 Transitions
                 {
                     { StateAction("_next"_hash), StateHash("idle"_hash) },
+                    { StateAction("stop"_hash), StateHash("idle"_hash) },
                 },
-                //any state can have zero or more executors
                 Executors
                 {
                     Executor
@@ -71,19 +82,47 @@ void registerPlayerStates(GameData& gameData)
                     Executor
                     {
                         "every frame",
-                        everyNthFrame(10, 100),
+                        everyNthFrame(1, 0),
                         [] (StateContext& context, GameData& data)
                         {
                             glm::vec2& pos = get(context.entityId, data.tPosition).coordinate;
+                            glm::vec2 direction;
 
-                            Direction currentDir = get(context.entityId, data.tOrientation).direction;
+                            bool moves = false;
 
-                            pos += 4.0f * toVec2(currentDir);
-
-                            if(rand() % 10 == 0)
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkLeft) != 0)
                             {
-                                Direction randomDir = randomDirection(data);
-                                set(context.entityId, Orientation{randomDir}, data.tOrientation);
+                                direction.x -= 1.0f;
+                                moves = true;
+                            }
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkRight) != 0)
+                            {
+                                direction.x += 1.0f;
+                                moves = true;
+                            }
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkUp) != 0)
+                            {
+                                direction.y -= 1.0f;
+                                moves = true;
+                            }
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkDown) != 0)
+                            {
+                                direction.y += 1.0f;
+                                moves = true;
+                            }
+
+                            Direction currentDir = toDirection(direction);
+
+                            pos += direction * 3.5f;
+
+                            if(!moves)
+                            {
+                                context.emitTransition = "stop"_hash;
+                            }
+                            else
+                            {
+                                if(currentDir != Direction::None)
+                                    set(context.entityId, {currentDir}, data.tOrientation);
                             }
                         },
                     },

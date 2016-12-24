@@ -37,7 +37,7 @@ RenderPass createOverlayRenderPass()
         {
             context.renderer.clear(data.effectOverlayData.overlayTarget, fea::Color::Transparent);
 
-            glm::ivec2 cameraTile = worldToTile(data.cameraPosition);
+            glm::ivec2 cameraTile = worldToTile(data.camera.position);
             glm::ivec2 cameraChunk = tileToChunk(cameraTile);
             int32_t goodnessAmount = data.worldChunks.at(cameraChunk).tiles[tileIndex(tileToChunkTile(cameraTile))].goodness;
             GoodnessLevel goodnessLevel = goodnessAmountLevel(goodnessAmount);
@@ -56,8 +56,8 @@ RenderPass createOverlayRenderPass()
             data.effectOverlayData.noiseOverlay.setOpacity(std::max(0.0f, evilAmount / 100.0f - 0.15f));
             data.effectOverlayData.fogOverlay.setOpacity(std::max(0.0f, dyingAmount / 100.0f - 0.15f));
 
-            data.overlayCamera.setPosition(data.cameraPosition);// - glm::ivec2(-342, 0));
-            data.overlayCamera.setZoom({1, data.zoom});
+            data.overlayCamera.setPosition(data.camera.position);// - glm::ivec2(-342, 0));
+            data.overlayCamera.setZoom({1, data.camera.zoom});
         }),
         RenderFunction([](RenderContext& context, GameData& data)
         {
@@ -76,7 +76,7 @@ RenderPass createOverlayRenderPass()
             }
             
             context.renderer.setViewport(data.defaultViewport);
-            data.effectOverlayData.overlayQuad.setPosition(data.cameraPosition - glm::ivec2(1024.0f, 1024.0f));
+            data.effectOverlayData.overlayQuad.setPosition(data.camera.position - glm::ivec2(1024.0f, 1024.0f));
             context.renderer.setBlendMode(fea::MULTIPLY);
             context.renderer.render(data.effectOverlayData.overlayQuad);
             context.renderer.setBlendMode(fea::ALPHA);
