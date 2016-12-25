@@ -29,7 +29,9 @@
             "output": "fea::Color"
         },
         {
-            "dependencies": [],
+            "dependencies": [
+                ""
+            ],
             "name": "float",
             "output": "float"
         },
@@ -95,6 +97,20 @@
             ],
             "name": "direction",
             "output": "Direction"
+        },
+        {
+            "dependencies": [
+                "#include \"physics/collisiontype.hpp\""
+            ],
+            "name": "collision_type",
+            "output": "CollisionType"
+        },
+        {
+            "dependencies": [
+                "#include \"physics/aabb.hpp\""
+            ],
+            "name": "aabb",
+            "output": "AABB"
         }
     ],
     "field_types": [
@@ -268,6 +284,36 @@
             "external_id": true,
             "inherits": null,
             "name": "orientation"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "aabb",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "aabb"
+                }
+            ],
+            "description": "The collision size of an entity",
+            "display_name": "Hitbox",
+            "external_id": true,
+            "inherits": null,
+            "name": "hitbox"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "collision_type",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "collisionType"
+                }
+            ],
+            "description": "Data for entities that collide with other entities",
+            "display_name": "Entity Collider",
+            "external_id": true,
+            "inherits": null,
+            "name": "entity_collider"
         },
         {
             "columns": [

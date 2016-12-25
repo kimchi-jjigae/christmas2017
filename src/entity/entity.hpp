@@ -33,6 +33,8 @@ struct Entity
 
     Position position;
     Orientation orientation;
+    th::Optional<Hitbox> hitbox;
+    th::Optional<EntityCollider> entityCollider;
     std::vector<EntitySprite> sprites;
     th::Optional<EntityState> entityState;
 };

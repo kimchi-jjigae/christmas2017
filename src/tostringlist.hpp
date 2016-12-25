@@ -6,6 +6,8 @@
 #include <sstream>
 #include <glm.hpp>
 #include "entitystates/executor.hpp"
+#include "physics/collisiontype.hpp"
+#include "physics/aabb.hpp"
 
 std::vector<std::string> toStringList(int32_t number);
 std::vector<std::string> toStringList(StringHash hash);
@@ -14,6 +16,9 @@ std::vector<std::string> toStringList(const fea::Color& color);
 std::vector<std::string> toStringList(const fea::Texture& texture);
 std::vector<std::string> toStringList(const Executor& executor);
 std::vector<std::string> toStringList(const StateContext& stateContext);
+
+std::vector<std::string> toStringList(CollisionType type);
+std::vector<std::string> toStringList(AABB aabb);
 
 template<typename Vec2Type>
 std::vector<std::string> toStringList(const glm::tvec2<Vec2Type>& vec2)

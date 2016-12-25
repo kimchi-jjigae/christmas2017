@@ -53,6 +53,24 @@ std::vector<std::string> toStringList(const StateContext& stateContext)
     };
 }
 
+std::vector<std::string> toStringList(CollisionType type)
+{
+    return
+    {
+        type == CollisionType::Physics ? "physics" : "trigger"
+    };
+}
+
+std::vector<std::string> toStringList(AABB aabb)
+{
+    return
+    {
+        toString(aabb.start) + " " + toString(aabb.size),
+        "start: " + toString(aabb.start),
+        "size: " + toString(aabb.size),
+    };
+}
+
 std::ostream& operator<<(std::ostream& os, const Executor& executor)
 {
     os << executor.descriptor;

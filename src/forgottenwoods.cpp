@@ -32,6 +32,7 @@ ForgottenWoods::ForgottenWoods() :
     mCameraLogic(mData),
     mEntityStatesLogic(mData),
     mEntityLogic(mData),
+    mCollisionLogic(mData),
     mRenderLogic(mFeaRenderer, mData)
 {
     mWindow.setVSyncEnabled(true);
@@ -241,6 +242,18 @@ void ForgottenWoods::startScenario()
     registerEntityStates(mData);
 
     int32_t player = addEntity(Entity{{{30000.0f, 30000.0f}},{Direction::Down},
+    Hitbox
+    {
+        AABB
+        {
+            {2, 2},
+            {8, 10}
+        }
+    },
+    EntityCollider
+    {
+        CollisionType::Trigger,
+    },
     {
         Entity::EntitySprite
         {
@@ -273,6 +286,8 @@ void ForgottenWoods::loop()
     mChunkLogic.update();
     mEntityStatesLogic.update();
     mEntityLogic.update();
+
+    mCollisionLogic.update();
 
     //imgui
     ImGuiIO& io = ImGui::GetIO();

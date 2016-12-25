@@ -12,6 +12,7 @@
 #include "camera/cameralogic.hpp"
 #include "entitystates/entitystateslogic.hpp"
 #include "entity/entitylogic.hpp"
+#include "physics/collisionlogic.hpp"
 
 class ForgottenWoods : public fea::Application,
     public fea::MessageReceiver<QuitMessage,
@@ -62,6 +63,7 @@ class ForgottenWoods : public fea::Application,
         CameraLogic mCameraLogic;
         EntityStatesLogic mEntityStatesLogic;
         EntityLogic mEntityLogic;
+        CollisionLogic mCollisionLogic;
 
         //InterfaceLogic mInterfaceLogic;
         RenderLogic mRenderLogic;

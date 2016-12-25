@@ -8,6 +8,11 @@ int32_t addEntity(Entity entity, GameData& data)
     int32_t newId = insert(std::move(entity.position), data.tPosition).id;
     insert(newId, std::move(entity.orientation), data.tOrientation);
 
+    if(entity.hitbox)
+        insert(newId, std::move(*entity.hitbox), data.tHitbox);
+    if(entity.entityCollider)
+        insert(newId, std::move(*entity.entityCollider), data.tEntityCollider);
+
     for(auto sprite : entity.sprites)
     {
         int32_t spriteId = 0;
