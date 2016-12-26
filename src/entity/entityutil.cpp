@@ -84,7 +84,7 @@ void removeEntityData(int32_t entityId, GameData& data)
     {
         if(entitySpriteInstance.entityId == entityId)
         {
-            erase(entitySpriteInstance.spriteId, data.tSprite);
+            eraseSprite(entitySpriteInstance.spriteId, data);
             return true;
         }
         else
