@@ -170,6 +170,7 @@ void ForgottenWoods::startScenario()
     mData.noiseTexture = loadAndAddTexture("noise"_hash, "data/textures/noise.png", mData); 
     mData.wizardTexture = loadAndAddTexture("wizard"_hash, "data/textures/wizard.png", mData); 
     loadAndAddTexture("energy_ball"_hash, "data/textures/energyball.png", mData); 
+    loadAndAddTexture("slime"_hash, "data/textures/slime.png", mData); 
 
     addSpriteAnimation("wizard_idle_down"_hash, SpriteAnimation
     {
@@ -251,10 +252,18 @@ void ForgottenWoods::startScenario()
         5
     }, mData);
 
+    addSpriteAnimation("slime"_hash, SpriteAnimation
+    {
+        {0, 0},
+        {10, 10},
+        2,
+        20
+    }, mData);
+
     registerRenderPasses(mData);
     registerEntityStates(mData);
 
-    int32_t player = spawnPlayer(mData);
+    mData.playerId = spawnPlayer(mData);
 }
 
 void ForgottenWoods::loop()
@@ -282,19 +291,9 @@ void ForgottenWoods::loop()
 
     ImGui::ShowTestWindow();
 
+    temp();
+
     DebugGui::showDataTables(mClickedEntity, mData);
-    //DebugGui::showDataTables(mClickedEntity,
-    //        mData.tPosition, mData.tPhysics, mData.tCollisionBox, mData.tWalkTarget, mData.tMoveAbility, mData.tMoveIntention, mData.tBloodValues, mData.tChoking,
-    //        mData.tAi, mData.uninitializedAis, mData.humanAis,
-    //        mData.tIncentive, mData.activeIncentives, mData.tBreatheIncentive, mData.tWorkIncentive,
-    //        mData.tAction, mData.leafActions, mData.tTaskAction, mData.tGotoAction, mData.tTotalPanicAction, mData.tFindWorkTaskAction, mData.tConstructWallAction, mData.tConstructDoorAction,
-    //        mData.tStructureType, mData.tStructure, mData.uninitializedStructures,
-    //        mData.tAirlock, mData.tAirlockActivity,
-    //        mData.tDoor, mData.tStructureDoorLock, mData.tZoneLeak, mData.openDoors, mData.lockedDoors,
-    //        mData.tTask, mData.tRoomTask, mData.tWallTask, mData.tDoorTask, mData.unassignedTasks, mData.tAssignedTask,
-    //        mData.tItem, mData.tWearable, mData.tItemContainer, mData.tItemStoring, mData.tAirTank,
-    //        mData.tPath,
-    //        mData.builders, mData.freeWorkers, mData.tBusyWorker, mData.deadWorkers, mData.tActorSprite);
 
     if(mClickedEntity)
         dbg::set<int32_t>("selected_actor", *mClickedEntity);
@@ -313,6 +312,12 @@ void ForgottenWoods::loop()
 
 void ForgottenWoods::temp()
 {
+    if(rand() % 60 == 0)
+    {
+        auto spawnPos = get(mData.playerId, mData.tPosition).coordinate;
+        spawnPos += glm::diskRand(400.0f);
+        spawnSlime(spawnPos, mData);
+    }
 }
 
 void ForgottenWoods::spreadHappiness()

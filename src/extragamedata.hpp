@@ -23,6 +23,7 @@ EffectOverlayData effectOverlayData;
 
 //entities
 IdSet entitiesToRemove;
+int32_t playerId;
 
 //graphics
 Camera camera;
