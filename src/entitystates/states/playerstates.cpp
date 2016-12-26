@@ -3,6 +3,7 @@
 #include "../../entity/entityutil.hpp"
 #include "../../resources/animationutil.hpp"
 #include "../../directionutil.hpp"
+#include "../../spawning/spawning.hpp"
 #include "../../random.hpp"
 
 void registerPlayerStates(GameData& gameData)
@@ -30,10 +31,17 @@ void registerPlayerStates(GameData& gameData)
                     },
                     Executor
                     {
-                        "every frame printer",
+                        "controls",
                         everyNthFrame(1, 0),
                         [] (StateContext& context, GameData& data)
                         {
+                            if(data.startedPlayerActions.count(PlayerAction::Staff))
+                            {
+                                auto spawnPosition = get(context.entityId, data.tPosition).coordinate;
+                                Direction spawnOrientation = get(context.entityId, data.tOrientation).direction;
+                                spawnBall(spawnPosition, spawnOrientation, data);
+                            }
+
                             if(data.startedPlayerActions.count(PlayerAction::WalkUp))
                             {
                                 set(context.entityId, Orientation{Direction::Up}, data.tOrientation);
@@ -89,6 +97,13 @@ void registerPlayerStates(GameData& gameData)
                             glm::vec2 direction;
 
                             bool moves = false;
+
+                            if(data.startedPlayerActions.count(PlayerAction::Staff))
+                            {
+                                auto spawnPosition = get(context.entityId, data.tPosition).coordinate;
+                                Direction spawnOrientation = get(context.entityId, data.tOrientation).direction;
+                                spawnBall(spawnPosition, spawnOrientation, data);
+                            }
 
                             if(data.ongoingPlayerActions.count(PlayerAction::WalkLeft) != 0)
                             {

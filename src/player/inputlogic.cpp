@@ -41,6 +41,11 @@ void InputLogic::update()
                 mData.startedPlayerActions.insert(PlayerAction::WalkRight);
                 mData.ongoingPlayerActions.insert(PlayerAction::WalkRight);
             }
+            else if(event.key.code == fea::Keyboard::H)
+            {
+                mData.startedPlayerActions.insert(PlayerAction::Staff);
+                mData.ongoingPlayerActions.insert(PlayerAction::Staff);
+            }
 
             mBus.send(KeyPressedMessage{event.key.code});
         }
@@ -65,6 +70,11 @@ void InputLogic::update()
             {
                 mData.stoppedPlayerActions.insert(PlayerAction::WalkRight);
                 mData.ongoingPlayerActions.erase(PlayerAction::WalkRight);
+            }
+            else if(event.key.code == fea::Keyboard::H)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::Staff);
+                mData.ongoingPlayerActions.erase(PlayerAction::Staff);
             }
         }
         else if(event.type == fea::Event::CLOSED)

@@ -16,6 +16,8 @@
 #include "entitystates/states/entitystates.hpp"
 #include "rendering/renderpasses/renderpasses.hpp"
 #include "entitystates/stateutil.hpp"
+#include "spawning/spawning.hpp"
+#include <tablecapacity.hpp>
 
 #ifdef EMSCRIPTEN
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
@@ -159,12 +161,15 @@ void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
 
 void ForgottenWoods::startScenario()
 {
+    ensureCapacity(50, mData);
+
     initializeChunkMasks(mData);
     mData.tilesBackgroundTexture = loadAndAddTexture("tiles_background"_hash, "data/textures/bgtiles.png", mData); 
     mData.tilesCenterTexture = loadAndAddTexture("tiles_center"_hash, "data/textures/centertiles.png", mData); 
     mData.fogTexture = loadAndAddTexture("fog"_hash, "data/textures/fog.png", mData); 
     mData.noiseTexture = loadAndAddTexture("noise"_hash, "data/textures/noise.png", mData); 
     mData.wizardTexture = loadAndAddTexture("wizard"_hash, "data/textures/wizard.png", mData); 
+    loadAndAddTexture("energy_ball"_hash, "data/textures/energyball.png", mData); 
 
     addSpriteAnimation("wizard_idle_down"_hash, SpriteAnimation
     {
@@ -238,46 +243,25 @@ void ForgottenWoods::startScenario()
         *findAnimation("wizard_walk_right"_hash, mData),
     }, mData);
 
+    addSpriteAnimation("energy_ball"_hash, SpriteAnimation
+    {
+        {0, 0},
+        {8, 8},
+        4,
+        5
+    }, mData);
+
     registerRenderPasses(mData);
     registerEntityStates(mData);
 
-    int32_t player = addEntity(Entity{{{30000.0f, 30000.0f}},{Direction::Down},
-    Hitbox
-    {
-        AABB
-        {
-            {2, 2},
-            {8, 10}
-        }
-    },
-    EntityCollider
-    {
-        CollisionType::Trigger,
-    },
-    {
-        Entity::EntitySprite
-        {
-            Sprite::FourDirectionalSprite,
-            {0.0f, 0.0f},
-            *findTexture("wizard"_hash, mData),
-            {12*4, 14*4},
-            {.fourDirectionalSprite=Entity::EntitySprite::FourDirectionalSprite
-            {
-                *findFourDirectionalAnimationGroup("wizard_walk"_hash, mData),
-            }},
-        }
-    },
-    Entity::EntityState
-    {
-        "player"_hash,
-        "idle"_hash,
-    }}, mData);
-
-    mData.camera.cameraEntity = player;
+    int32_t player = spawnPlayer(mData);
 }
 
 void ForgottenWoods::loop()
 {
+    ensureCapacity(50, mData);
+    TablesCapacity capacitiesBefore = tablesCapacity(mData);
+
     //grab input
     mInputLogic.update();
 
@@ -321,6 +305,10 @@ void ForgottenWoods::loop()
     mRenderLogic.frameEnd();
 
     mWindow.swapBuffers();
+
+    TablesCapacity capacitiesAfter = tablesCapacity(mData);
+
+    TH_ASSERT(capacitiesBefore == capacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
 }
 
 void ForgottenWoods::temp()

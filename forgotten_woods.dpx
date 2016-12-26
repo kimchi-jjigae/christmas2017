@@ -158,6 +158,7 @@
             "dophax/templates/static_reflect.dpt",
             "templates/gamedata.dpt",
             "templates/addutil.dpt",
+            "templates/tablecapacity.dpt",
             "templates/debugguidata.dpt",
             "templates/showdatatables.dpt"
         ]

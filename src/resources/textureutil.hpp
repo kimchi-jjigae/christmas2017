@@ -3,9 +3,10 @@
 #include <thero/optional.hpp>
 #include <string>
 #include "../stringhash.hpp"
-#include <data.hpp>
+
+struct GameData;
 
 int32_t loadAndAddTexture(StringHash hash, const std::string& path, GameData& data);
-int32_t addTexture(StringHash hash, Texture texture, GameData& data);
+int32_t addTexture(StringHash hash, class Texture texture, GameData& data);
 th::Optional<int32_t> findTexture(StringHash hash, GameData& data);
 const fea::Texture& getFeaTexture(int32_t textureId, GameData& data);

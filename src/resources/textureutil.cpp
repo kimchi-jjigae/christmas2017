@@ -1,5 +1,6 @@
 #include "textureutil.hpp"
 #include "texturemaker.hpp"
+#include <data.hpp>
 
 int32_t loadAndAddTexture(StringHash hash, const std::string& path, GameData& data)
 {
