@@ -38,7 +38,7 @@ void registerPlayerStates(GameData& gameData)
                             if(data.startedPlayerActions.count(PlayerAction::Staff))
                             {
                                 auto spawnPosition = get(context.entityId, data.tPosition).coordinate;
-                                Direction spawnOrientation = get(context.entityId, data.tOrientation).direction;
+                                auto spawnOrientation = get(context.entityId, data.tEntityDirection).direction;
                                 spawnBall(spawnPosition, spawnOrientation, data);
                             }
 
@@ -101,8 +101,8 @@ void registerPlayerStates(GameData& gameData)
                             if(data.startedPlayerActions.count(PlayerAction::Staff))
                             {
                                 auto spawnPosition = get(context.entityId, data.tPosition).coordinate;
-                                Direction spawnOrientation = get(context.entityId, data.tOrientation).direction;
-                                spawnBall(spawnPosition, spawnOrientation, data);
+                                auto spawnDirection = get(context.entityId, data.tEntityDirection).direction;
+                                spawnBall(spawnPosition, spawnDirection, data);
                             }
 
                             if(data.ongoingPlayerActions.count(PlayerAction::WalkLeft) != 0)
@@ -126,6 +126,10 @@ void registerPlayerStates(GameData& gameData)
                                 moves = true;
                             }
 
+                            direction = glm::normalize(direction);
+
+                            set(context.entityId, EntityDirection{direction}, data.tEntityDirection);
+
                             Direction currentDir = toDirection(direction);
 
                             pos += direction * 3.5f;
@@ -136,8 +140,8 @@ void registerPlayerStates(GameData& gameData)
                             }
                             else
                             {
-                                if(currentDir != Direction::None)
-                                    set(context.entityId, {currentDir}, data.tOrientation);
+                                //if(currentDir != Direction::None)
+                                //    set(context.entityId, {currentDir}, data.tOrientation);
                             }
                         },
                     },

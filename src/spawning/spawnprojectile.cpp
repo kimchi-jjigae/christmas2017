@@ -1,11 +1,14 @@
 #include "spawnprojectile.hpp"
 #include "../entity/entityutil.hpp"
+#include "../directionutil.hpp"
 #include "resources/textureutil.hpp"
 #include "resources/animationutil.hpp"
 
-int32_t spawnBall(glm::vec2 position, Direction direction, GameData& data)
+int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& data)
 {
-    int32_t energyBall = addEntity(Entity{{position},{direction},
+    Direction orientation = toDirection(direction);
+
+    int32_t energyBall = addEntity(Entity{{position},{orientation},
     Hitbox
     {
         AABB

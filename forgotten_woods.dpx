@@ -259,21 +259,6 @@
         {
             "columns": [
                 {
-                    "data_type": "vec2",
-                    "field_type": "default",
-                    "field_type_variables": [],
-                    "name": "coordinate"
-                }
-            ],
-            "description": "Entity positions in the world",
-            "display_name": "Position",
-            "external_id": false,
-            "inherits": null,
-            "name": "position"
-        },
-        {
-            "columns": [
-                {
                     "data_type": "direction",
                     "field_type": "default",
                     "field_type_variables": [],
@@ -285,6 +270,21 @@
             "external_id": true,
             "inherits": null,
             "name": "orientation"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "vec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "coordinate"
+                }
+            ],
+            "description": "Entity positions in the world",
+            "display_name": "Position",
+            "external_id": false,
+            "inherits": null,
+            "name": "position"
         },
         {
             "columns": [
@@ -517,27 +517,6 @@
         {
             "columns": [
                 {
-                    "data_type": "int32",
-                    "field_type": "default",
-                    "field_type_variables": [],
-                    "name": "animation"
-                },
-                {
-                    "data_type": "int32",
-                    "field_type": "default",
-                    "field_type_variables": [],
-                    "name": "animationClock"
-                }
-            ],
-            "description": "A sprite with animation capabilities",
-            "display_name": "Animated Sprite",
-            "external_id": true,
-            "inherits": "sprite",
-            "name": "animated_sprite"
-        },
-        {
-            "columns": [
-                {
                     "data_type": "direction",
                     "field_type": "default",
                     "field_type_variables": [],
@@ -561,6 +540,42 @@
             "external_id": true,
             "inherits": "sprite",
             "name": "four_directional_sprite"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "animation"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "animationClock"
+                }
+            ],
+            "description": "A sprite with animation capabilities",
+            "display_name": "Animated Sprite",
+            "external_id": true,
+            "inherits": "sprite",
+            "name": "animated_sprite"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "vec2",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "direction"
+                }
+            ],
+            "description": "The logical direction of an entity",
+            "display_name": "Entity Direction",
+            "external_id": true,
+            "inherits": null,
+            "name": "entity_direction"
         }
     ]
 }

@@ -30,3 +30,19 @@ Direction toDirection(glm::vec2 vec)
 
     return Direction::None;
 }
+
+bool vec2ContainsDirection(glm::vec2 vec, Direction direction)
+{
+    if(direction == Direction::None && glm::length(vec) < 0.0001f)
+        return true;
+    else if(direction == Direction::Up && vec.y < -0.001f)
+        return true;
+    else if(direction == Direction::Down && vec.y > 0.001f)
+        return true;
+    else if(direction == Direction::Left && vec.x < -0.001f)
+        return true;
+    else if(direction == Direction::Right && vec.x > 0.001f)
+        return true;
+
+    return false;
+}
