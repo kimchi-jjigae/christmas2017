@@ -57,7 +57,7 @@ int32_t addEntity(Entity entity, GameData& data)
     {
         insert(EntityStateMachine
         {
-            0,
+            newId,
             entity.entityState->stateSet,
             getEntityState(entity.entityState->stateSet, entity.entityState->state, data).id,
             {},

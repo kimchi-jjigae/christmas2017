@@ -15,6 +15,8 @@ void EntityStatesLogic::update()
 
         int32_t currentStateFrame = stateMachine.stateContext.stateFrameCount;
 
+        stateMachine.stateContext.entityId = stateMachine.entityId; //a bit of a hack to set it every time, but not sure what else to do
+
         //call executors
         for(const Executor& executor : state.executors)
         {
