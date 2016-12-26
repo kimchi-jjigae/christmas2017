@@ -31,12 +31,11 @@ int32_t spawnBall(glm::vec2 position, Direction direction, GameData& data)
             }},
         }
     },
-    {}}, data);
-    //Entity::EntityState
-    //{
-    //    "player"_hash,
-    //    "idle"_hash,
-    //}}, data);
+    Entity::EntityState
+    {
+        "energy_ball"_hash,
+        "travel"_hash,
+    }}, data);
 
     return energyBall;
 }

@@ -2,4 +2,4 @@
 
 struct GameData;
 
-void registerPlayerStates(GameData& data);
+void registerPlayerStates(GameData& gameData);
