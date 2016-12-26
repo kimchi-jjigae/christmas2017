@@ -21,6 +21,9 @@ fea::Camera overlayCamera;
 fea::Viewport overlayViewport;
 EffectOverlayData effectOverlayData;
 
+//entities
+IdSet entitiesToRemove;
+
 //graphics
 Camera camera;
 std::unordered_map<glm::ivec2, LayeredTiles> worldTileMaps;

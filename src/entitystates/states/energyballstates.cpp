@@ -9,10 +9,10 @@ void registerEnergyBallStates(GameData& gameData)
         {"travel"_hash,
             EntityState
             {
-                indefinite,
+                Duration(60),
                 Transitions
                 {
-                    //{ StateAction("start_walk"_hash), StateHash("wander"_hash) },
+                    { StateAction("_next"_hash), StateHash("_remove"_hash) },
                 },
                 Executors
                 {

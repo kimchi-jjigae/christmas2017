@@ -67,6 +67,33 @@ int32_t addEntity(Entity entity, GameData& data)
     return newId;
 }
 
+void removeEntity(int32_t entityId, GameData& data)
+{
+    insert(entityId, data.entitiesToRemove);
+}
+
+void removeEntityData(int32_t entityId, GameData& data)
+{
+    erase(entityId, data.tPosition);
+    erase(entityId, data.tOrientation);
+    erase(entityId, data.tHitbox);
+    erase(entityId, data.tEntityCollider);
+    erase(entityId, data.tEntityStateMachine);
+
+    eraseIf([&](int32_t entitySpriteId, const EntitySpriteInstance& entitySpriteInstance)
+    {
+        if(entitySpriteInstance.entityId == entityId)
+        {
+            erase(entitySpriteInstance.spriteId, data.tSprite);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }, data.tEntitySpriteInstance);
+}
+
 void setEntityFourDirectionalAnimationGroup(int32_t entityId, int32_t animationGroup, GameData& data)
 {
     auto found = findOne([&](int32_t id, const EntitySpriteInstance& objSpriteInstance)

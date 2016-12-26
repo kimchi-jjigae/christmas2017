@@ -8,8 +8,9 @@ CollisionLogic::CollisionLogic(GameData& data):
 
 void CollisionLogic::update()
 {
-    for(int32_t colAId = 0; colAId < static_cast<int32_t>(mData.tEntityCollider.ids.size()); ++colAId)
+    for(size_t colAIter = 0; colAIter < mData.tEntityCollider.ids.size(); ++colAIter)
     {
+        int32_t colAId = mData.tEntityCollider.ids[colAIter];
         const EntityCollider& colliderA = get(colAId, mData.tEntityCollider);
         const AABB& hitboxA = get(colAId, mData.tHitbox).aabb;
         const Position& positionA = get(colAId, mData.tPosition);
@@ -20,8 +21,9 @@ void CollisionLogic::update()
             hitboxA.size + positionA.coordinate,
         };
 
-        for(int32_t colBId = colAId + 1; colBId < static_cast<int32_t>(mData.tEntityCollider.ids.size()); ++colBId)
+        for(size_t colBIter = colAIter + 1; colBIter < mData.tEntityCollider.ids.size(); ++colBIter)
         {
+            int32_t colBId = mData.tEntityCollider.ids[colBIter];
             const EntityCollider& colliderB = get(colBId, mData.tEntityCollider);
             const AABB& hitboxB = get(colBId, mData.tHitbox).aabb;
             const Position& positionB = get(colBId, mData.tPosition);

@@ -1,4 +1,5 @@
 #include "entitylogic.hpp"
+#include "entityutil.hpp"
 
 EntityLogic::EntityLogic(GameData& data):
     mData(data)
@@ -29,4 +30,11 @@ void EntityLogic::update()
         }
 
     }, mData.tEntitySpriteInstance);
+
+    forEach([&](int32_t id)
+    {
+        removeEntityData(id, mData);
+    }, mData.entitiesToRemove);
+
+    clear(mData.entitiesToRemove);
 }

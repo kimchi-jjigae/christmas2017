@@ -1,6 +1,7 @@
 #include "entitystateslogic.hpp"
 #include "../random.hpp"
 #include "../stringhash.hpp"
+#include "../entity/entityutil.hpp"
 
 EntityStatesLogic::EntityStatesLogic(GameData& data):
     mData(data)
@@ -66,6 +67,7 @@ void EntityStatesLogic::update()
 
         if(changeToState)
         {//state requested changed. find and setup new state
+
             //call any onStateEnd executors
             for(const Executor& executor : state.executors)
             {
@@ -76,28 +78,36 @@ void EntityStatesLogic::update()
                 }
             }
 
-            //find and setup new state
-            th::Optional<int32_t> foundState;
-            forEach([&] (int32_t, const EntityStateIndex& stateIndex)
+            if(*changeToState == "_remove"_hash)
             {
-                if(stateIndex.stateSet == stateMachine.currentStateSet && stateIndex.stateHash == *changeToState)
+                //it is meant to be removed, so remove it
+                removeEntity(stateMachine.entityId, mData);
+            }
+            else
+            {
+                //find and setup new state
+                th::Optional<int32_t> foundState;
+                forEach([&] (int32_t, const EntityStateIndex& stateIndex)
                 {
-                    foundState = stateIndex.stateId;
-                    return LoopResult::Break;
-                }
+                    if(stateIndex.stateSet == stateMachine.currentStateSet && stateIndex.stateHash == *changeToState)
+                    {
+                        foundState = stateIndex.stateId;
+                        return LoopResult::Break;
+                    }
 
-                return LoopResult::Continue;
-            }, mData.tEntityStateIndex);
+                    return LoopResult::Continue;
+                }, mData.tEntityStateIndex);
 
-            TH_ASSERT(foundState, "Requested state not found");
+                TH_ASSERT(foundState, "Requested state '" << changeToState->string << "' not found");
 
-            stateMachine.stateContext = StateContext
-            {
-                stateMachine.entityId,
-                0,
-                {}
-            };
-            stateMachine.currentState = *foundState;
+                stateMachine.stateContext = StateContext
+                {
+                    stateMachine.entityId,
+                    0,
+                    {}
+                };
+                stateMachine.currentState = *foundState;
+            }
         }
     }, mData.tEntityStateMachine);
 }
