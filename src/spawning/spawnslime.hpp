@@ -1,6 +1,5 @@
 #pragma once
 #include <cstdint>
-#include "../direction.hpp"
 #include <glm.hpp>
 
 struct GameData;

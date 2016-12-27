@@ -7,18 +7,18 @@ int32_t randomRange(int32_t low, int32_t high, GameData& data)
     return -1;
 }
 
-Direction randomDirection(GameData& data)
+Orientation randomOrientation(GameData& data)
 {
     int32_t r = rand() % 4; //bad random!
 
     if(r == 0)
-        return Direction::Up;
+        return Orientation::Up;
     else if(r == 1)
-        return Direction::Down;
+        return Orientation::Down;
     else if(r == 2)
-        return Direction::Left;
+        return Orientation::Left;
     else if(r == 3)
-        return Direction::Right;
+        return Orientation::Right;
     else
-        return Direction::None;
+        return Orientation::None;
 }

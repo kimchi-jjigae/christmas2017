@@ -93,10 +93,10 @@
         },
         {
             "dependencies": [
-                "#include \"direction.hpp\""
+                "#include \"orientation.hpp\""
             ],
-            "name": "direction",
-            "output": "Direction"
+            "name": "orientation",
+            "output": "Orientation"
         },
         {
             "dependencies": [
@@ -259,17 +259,17 @@
         {
             "columns": [
                 {
-                    "data_type": "direction",
+                    "data_type": "orientation",
                     "field_type": "default",
                     "field_type_variables": [],
-                    "name": "direction"
+                    "name": "orientation"
                 }
             ],
             "description": "How an entity is turned",
             "display_name": "Orientation",
             "external_id": true,
             "inherits": null,
-            "name": "orientation"
+            "name": "entity_orientation"
         },
         {
             "columns": [
@@ -517,10 +517,10 @@
         {
             "columns": [
                 {
-                    "data_type": "direction",
+                    "data_type": "orientation",
                     "field_type": "default",
                     "field_type_variables": [],
-                    "name": "currentDirection"
+                    "name": "currentOrientation"
                 },
                 {
                     "data_type": "table_id",

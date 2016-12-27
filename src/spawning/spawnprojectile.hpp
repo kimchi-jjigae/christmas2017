@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "../direction.hpp"
+#include "../orientation.hpp"
 #include <glm.hpp>
 
 struct GameData;

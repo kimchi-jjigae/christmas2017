@@ -6,8 +6,10 @@ int32_t addEntity(Entity entity, GameData& data)
 {
     glm::vec2 position = entity.position.coordinate;
     int32_t newId = insert(std::move(entity.position), data.tPosition).id;
-    insert(newId, std::move(entity.orientation), data.tOrientation);
+    insert(newId, {std::move(entity.orientation)}, data.tEntityOrientation);
 
+    if(entity.entityDirection)
+        insert(newId, {std::move(*entity.entityDirection)}, data.tEntityDirection);
     if(entity.hitbox)
         insert(newId, std::move(*entity.hitbox), data.tHitbox);
     if(entity.entityCollider)
@@ -39,7 +41,7 @@ int32_t addEntity(Entity entity, GameData& data)
             spriteId = insertFourDirectionalSprite(std::move(newSprite),
             FourDirectionalSprite
             {
-                Direction::Up,
+                Orientation::Up,
                 sprite.fourDirectionalSprite.animationGroup,
                 0,
             }, data);
@@ -75,7 +77,8 @@ void removeEntity(int32_t entityId, GameData& data)
 void removeEntityData(int32_t entityId, GameData& data)
 {
     erase(entityId, data.tPosition);
-    erase(entityId, data.tOrientation);
+    erase(entityId, data.tEntityOrientation);
+    erase(entityId, data.tEntityDirection);
     erase(entityId, data.tHitbox);
     erase(entityId, data.tEntityCollider);
     erase(entityId, data.tEntityStateMachine);

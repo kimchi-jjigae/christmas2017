@@ -1,6 +1,6 @@
 #include "slimestates.hpp"
 #include "registerstateset.hpp"
-#include "../../directionutil.hpp"
+#include "../../orientationutil.hpp"
 
 void registerSlimeStates(GameData& gameData)
 {

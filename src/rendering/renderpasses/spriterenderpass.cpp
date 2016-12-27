@@ -59,13 +59,13 @@ RenderPass createSpriteRenderPass()
 
                     int32_t animationId = 0;
 
-                    if(animSprite.currentDirection == Direction::Up)
+                    if(animSprite.currentOrientation == Orientation::Up)
                         animationId = animGroup.up;
-                    else if(animSprite.currentDirection == Direction::Down)
+                    else if(animSprite.currentOrientation == Orientation::Down)
                         animationId = animGroup.down;
-                    else if(animSprite.currentDirection == Direction::Left)
+                    else if(animSprite.currentOrientation == Orientation::Left)
                         animationId = animGroup.left;
-                    else if(animSprite.currentDirection == Direction::Right)
+                    else if(animSprite.currentOrientation == Orientation::Right)
                         animationId = animGroup.right;
                     const SpriteAnimation& animation = get(animationId, data.tSpriteAnimation);
 

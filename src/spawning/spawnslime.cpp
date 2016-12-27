@@ -5,7 +5,10 @@
 
 int32_t spawnSlime(glm::vec2 position, GameData& data)
 {
-    return addEntity(Entity{{position},{Direction::Down},
+    return addEntity(Entity{{position}, Orientation::Down,
+    {
+        glm::vec2(0.0f, 1.0f),
+    },
     Hitbox
     {
         AABB

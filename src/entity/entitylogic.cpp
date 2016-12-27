@@ -23,9 +23,9 @@ void EntityLogic::update()
         }
         else if(sprite.type == Sprite::FourDirectionalSprite)
         {
-            const Orientation& orientation = get(objectSprite.entityId, mData.tOrientation);
+            const Orientation& orientation = get(objectSprite.entityId, mData.tEntityOrientation).orientation;
             FourDirectionalSprite& fourDirectionalSprite = get(spriteId, mData.tFourDirectionalSprite);
-            fourDirectionalSprite.currentDirection = orientation.direction;
+            fourDirectionalSprite.currentOrientation = orientation;
             ++fourDirectionalSprite.animationClock;
         }
 

@@ -2,7 +2,7 @@
 #include "registerstateset.hpp"
 #include "../../entity/entityutil.hpp"
 #include "../../resources/animationutil.hpp"
-#include "../../directionutil.hpp"
+#include "../../orientationutil.hpp"
 #include "../../spawning/spawning.hpp"
 #include "../../random.hpp"
 
@@ -38,28 +38,28 @@ void registerPlayerStates(GameData& gameData)
                             if(data.startedPlayerActions.count(PlayerAction::Staff))
                             {
                                 auto spawnPosition = get(context.entityId, data.tPosition).coordinate;
-                                auto spawnOrientation = get(context.entityId, data.tEntityDirection).direction;
-                                spawnBall(spawnPosition, spawnOrientation, data);
+                                auto spawnOrientation = get(context.entityId, data.tEntityOrientation).orientation;
+                                spawnBall(spawnPosition, toDirection(spawnOrientation), data);
                             }
 
-                            if(data.startedPlayerActions.count(PlayerAction::WalkUp))
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkUp))
                             {
-                                set(context.entityId, Orientation{Direction::Up}, data.tOrientation);
+                                set(context.entityId, {Orientation{Orientation::Up}}, data.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
-                            else if(data.startedPlayerActions.count(PlayerAction::WalkDown))
+                            else if(data.ongoingPlayerActions.count(PlayerAction::WalkDown))
                             {
-                                set(context.entityId, Orientation{Direction::Down}, data.tOrientation);
+                                set(context.entityId, {Orientation{Orientation::Down}}, data.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
-                            else if(data.startedPlayerActions.count(PlayerAction::WalkLeft))
+                            else if(data.ongoingPlayerActions.count(PlayerAction::WalkLeft))
                             {
-                                set(context.entityId, Orientation{Direction::Left}, data.tOrientation);
+                                set(context.entityId, {Orientation{Orientation::Left}}, data.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
-                            else if(data.startedPlayerActions.count(PlayerAction::WalkRight))
+                            else if(data.ongoingPlayerActions.count(PlayerAction::WalkRight))
                             {
-                                set(context.entityId, Orientation{Direction::Right}, data.tOrientation);
+                                set(context.entityId, {Orientation{Orientation::Right}}, data.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
                         },
@@ -94,54 +94,58 @@ void registerPlayerStates(GameData& gameData)
                         [] (StateContext& context, GameData& data)
                         {
                             glm::vec2& pos = get(context.entityId, data.tPosition).coordinate;
-                            glm::vec2 direction;
+                            Orientation oldOrientation = get(context.entityId, data.tEntityOrientation).orientation;
 
-                            bool moves = false;
+                            glm::vec2 newDirection;
+
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkLeft) != 0)
+                            {
+                                newDirection.x -= 1.0f;
+                            }
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkRight) != 0)
+                            {
+                                newDirection.x += 1.0f;
+                            }
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkUp) != 0)
+                            {
+                                newDirection.y -= 1.0f;
+                            }
+                            if(data.ongoingPlayerActions.count(PlayerAction::WalkDown) != 0)
+                            {
+                                newDirection.y += 1.0f;
+                            }
+
+                            if(glm::length(newDirection) > 0.0f)
+                            {
+                                newDirection = glm::normalize(newDirection);
+
+                                Orientation currentOrientation = Orientation::None;
+                                if(!vec2ContainsOrientation(newDirection, oldOrientation))
+                                {
+                                    currentOrientation = toOrientation(newDirection);
+                                    set(context.entityId, EntityOrientation{currentOrientation}, data.tEntityOrientation);
+                                }
+                                else
+                                {
+                                    currentOrientation = oldOrientation;
+                                }
+
+                                pos += newDirection * 3.5f;
+                                set(context.entityId, {newDirection}, data.tEntityDirection);
+                            }
+                            else
+                            {
+                                context.emitTransition = "stop"_hash;
+                            }
 
                             if(data.startedPlayerActions.count(PlayerAction::Staff))
                             {
                                 auto spawnPosition = get(context.entityId, data.tPosition).coordinate;
-                                auto spawnDirection = get(context.entityId, data.tEntityDirection).direction;
-                                spawnBall(spawnPosition, spawnDirection, data);
-                            }
 
-                            if(data.ongoingPlayerActions.count(PlayerAction::WalkLeft) != 0)
-                            {
-                                direction.x -= 1.0f;
-                                moves = true;
-                            }
-                            if(data.ongoingPlayerActions.count(PlayerAction::WalkRight) != 0)
-                            {
-                                direction.x += 1.0f;
-                                moves = true;
-                            }
-                            if(data.ongoingPlayerActions.count(PlayerAction::WalkUp) != 0)
-                            {
-                                direction.y -= 1.0f;
-                                moves = true;
-                            }
-                            if(data.ongoingPlayerActions.count(PlayerAction::WalkDown) != 0)
-                            {
-                                direction.y += 1.0f;
-                                moves = true;
-                            }
-
-                            direction = glm::normalize(direction);
-
-                            set(context.entityId, EntityDirection{direction}, data.tEntityDirection);
-
-                            Direction currentDir = toDirection(direction);
-
-                            pos += direction * 3.5f;
-
-                            if(!moves)
-                            {
-                                context.emitTransition = "stop"_hash;
-                            }
-                            else
-                            {
-                                //if(currentDir != Direction::None)
-                                //    set(context.entityId, {currentDir}, data.tOrientation);
+                                if(glm::length(newDirection) > 0.0f)
+                                    spawnBall(spawnPosition, newDirection, data);
+                                else
+                                    spawnBall(spawnPosition, toDirection(oldOrientation), data);
                             }
                         },
                     },

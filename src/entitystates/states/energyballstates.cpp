@@ -1,6 +1,6 @@
 #include "energyballstates.hpp"
 #include "registerstateset.hpp"
-#include "../../directionutil.hpp"
+#include "../../orientationutil.hpp"
 
 void registerEnergyBallStates(GameData& gameData)
 {
@@ -22,8 +22,7 @@ void registerEnergyBallStates(GameData& gameData)
                         everyNthFrame(1, 0),
                         [] (StateContext& context, GameData& data)
                         {
-                            Direction spawnOrientation = get(context.entityId, data.tOrientation).direction;
-                            glm::vec2 direction = toVec2(spawnOrientation);
+                            glm::vec2 direction = get(context.entityId, data.tEntityDirection).direction;
                             glm::vec2& position = get(context.entityId, data.tPosition).coordinate;
                             position += direction * 8.0f;
                         },
