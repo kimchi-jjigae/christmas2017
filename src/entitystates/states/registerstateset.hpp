@@ -2,7 +2,7 @@
 #include "../stateset.hpp"
 #include "../transitions.hpp"
 #include "../../stringhash.hpp"
-#include "../executor.hpp"
+#include "../stateexecutor.hpp"
 
 struct GameData;
 

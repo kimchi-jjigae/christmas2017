@@ -79,10 +79,10 @@
         },
         {
             "dependencies": [
-                "#include \"entitystates/executor.hpp\""
+                "#include \"entitystates/stateexecutor.hpp\""
             ],
             "name": "state_executor",
-            "output": "Executor"
+            "output": "StateExecutor"
         },
         {
             "dependencies": [
@@ -111,6 +111,13 @@
             ],
             "name": "aabb",
             "output": "AABB"
+        },
+        {
+            "dependencies": [
+                "#include \"physics/collisionexecutor.hpp\""
+            ],
+            "name": "collision_executor",
+            "output": "CollisionExecutor"
         }
     ],
     "field_types": [
@@ -308,6 +315,12 @@
                     "field_type": "default",
                     "field_type_variables": [],
                     "name": "collisionType"
+                },
+                {
+                    "data_type": "collision_executor",
+                    "field_type": "list",
+                    "field_type_variables": [],
+                    "name": "executors"
                 }
             ],
             "description": "Data for entities that collide with other entities",

@@ -36,11 +36,19 @@ std::vector<std::string> toStringList(const fea::Texture& texture)
     };
 }
 
-std::vector<std::string> toStringList(const Executor& executor)
+std::vector<std::string> toStringList(const StateExecutor& executor)
 {
     return
     {
-        toString(executor.condition),
+        executor.descriptor + toString(executor.condition),
+    };
+}
+
+std::vector<std::string> toStringList(const CollisionExecutor& executor)
+{
+    return
+    {
+        executor.descriptor,
     };
 }
 
@@ -71,7 +79,13 @@ std::vector<std::string> toStringList(AABB aabb)
     };
 }
 
-std::ostream& operator<<(std::ostream& os, const Executor& executor)
+std::ostream& operator<<(std::ostream& os, const StateExecutor& executor)
+{
+    os << executor.descriptor;
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const CollisionExecutor& executor)
 {
     os << executor.descriptor;
     return os;

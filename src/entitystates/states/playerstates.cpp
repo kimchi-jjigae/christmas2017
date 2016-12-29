@@ -18,9 +18,9 @@ void registerPlayerStates(GameData& gameData)
                 {
                     { StateAction("start_walk"_hash), StateHash("wander"_hash) },
                 },
-                Executors
+                StateExecutors
                 {
-                    Executor
+                    StateExecutor
                     {
                         "animation setter",
                         onStateStart(),
@@ -29,7 +29,7 @@ void registerPlayerStates(GameData& gameData)
                             setEntityFourDirectionalAnimationGroup(context.entityId, *findFourDirectionalAnimationGroup("wizard_idle"_hash, data), data);
                         },
                     },
-                    Executor
+                    StateExecutor
                     {
                         "controls",
                         everyNthFrame(1, 0),
@@ -76,9 +76,9 @@ void registerPlayerStates(GameData& gameData)
                     { StateAction("_next"_hash), StateHash("idle"_hash) },
                     { StateAction("stop"_hash), StateHash("idle"_hash) },
                 },
-                Executors
+                StateExecutors
                 {
-                    Executor
+                    StateExecutor
                     {
                         "animation setter",
                         onStateStart(),
@@ -87,7 +87,7 @@ void registerPlayerStates(GameData& gameData)
                             setEntityFourDirectionalAnimationGroup(context.entityId, *findFourDirectionalAnimationGroup("wizard_walk"_hash, data), data);
                         },
                     },
-                    Executor
+                    StateExecutor
                     {
                         "every frame",
                         everyNthFrame(1, 0),

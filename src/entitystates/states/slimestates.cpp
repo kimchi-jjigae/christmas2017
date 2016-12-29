@@ -14,9 +14,9 @@ void registerSlimeStates(GameData& gameData)
                 {
                     //{ StateAction("_next"_hash), StateHash("_remove"_hash) },
                 },
-                Executors
+                StateExecutors
                 {
-                    Executor
+                    StateExecutor
                     {
                         "engage_mover",
                         everyNthFrame(1, 0),

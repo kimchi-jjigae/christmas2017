@@ -19,7 +19,7 @@ void EntityStatesLogic::update()
         stateMachine.stateContext.entityId = stateMachine.entityId; //a bit of a hack to set it every time, but not sure what else to do
 
         //call executors
-        for(const Executor& executor : state.executors)
+        for(const StateExecutor& executor : state.executors)
         {
             Condition condition = executor.condition;
             if(condition.type == Condition::OnStateStart && currentStateFrame == 0)
@@ -69,7 +69,7 @@ void EntityStatesLogic::update()
         {//state requested changed. find and setup new state
 
             //call any onStateEnd executors
-            for(const Executor& executor : state.executors)
+            for(const StateExecutor& executor : state.executors)
             {
                 Condition condition = executor.condition;
                 if(condition.type == Condition::OnStateEnd)

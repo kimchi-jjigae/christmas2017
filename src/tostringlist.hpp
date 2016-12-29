@@ -5,8 +5,9 @@
 #include <string>
 #include <sstream>
 #include <glm.hpp>
-#include "entitystates/executor.hpp"
+#include "entitystates/stateexecutor.hpp"
 #include "physics/collisiontype.hpp"
+#include "physics/collisionexecutor.hpp"
 #include "physics/aabb.hpp"
 
 std::vector<std::string> toStringList(int32_t number);
@@ -14,7 +15,8 @@ std::vector<std::string> toStringList(StringHash hash);
 
 std::vector<std::string> toStringList(const fea::Color& color);
 std::vector<std::string> toStringList(const fea::Texture& texture);
-std::vector<std::string> toStringList(const Executor& executor);
+std::vector<std::string> toStringList(const StateExecutor& executor);
+std::vector<std::string> toStringList(const CollisionExecutor& executor);
 std::vector<std::string> toStringList(const StateContext& stateContext);
 
 std::vector<std::string> toStringList(CollisionType type);
@@ -98,4 +100,5 @@ std::vector<std::string> toStringList(const std::unordered_map<Key, Value>& map)
     return result;
 }
 
-std::ostream& operator<<(std::ostream& os, const Executor& executor);
+std::ostream& operator<<(std::ostream& os, const StateExecutor& executor);
+std::ostream& operator<<(std::ostream& os, const CollisionExecutor& executor);

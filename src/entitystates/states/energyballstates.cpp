@@ -14,9 +14,9 @@ void registerEnergyBallStates(GameData& gameData)
                 {
                     { StateAction("_next"_hash), StateHash("_remove"_hash) },
                 },
-                Executors
+                StateExecutors
                 {
-                    Executor
+                    StateExecutor
                     {
                         "propeller",
                         everyNthFrame(1, 0),
