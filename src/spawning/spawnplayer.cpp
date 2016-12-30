@@ -22,6 +22,10 @@ int32_t spawnPlayer(GameData& data)
         CollisionType::Trigger,
         CollisionExecutors{},
     },
+    Health
+    {
+        100,
+    },
     {
         Entity::EntitySprite
         {

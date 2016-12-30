@@ -14,6 +14,8 @@ int32_t addEntity(Entity entity, GameData& data)
         insert(newId, std::move(*entity.hitbox), data.tHitbox);
     if(entity.entityCollider)
         insert(newId, std::move(*entity.entityCollider), data.tEntityCollider);
+    if(entity.health)
+        insert(newId, std::move(*entity.health), data.tHealth);
 
     for(auto sprite : entity.sprites)
     {
@@ -71,7 +73,8 @@ int32_t addEntity(Entity entity, GameData& data)
 
 void removeEntity(int32_t entityId, GameData& data)
 {
-    insert(entityId, data.entitiesToRemove);
+    if(!has(entityId, data.entitiesToRemove))
+        insert(entityId, data.entitiesToRemove);
 }
 
 void removeEntityData(int32_t entityId, GameData& data)
@@ -81,6 +84,7 @@ void removeEntityData(int32_t entityId, GameData& data)
     erase(entityId, data.tEntityDirection);
     erase(entityId, data.tHitbox);
     erase(entityId, data.tEntityCollider);
+    erase(entityId, data.tHealth);
     erase(entityId, data.tEntityStateMachine);
 
     eraseIf([&](int32_t entitySpriteId, const EntitySpriteInstance& entitySpriteInstance)

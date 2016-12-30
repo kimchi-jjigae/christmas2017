@@ -30,11 +30,22 @@ int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& gameData)
                 [] (const CollisionContext& context, GameData& data)
                 {
                     if(context.collidedWithId != data.playerId)
-                        removeEntity(context.collidedWithId, data);
+                    {
+                        int32_t targetId = context.collidedWithId;
+                        auto health = findId(targetId, data.tHealth);
+
+                        if(health)
+                        {
+                            health->amount -= 8;
+                        }
+
+                        removeEntity(context.entityId, data);
+                    }
                 },
             }
         },
     },
+    {},
     {
         Entity::EntitySprite
         {

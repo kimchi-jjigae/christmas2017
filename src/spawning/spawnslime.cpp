@@ -30,6 +30,10 @@ int32_t spawnSlime(glm::vec2 position, GameData& gameData)
             }
         },
     },
+    Health
+    {
+        40,
+    },
     {
         Entity::EntitySprite
         {

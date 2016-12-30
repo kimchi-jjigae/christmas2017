@@ -589,6 +589,21 @@
             "external_id": true,
             "inherits": null,
             "name": "entity_direction"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "amount"
+                }
+            ],
+            "description": "The health of an entity",
+            "display_name": "Health",
+            "external_id": true,
+            "inherits": null,
+            "name": "health"
         }
     ]
 }

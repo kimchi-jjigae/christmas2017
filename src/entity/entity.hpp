@@ -36,6 +36,7 @@ struct Entity
     th::Optional<glm::vec2> entityDirection;
     th::Optional<Hitbox> hitbox;
     th::Optional<EntityCollider> entityCollider;
+    th::Optional<Health> health;
     std::vector<EntitySprite> sprites;
     th::Optional<EntityState> entityState;
 };

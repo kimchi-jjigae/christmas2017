@@ -31,6 +31,12 @@ void EntityLogic::update()
 
     }, mData.tEntitySpriteInstance);
 
+    forEach([&] (int32_t id, const Health& health)
+    {
+        if(health.amount <= 0)
+            removeEntity(id, mData);
+    }, mData.tHealth);
+
     forEach([&](int32_t id)
     {
         removeEntityData(id, mData);
