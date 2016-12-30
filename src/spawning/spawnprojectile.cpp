@@ -37,9 +37,8 @@ int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& gameData)
                         if(health)
                         {
                             health->amount -= 8;
+                            removeEntity(context.entityId, data);
                         }
-
-                        removeEntity(context.entityId, data);
                     }
                 },
             }
