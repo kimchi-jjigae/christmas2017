@@ -1,5 +1,6 @@
 #include "collisionlogic.hpp"
 #include "aabbutil.hpp"
+#include <debug.hpp>
 
 CollisionLogic::CollisionLogic(GameData& data):
     mData(data)
@@ -20,6 +21,8 @@ void CollisionLogic::update()
             hitboxA.start + positionA.coordinate,
             hitboxA.size,
         };
+
+        DRen::out << DFrame{hitboxAWorld.start, hitboxAWorld.size, fea::Color::Yellow};
 
         for(size_t colBIter = colAIter + 1; colBIter < mData.tEntityCollider.ids.size(); ++colBIter)
         {

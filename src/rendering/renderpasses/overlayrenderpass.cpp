@@ -11,7 +11,7 @@ RenderPass createOverlayRenderPass()
 {
     return
     {
-        AllocateFunction([](GameData& data)
+        AllocateFunction([](fea::Renderer2D&, GameData& data)
         {
             data.effectOverlayData.noiseAnimation = {{0,0}, {32, 32}, 4, 4};
             data.effectOverlayData.sinCounter = 0;

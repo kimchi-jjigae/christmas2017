@@ -16,8 +16,8 @@ int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& gameData)
     {
         AABB
         {
-            {1, 1},
-            {6, 6}
+            {1 * 4, 1 * 4},
+            {6 * 4, 6 * 4}
         }
     },
     EntityCollider

@@ -13,8 +13,8 @@ int32_t spawnPlayer(GameData& data)
     {
         AABB
         {
-            {2, 2},
-            {8, 10}
+            {2 * 4, 2 * 4},
+            {8 * 4, 10 * 4}
         }
     },
     EntityCollider

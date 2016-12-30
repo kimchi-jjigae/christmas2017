@@ -13,8 +13,8 @@ int32_t spawnSlime(glm::vec2 position, GameData& gameData)
     {
         AABB
         {
-            {1, 1},
-            {8, 8}
+            {1 * 4, 1 * 4},
+            {8 * 4, 8 * 4}
         }
     },
     EntityCollider

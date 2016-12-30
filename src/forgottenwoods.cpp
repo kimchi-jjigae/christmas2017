@@ -260,7 +260,7 @@ void ForgottenWoods::startScenario()
         20
     }, mData);
 
-    registerRenderPasses(mData);
+    registerRenderPasses(mFeaRenderer, mData);
     registerEntityStates(mData);
 
     mData.playerId = spawnPlayer(mData);

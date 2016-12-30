@@ -3,19 +3,21 @@
 #include "tilerenderpass.hpp"
 #include "overlayrenderpass.hpp"
 #include "spriterenderpass.hpp"
+#include "debugrenderpass.hpp"
 #include <data.hpp>
 
-void registerRenderPasses(GameData& data)
+void registerRenderPasses(fea::Renderer2D& renderer, GameData& data)
 {
     auto addRenderPass = [&] (int32_t order, RenderPass pass)
     {
         if(pass.allocateFunction)
-            pass.allocateFunction(data);
+            pass.allocateFunction(renderer, data);
         data.renderPasses.emplace(order, pass);
     };
 
     addRenderPass(50, createTileRenderPass());
     addRenderPass(60, createSpriteRenderPass());
     addRenderPass(70, createOverlayRenderPass());
+    addRenderPass(80, createDebugRenderPass());
     addRenderPass(100, createImguiRenderPass());
 }
