@@ -3,7 +3,7 @@
 
 struct GameData;
 
-using CollisionExecutorFunction = void (*)(CollisionContext&, GameData&);
+using CollisionExecutorFunction = void (*)(const CollisionContext&, GameData&);
 
 struct CollisionExecutor
 {

@@ -3,7 +3,7 @@
 #include "resources/textureutil.hpp"
 #include "resources/animationutil.hpp"
 
-int32_t spawnSlime(glm::vec2 position, GameData& data)
+int32_t spawnSlime(glm::vec2 position, GameData& gameData)
 {
     return addEntity(Entity{{position}, Orientation::Down,
     {
@@ -20,17 +20,26 @@ int32_t spawnSlime(glm::vec2 position, GameData& data)
     EntityCollider
     {
         CollisionType::Trigger,
+        CollisionExecutors
+        {
+            {
+                "hej",
+                [] (const CollisionContext& context, GameData& data)
+                {
+                },
+            }
+        },
     },
     {
         Entity::EntitySprite
         {
             Sprite::AnimatedSprite,
             {0.0f, 0.0f},
-            *findTexture("slime"_hash, data),
+            *findTexture("slime"_hash, gameData),
             {10*4, 10*4},
             {.animatedSprite=Entity::EntitySprite::AnimatedSprite
             {
-                *findAnimation("slime"_hash, data),
+                *findAnimation("slime"_hash, gameData),
             }},
         }
     },
@@ -38,5 +47,5 @@ int32_t spawnSlime(glm::vec2 position, GameData& data)
     {
         "slime"_hash,
         "engage"_hash,
-    }}, data);
+    }}, gameData);
 }

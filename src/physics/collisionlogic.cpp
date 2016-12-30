@@ -18,7 +18,7 @@ void CollisionLogic::update()
         AABB hitboxAWorld
         {
             hitboxA.start + positionA.coordinate,
-            hitboxA.size + positionA.coordinate,
+            hitboxA.size,
         };
 
         for(size_t colBIter = colAIter + 1; colBIter < mData.tEntityCollider.ids.size(); ++colBIter)
@@ -31,14 +31,37 @@ void CollisionLogic::update()
             AABB hitboxBWorld
             {
                 hitboxB.start + positionB.coordinate,
-                hitboxB.size + positionB.coordinate,
+                hitboxB.size,
             };
 
             if(intersects(hitboxAWorld, hitboxBWorld))
             {
-                //call callback
-                //
-                //base on trigger
+                //can use types like trigger/physics here to do stuff
+
+
+                //A on B
+                for(const auto& executor : colliderA.executors)
+                {
+                    CollisionContext context
+                    {
+                        colAId,
+                        colBId,
+                    };
+
+                    executor.function(context, mData);
+                };
+
+                //B on A
+                for(const auto& executor : colliderB.executors)
+                {
+                    CollisionContext context
+                    {
+                        colBId,
+                        colAId,
+                    };
+
+                    executor.function(context, mData);
+                };
             }
         }
     }
