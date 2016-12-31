@@ -2,8 +2,7 @@
 #include <fea/ui/sdl2windowbackend.hpp>
 #include <fea/ui/sdl2inputbackend.hpp>
 #include <debugguidata.hpp>
-#include "debuggui.hpp"
-#include "debug.hpp"
+#include <spr/debug/debug.hpp>
 #include <showdatatables.hpp>
 #include <imgui.h>
 #include "resources/textureutil.hpp"
@@ -293,10 +292,11 @@ void ForgottenWoods::loop()
 
     temp();
 
-    DebugGui::showDataTables(mClickedEntity, mData);
+    spr::showDataTables(mClickedEntity, mData);
 
-    if(mClickedEntity)
-        dbg::set<int32_t>("selected_actor", *mClickedEntity);
+    //TODO
+    //if(mClickedEntity)
+    //    spr::set<int32_t>("selected_actor", *mClickedEntity);
 
     mRenderLogic.update();
     //mInterfaceLogic.update();

@@ -1,6 +1,6 @@
 #include "spriterenderpass.hpp"
 #include "../rendercontext.hpp"
-#include "../../debugrenderer.hpp"
+#include <spr/debug/debugrenderer.hpp>
 #include <data.hpp>
 
 RenderPass createDebugRenderPass()
@@ -9,13 +9,13 @@ RenderPass createDebugRenderPass()
     {
         AllocateFunction([](fea::Renderer2D& renderer, GameData& data)
         {
-            DRen::initialize(renderer, data.worldCamera);
+            spr::DRen::initialize(renderer, data.worldCamera);
         }),
         PreRenderFunction(nullptr),
         RenderFunction([](RenderContext& context, GameData& data)
         {
-            DRen::setCamera(data.worldCamera);
-            DRen::flush();
+            spr::DRen::setCamera(data.worldCamera);
+            spr::DRen::flush();
         }),
         ResizeFunction(nullptr),
         PostRenderFunction(nullptr),

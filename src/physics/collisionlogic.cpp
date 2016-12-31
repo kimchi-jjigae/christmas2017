@@ -1,6 +1,6 @@
 #include "collisionlogic.hpp"
 #include "aabbutil.hpp"
-#include <debug.hpp>
+#include <spr/debug/debug.hpp>
 
 CollisionLogic::CollisionLogic(GameData& data):
     mData(data)
@@ -22,7 +22,7 @@ void CollisionLogic::update()
             hitboxA.size,
         };
 
-        DRen::out << DFrame{hitboxAWorld.start, hitboxAWorld.size, fea::Color::Yellow};
+        spr::DRen::out << spr::DFrame{hitboxAWorld.start, hitboxAWorld.size, fea::Color::Yellow};
 
         for(size_t colBIter = colAIter + 1; colBIter < mData.tEntityCollider.ids.size(); ++colBIter)
         {

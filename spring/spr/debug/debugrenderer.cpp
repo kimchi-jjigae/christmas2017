@@ -1,6 +1,9 @@
 #include "debugrenderer.hpp"
-#include "rendering/drawables/line.hpp"
+#include <rendering/drawables/line.hpp>
 #include <algorithm>
+
+namespace spr
+{
 
 void DRen::initialize(fea::Renderer2D& renderer, const fea::Camera& camera)
 {
@@ -209,4 +212,4 @@ DRen& operator<<(DRen& dren, DMark mark)
     return dren;
 }
 
-//Project specific:
+}

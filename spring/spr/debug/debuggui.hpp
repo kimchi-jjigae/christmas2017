@@ -3,10 +3,10 @@
 #include <imgui.h>
 #include <string>
 #include <vector>
-#include <tables.hpp>
 #include <iostream>
+#include <datatables.hpp>
 
-namespace DebugGui
+namespace spr
 {
     using TextList = std::vector<std::vector<std::string>>;
 

@@ -3,7 +3,7 @@
 #pragma once
 #include <data.hpp>
 
-namespace DebugGui
+namespace spr
 {
 @foreach-table@
     std::vector<std::string> debugHeaders(const T$table-Name$& table);
@@ -17,7 +17,7 @@ namespace DebugGui
 #include "debugguidata.hpp"
 #include <tostringlist.hpp>
 
-namespace DebugGui
+namespace spr
 {
 @foreach-table@
     std::vector<std::string> debugHeaders(const T$table-Name$& table)

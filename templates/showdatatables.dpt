@@ -1,6 +1,6 @@
 @file-showdatatables.hpp@
-#include <debuggui.hpp>
-namespace DebugGui
+#include <spr/debug/debuggui.hpp>
+namespace spr
 {
 inline void showDataTables(th::Optional<int32_t>& clickedEntity, const GameData& data)
 {

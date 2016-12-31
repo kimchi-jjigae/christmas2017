@@ -1,6 +1,6 @@
 #include "debuggui.hpp"
 
-namespace DebugGui
+namespace spr
 {
     void text(const std::string& string)
     {

@@ -1,6 +1,9 @@
 #pragma once
 #include <fea/render2d.hpp>
-#include "glm.hpp"
+#include <glm.hpp>
+
+namespace spr
+{
 
 struct DLine
 {
@@ -130,3 +133,5 @@ DRen& operator<<(DRen& dren, TTLDRenderable<DRenderable>& ttlInstance)
 
 using TTLFrame = TTLDRenderable<DFrame>;
 using TTLLine = TTLDRenderable<DLine>;
+
+}

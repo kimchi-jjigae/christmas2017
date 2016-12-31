@@ -1,9 +1,6 @@
 #pragma once
 #include <iostream>
 #include <cstdint>
-#include <string>
-#include <unordered_map>
-#include <thero/any.hpp>
 
 //debug code blocks
 #ifdef DEBUG_ON
@@ -50,45 +47,3 @@
 #define dbgPrintV(...)
 #define dbgPrint(text)
 #endif
-
-enum DebugFlag : int32_t;
-
-namespace dbg
-{
-    extern std::unordered_map<std::string, th::Any> dvars;
-
-    template<typename T> 
-    T& set(const std::string& name, const T& value)
-    {
-        th::Any& stored = dvars[name];
-        stored = value;
-        return stored. template get<T>();
-    }
-
-    template<typename T>
-    T& get(const std::string& name)
-    {
-        TH_ASSERT(dvars.count(name) != 0, "Debug variable " << name << " does not exist");
-        return dvars[name].get<T>();
-    }
-
-    template<typename T>
-    T get(const std::string& name, T defaultValue)
-    {
-        auto iter = dvars.find(name);
-
-        if(iter != dvars.end())
-            return iter->second.get<T>();
-        else
-            return defaultValue;
-    }
-
-    bool exists(const std::string& name);
-    void erase(const std::string& name);
-
-    bool getFlag(DebugFlag flag);
-    bool flipFlag(DebugFlag flag);
-    bool setFlag(DebugFlag flag, bool state);
-
-    extern std::unordered_map<DebugFlag, bool> debugFlags;
-}
