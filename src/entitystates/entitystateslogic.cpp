@@ -92,10 +92,10 @@ void EntityStatesLogic::update()
                     if(stateIndex.stateSet == stateMachine.currentStateSet && stateIndex.stateHash == *changeToState)
                     {
                         foundState = stateIndex.stateId;
-                        return LoopResult::Break;
+                        return dpx::LoopResult::Break;
                     }
 
-                    return LoopResult::Continue;
+                    return dpx::LoopResult::Continue;
                 }, mData.tEntityStateIndex);
 
                 TH_ASSERT(foundState, "Requested state '" << changeToState->string << "' not found");

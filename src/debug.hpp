@@ -6,4 +6,4 @@
 
 enum DebugFlag : int32_t { DPhysics };
 
-std::ostream& operator<<(std::ostream& out, const IdSet& idSet);
+std::ostream& operator<<(std::ostream& out, const dpx::IdSet& idSet);

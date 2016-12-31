@@ -17,7 +17,7 @@ namespace DebugGui
 
     std::string formatMemory(size_t memorySize);
 
-    void addTableInfo(const IdSet& idSet, th::Optional<int32_t>& clickedId);
+    void addTableInfo(const dpx::IdSet& idSet, th::Optional<int32_t>& clickedId);
 
     template <typename Table>
     void addTableInfo(const Table& table, th::Optional<int32_t>& clickedId)
@@ -33,7 +33,7 @@ namespace DebugGui
 
             static bool showData = false;
 
-            MemoryInfo memory = memoryInfo(table);
+            dpx::MemoryInfo memory = memoryInfo(table);
             text("Memory: " + formatMemory(memory.dataSize) + " (" + formatMemory(memory.totalSize) + ")");
 
             ImGui::Checkbox(("Show data##" + table.meta.name).c_str(), &showData);
@@ -41,13 +41,13 @@ namespace DebugGui
             {
                 ImGui::Begin((table.meta.name + " data").c_str());
 
-                AccessPatternInfo accessPattern = accessPatternInfo(table);
+                dpx::AccessPatternInfo accessPattern = accessPatternInfo(table);
                 text("Access pattern:");
-                text(std::string("Random access: ") + std::to_string(accessPattern.percent[AccessType::RandomAccess] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[AccessType::RandomAccess]));
-                text(std::string("Iteration: ") + std::to_string(accessPattern.percent[AccessType::Iteration] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[AccessType::Iteration]));
-                text(std::string("Addition: ") + std::to_string(accessPattern.percent[AccessType::Addition] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[AccessType::Addition]));
-                text(std::string("Deletion: ") + std::to_string(accessPattern.percent[AccessType::Deletion] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[AccessType::Deletion]));
-                text(std::string("Sort: ") + std::to_string(accessPattern.percent[AccessType::Sort] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[AccessType::Sort]));
+                text(std::string("Random access: ") + std::to_string(accessPattern.percent[dpx::AccessType::RandomAccess] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[dpx::AccessType::RandomAccess]));
+                text(std::string("Iteration: ") + std::to_string(accessPattern.percent[dpx::AccessType::Iteration] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[dpx::AccessType::Iteration]));
+                text(std::string("Addition: ") + std::to_string(accessPattern.percent[dpx::AccessType::Addition] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[dpx::AccessType::Addition]));
+                text(std::string("Deletion: ") + std::to_string(accessPattern.percent[dpx::AccessType::Deletion] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[dpx::AccessType::Deletion]));
+                text(std::string("Sort: ") + std::to_string(accessPattern.percent[dpx::AccessType::Sort] * 100.0f) + std::string("% - ") + std::to_string(accessPattern.total[dpx::AccessType::Sort]));
                 ImGui::Separator();
                 if(!table.ids.empty())
                 {

@@ -22,7 +22,7 @@ fea::Viewport overlayViewport;
 EffectOverlayData effectOverlayData;
 
 //entities
-IdSet entitiesToRemove;
+dpx::IdSet entitiesToRemove;
 int32_t playerId;
 
 //graphics

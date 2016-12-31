@@ -5,14 +5,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for executables
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
 #project name
-set(project_name forgotten_woods)
+set(project_name spring)
 project(${project_name})
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Wconversion -Wno-long-long -Wno-unused-parameter -Wno-unused-variable -Wno-format-pedantic -Wno-conversion")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Werror -Wconversion -Wno-long-long -Wno-unused-parameter -Wno-unused-variable -Wno-format-pedantic -Wno-conversion")
 
 add_custom_target(
     dophax_gen
-    COMMAND dophax_gen ${CMAKE_CURRENT_LIST_DIR}/forgotten_woods.dpx
+    COMMAND dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring.dpx
 )
 
 file(GLOB_RECURSE source_files "src/*.cpp")
@@ -43,11 +43,6 @@ if(GLM_FOUND)
     include_directories(${GLM_INCLUDE_DIRS})
 endif()
 
-find_package(Thero REQUIRED)
-if(THERO_FOUND)
-    include_directories(${THERO_INCLUDE_DIRS})
-endif()
-
 find_package(Featherkit COMPONENTS structure entity sdl2 audio rendering ui util REQUIRED)
 if(FEATHERKIT_FOUND)
     include_directories(${FEATHERKIT_INCLUDE_DIRS})
@@ -57,7 +52,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInf
     add_definitions(-DDEBUG_ON)
 endif()
 
-include_directories("json/src")
+include_directories("thero/include")
+include_directories("dophax/json/src")
 
 include_directories("dophax/datatables")
 include_directories("generated")

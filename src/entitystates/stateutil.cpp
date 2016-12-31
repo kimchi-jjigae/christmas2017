@@ -1,7 +1,7 @@
 #include "stateutil.hpp"
 #include <data.hpp>
 
-TableEntry<EntityState> getEntityState(StateSetHash stateSet, StateHash state, GameData& data)
+dpx::TableEntry<EntityState> getEntityState(StateSetHash stateSet, StateHash state, GameData& data)
 {
     auto found = findOne([&](int32_t id, const EntityStateIndex& stateIndex)
     {
