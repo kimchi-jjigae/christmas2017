@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <datatables.hpp>
+#include <dpx/tables.hpp>
+#include <dpx/memory.hpp>
+#include <dpx/metrics.hpp>
 
 namespace spr
 {

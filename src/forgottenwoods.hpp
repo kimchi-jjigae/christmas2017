@@ -4,15 +4,14 @@
 #include <fea/render2d.hpp>
 #include "player/inputlogic.hpp"
 #include "messages.hpp"
-#include "audioplayer.hpp"
 #include "land/chunklogic.hpp"
-#include <data.hpp>
+#include <gamedata.hpp>
 
-#include "rendering/renderlogic.hpp"
-#include "camera/cameralogic.hpp"
-#include "entitystates/entitystateslogic.hpp"
+#include <spr/rendering/renderlogic.hpp>
+#include <spr/entitystates/entitystateslogic.hpp>
+#include <spr/physics/collisionlogic.hpp>
 #include "entity/entitylogic.hpp"
-#include "physics/collisionlogic.hpp"
+#include "camera/cameralogic.hpp"
 
 class ForgottenWoods : public fea::Application,
     public fea::MessageReceiver<QuitMessage,
@@ -61,12 +60,12 @@ class ForgottenWoods : public fea::Application,
         //logic
         ChunkLogic mChunkLogic;
         CameraLogic mCameraLogic;
-        EntityStatesLogic mEntityStatesLogic;
+        spr::EntityStatesLogic mEntityStatesLogic;
         EntityLogic mEntityLogic;
-        CollisionLogic mCollisionLogic;
+        spr::CollisionLogic mCollisionLogic;
 
         //InterfaceLogic mInterfaceLogic;
-        RenderLogic mRenderLogic;
+        spr::RenderLogic<GameData> mRenderLogic;
 
         void temp();
 };

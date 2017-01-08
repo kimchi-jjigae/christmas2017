@@ -1,6 +1,6 @@
 #pragma once
 #include "chunk.hpp"
-#include <glm.hpp>
+#include <spr/glm.hpp>
 
 glm::vec2 chunkToWorld(glm::ivec2 chunkCoordinate);
 glm::ivec2 worldToTile(glm::vec2 worldCoordinate);

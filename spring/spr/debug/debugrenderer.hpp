@@ -1,6 +1,6 @@
 #pragma once
 #include <fea/render2d.hpp>
-#include <glm.hpp>
+#include <spr/glm.hpp>
 
 namespace spr
 {

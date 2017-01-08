@@ -1,6 +1,10 @@
 #pragma once
 #include <fea/rendering/tilemap.hpp>
-#include <data.hpp>
+#include <spr/glm.hpp>
+#include <layeredtiles.hpp>
+#include <land/tile.hpp>
+
+struct GameData;
 
 enum GfxBackgroundTile { Grass0, Grass1, Grass2, Grass3, 
                          Path0, Path1, Path2, Path3 };

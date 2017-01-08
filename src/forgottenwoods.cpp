@@ -12,9 +12,9 @@
 #include "land/chunkutil.hpp"
 #include "tileutil.hpp"
 #include "entity/entityutil.hpp"
-#include "entitystates/states/entitystates.hpp"
-#include "rendering/renderpasses/renderpasses.hpp"
-#include "entitystates/stateutil.hpp"
+#include "entitystates/entitystates.hpp"
+#include "rendering/renderpasses.hpp"
+#include <spr/entitystates/stateutil.hpp>
 #include "spawning/spawning.hpp"
 #include <tablecapacity.hpp>
 
@@ -31,9 +31,9 @@ ForgottenWoods::ForgottenWoods() :
     mInputLogic(mBus, mFeaInputHandler, mData),
     mChunkLogic(mData),
     mCameraLogic(mData),
-    mEntityStatesLogic(mData),
+    mEntityStatesLogic(mData.spr),
     mEntityLogic(mData),
-    mCollisionLogic(mData),
+    mCollisionLogic(mData.spr),
     mRenderLogic(mFeaRenderer, mData)
 {
     mWindow.setVSyncEnabled(true);
@@ -160,104 +160,105 @@ void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
 
 void ForgottenWoods::startScenario()
 {
-    ensureCapacity(50, mData);
+    spr::sprEnsureCapacity(50, mData.spr);
+    ensureCapacity(50, mData.data);
 
     initializeChunkMasks(mData);
-    mData.tilesBackgroundTexture = loadAndAddTexture("tiles_background"_hash, "data/textures/bgtiles.png", mData); 
-    mData.tilesCenterTexture = loadAndAddTexture("tiles_center"_hash, "data/textures/centertiles.png", mData); 
-    mData.fogTexture = loadAndAddTexture("fog"_hash, "data/textures/fog.png", mData); 
-    mData.noiseTexture = loadAndAddTexture("noise"_hash, "data/textures/noise.png", mData); 
-    mData.wizardTexture = loadAndAddTexture("wizard"_hash, "data/textures/wizard.png", mData); 
-    loadAndAddTexture("energy_ball"_hash, "data/textures/energyball.png", mData); 
-    loadAndAddTexture("slime"_hash, "data/textures/slime.png", mData); 
+    mData.tilesBackgroundTexture = loadAndAddTexture("tiles_background"_hash, "data/textures/bgtiles.png", mData.spr); 
+    mData.tilesCenterTexture = loadAndAddTexture("tiles_center"_hash, "data/textures/centertiles.png", mData.spr); 
+    mData.fogTexture = loadAndAddTexture("fog"_hash, "data/textures/fog.png", mData.spr); 
+    mData.noiseTexture = loadAndAddTexture("noise"_hash, "data/textures/noise.png", mData.spr); 
+    mData.wizardTexture = loadAndAddTexture("wizard"_hash, "data/textures/wizard.png", mData.spr); 
+    loadAndAddTexture("energy_ball"_hash, "data/textures/energyball.png", mData.spr); 
+    loadAndAddTexture("slime"_hash, "data/textures/slime.png", mData.spr); 
 
-    addSpriteAnimation("wizard_idle_down"_hash, SpriteAnimation
+    addSpriteAnimation("wizard_idle_down"_hash, spr::SpriteAnimation
     {
         {0, 0},
         {12, 14},
         1,
         1
-    }, mData);
-    addSpriteAnimation("wizard_idle_up"_hash, SpriteAnimation
+    }, mData.spr);
+    addSpriteAnimation("wizard_idle_up"_hash, spr::SpriteAnimation
     {
         {0, 14},
         {12, 14},
         1,
         1
-    }, mData);
-    addSpriteAnimation("wizard_idle_left"_hash, SpriteAnimation
+    }, mData.spr);
+    addSpriteAnimation("wizard_idle_left"_hash, spr::SpriteAnimation
     {
         {0, 28},
         {12, 14},
         1,
         1
-    }, mData);
-    addSpriteAnimation("wizard_idle_right"_hash, SpriteAnimation
+    }, mData.spr);
+    addSpriteAnimation("wizard_idle_right"_hash, spr::SpriteAnimation
     {
         {0, 42},
         {12, 14},
         1,
         1
-    }, mData);
-    addFourDirectionalAnimationGroup("wizard_idle"_hash, FourDirectionalAnimationGroup
+    }, mData.spr);
+    addFourDirectionalAnimationGroup("wizard_idle"_hash, spr::FourDirectionalAnimationGroup
     {
-        *findAnimation("wizard_idle_up"_hash, mData),
-        *findAnimation("wizard_idle_down"_hash, mData),
-        *findAnimation("wizard_idle_left"_hash, mData),
-        *findAnimation("wizard_idle_right"_hash, mData),
-    }, mData);
+        *findAnimation("wizard_idle_up"_hash, mData.spr),
+        *findAnimation("wizard_idle_down"_hash, mData.spr),
+        *findAnimation("wizard_idle_left"_hash, mData.spr),
+        *findAnimation("wizard_idle_right"_hash, mData.spr),
+    }, mData.spr);
 
-    addSpriteAnimation("wizard_walk_down"_hash, SpriteAnimation
+    addSpriteAnimation("wizard_walk_down"_hash, spr::SpriteAnimation
     {
         {0, 0},
         {12, 14},
         2,
         10
-    }, mData);
-    addSpriteAnimation("wizard_walk_up"_hash, SpriteAnimation
+    }, mData.spr);
+    addSpriteAnimation("wizard_walk_up"_hash, spr::SpriteAnimation
     {
         {0, 14},
         {12, 14},
         2,
         10
-    }, mData);
-    addSpriteAnimation("wizard_walk_left"_hash, SpriteAnimation
+    }, mData.spr);
+    addSpriteAnimation("wizard_walk_left"_hash, spr::SpriteAnimation
     {
         {0, 28},
         {12, 14},
         2,
         10
-    }, mData);
-    addSpriteAnimation("wizard_walk_right"_hash, SpriteAnimation
+    }, mData.spr);
+    addSpriteAnimation("wizard_walk_right"_hash, spr::SpriteAnimation
     {
         {0, 42},
         {12, 14},
         2,
         10
-    }, mData);
-    addFourDirectionalAnimationGroup("wizard_walk"_hash, FourDirectionalAnimationGroup
+    }, mData.spr);
+    addFourDirectionalAnimationGroup("wizard_walk"_hash, spr::FourDirectionalAnimationGroup
     {
-        *findAnimation("wizard_walk_up"_hash, mData),
-        *findAnimation("wizard_walk_down"_hash, mData),
-        *findAnimation("wizard_walk_left"_hash, mData),
-        *findAnimation("wizard_walk_right"_hash, mData),
-    }, mData);
+        *findAnimation("wizard_walk_up"_hash, mData.spr),
+        *findAnimation("wizard_walk_down"_hash, mData.spr),
+        *findAnimation("wizard_walk_left"_hash, mData.spr),
+        *findAnimation("wizard_walk_right"_hash, mData.spr),
+    }, mData.spr);
 
-    addSpriteAnimation("energy_ball"_hash, SpriteAnimation
+    addSpriteAnimation("energy_ball"_hash, spr::SpriteAnimation
     {
         {0, 0},
         {8, 8},
         4,
         5
-    }, mData);
+    }, mData.spr);
 
-    addSpriteAnimation("slime"_hash, SpriteAnimation
+    addSpriteAnimation("slime"_hash, spr::SpriteAnimation
     {
         {0, 0},
         {10, 10},
         2,
         20
-    }, mData);
+    }, mData.spr);
 
     registerRenderPasses(mFeaRenderer, mData);
     registerEntityStates(mData);
@@ -267,8 +268,10 @@ void ForgottenWoods::startScenario()
 
 void ForgottenWoods::loop()
 {
-    ensureCapacity(50, mData);
-    TablesCapacity capacitiesBefore = tablesCapacity(mData);
+    spr::sprEnsureCapacity(50, mData.spr);
+    ensureCapacity(50, mData.data);
+    spr::SprTablesCapacity sprCapacitiesBefore = spr::sprTablesCapacity(mData.spr);
+    DataTablesCapacity capacitiesBefore = tablesCapacity(mData.data);
 
     //grab input
     mInputLogic.update();
@@ -292,7 +295,7 @@ void ForgottenWoods::loop()
 
     temp();
 
-    spr::showDataTables(mClickedEntity, mData);
+    spr::showDataTables(mClickedEntity, mData.spr);
 
     //TODO
     //if(mClickedEntity)
@@ -305,8 +308,10 @@ void ForgottenWoods::loop()
 
     mWindow.swapBuffers();
 
-    TablesCapacity capacitiesAfter = tablesCapacity(mData);
+    spr::SprTablesCapacity sprCapacitiesAfter = spr::sprTablesCapacity(mData.spr);
+    DataTablesCapacity capacitiesAfter = tablesCapacity(mData.data);
 
+    TH_ASSERT(sprCapacitiesBefore == sprCapacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
     TH_ASSERT(capacitiesBefore == capacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
 }
 
@@ -314,7 +319,7 @@ void ForgottenWoods::temp()
 {
     if(rand() % 60 == 0)
     {
-        auto spawnPos = get(mData.playerId, mData.tPosition).coordinate;
+        auto spawnPos = get(mData.playerId, mData.spr.t<spr::TPosition>()).coordinate;
         spawnPos += glm::diskRand(400.0f);
         spawnSlime(spawnPos, mData);
     }

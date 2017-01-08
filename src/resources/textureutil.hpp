@@ -2,11 +2,11 @@
 #include <fea/rendering/texture.hpp>
 #include <thero/optional.hpp>
 #include <string>
-#include "../stringhash.hpp"
+#include <spr/hash/stringhash.hpp>
+#include <spr/tables/tablemodule.hpp>
+#include <spr/data/texture.hpp>
 
-struct GameData;
-
-int32_t loadAndAddTexture(StringHash hash, const std::string& path, GameData& data);
-int32_t addTexture(StringHash hash, struct Texture texture, GameData& data);
-th::Optional<int32_t> findTexture(StringHash hash, GameData& data);
-const fea::Texture& getFeaTexture(int32_t textureId, GameData& data);
+int32_t loadAndAddTexture(spr::StringHash hash, const std::string& path, spr::TableModule& tables);
+int32_t addTexture(spr::StringHash hash, spr::Texture texture, spr::TableModule& tables);
+th::Optional<int32_t> findTexture(spr::StringHash hash, spr::TableModule& tables);
+const fea::Texture& getFeaTexture(int32_t textureId, spr::TableModule& tables);

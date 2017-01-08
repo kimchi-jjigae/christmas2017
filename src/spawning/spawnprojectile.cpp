@@ -1,38 +1,39 @@
 #include "spawnprojectile.hpp"
 #include "../entity/entityutil.hpp"
-#include "../orientationutil.hpp"
+#include <spr/orientation/orientationutil.hpp>
 #include "resources/textureutil.hpp"
 #include "resources/animationutil.hpp"
+#include <gamedata.hpp>
 
-int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& gameData)
+int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& data)
 {
-    Orientation orientation = toOrientation(direction);
+    spr::Orientation orientation = spr::toOrientation(direction);
 
     return addEntity(Entity{{position}, orientation,
     {
         direction,
     },
-    Hitbox
+    spr::Hitbox
     {
-        AABB
+        spr::AABB
         {
             {1 * 4, 1 * 4},
             {6 * 4, 6 * 4}
         }
     },
-    EntityCollider
+    spr::EntityCollider
     {
-        CollisionType::Trigger,
-        CollisionExecutors
+        spr::CollisionType::Trigger,
+        spr::CollisionExecutors
         {
             {
                 "Damage entities",
-                [] (const CollisionContext& context, GameData& data)
+                [&] (const spr::CollisionContext& context)
                 {
                     if(context.collidedWithId != data.playerId)
                     {
                         int32_t targetId = context.collidedWithId;
-                        auto health = findId(targetId, data.tHealth);
+                        auto health = findId(targetId, data.data.t<THealth>());
 
                         if(health)
                         {
@@ -48,13 +49,13 @@ int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& gameData)
     {
         Entity::EntitySprite
         {
-            Sprite::AnimatedSprite,
+            spr::Sprite::AnimatedSprite,
             {0.0f, 0.0f},
-            *findTexture("energy_ball"_hash, gameData),
+            *findTexture("energy_ball"_hash, data.spr),
             {8*4, 8*4},
             {.animatedSprite=Entity::EntitySprite::AnimatedSprite
             {
-                *findAnimation("energy_ball"_hash, gameData),
+                *findAnimation("energy_ball"_hash, data.spr),
             }},
         }
     },
@@ -62,5 +63,5 @@ int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& gameData)
     {
         "energy_ball"_hash,
         "travel"_hash,
-    }}, gameData);
+    }}, data);
 }

@@ -1,0 +1,65 @@
+@file-tablecapacity.hpp@
+#include <cstddef>
+#include <iostream>
+#include <spr/tables/tablemodule.hpp>
+
+namespace spr
+{
+struct SprTablesCapacity
+{
+@foreach-table@
+    size_t $table-name$Capacity;
+@end@
+};
+
+bool operator==(const SprTablesCapacity& a, const SprTablesCapacity& b);
+bool operator!=(const SprTablesCapacity& a, const SprTablesCapacity& b);
+
+SprTablesCapacity sprTablesCapacity(const spr::TableModule& tables);
+void sprEnsureCapacity(size_t capacity, spr::TableModule& tables);
+
+}
+@end@
+
+@file-tablecapacity.cpp@
+#include "tablecapacity.hpp"
+@foreach-table@
+#include <spr/data/$table-name$.hpp>
+@end@
+namespace spr
+{
+bool operator==(const SprTablesCapacity& a, const SprTablesCapacity& b)
+{
+    return
+@foreach-table@
+    a.$table-name$Capacity == b.$table-name$Capacity &&
+@end@
+    true;
+}
+
+bool operator!=(const SprTablesCapacity& a, const SprTablesCapacity& b)
+{
+    return !(a == b);
+}
+
+SprTablesCapacity sprTablesCapacity(const spr::TableModule& tables)
+{
+    SprTablesCapacity capacity;
+@foreach-table@
+    capacity.$table-name$Capacity = tables.t<T$table-Name$>().ids.capacity();
+@end@
+    return capacity;
+}
+
+void sprEnsureCapacity(size_t capacity, spr::TableModule& tables)
+{
+@foreach-table@
+    if(tables.t<T$table-Name$>().ids.size() + capacity > tables.t<T$table-Name$>().ids.capacity())
+    {
+        tables.t<T$table-Name$>().ids.reserve(tables.t<T$table-Name$>().ids.size() + capacity);
+        tables.t<T$table-Name$>().data.reserve(tables.t<T$table-Name$>().data.size() + capacity);
+    }
+@end@
+}
+}
+@end@

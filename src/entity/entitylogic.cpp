@@ -1,5 +1,9 @@
 #include "entitylogic.hpp"
 #include "entityutil.hpp"
+#include <gamedata.hpp>
+#include <spr/data/entityspriteinstance.hpp>
+#include <spr/data/animatedsprite.hpp>
+#include <spr/data/fourdirectionalsprite.hpp>
 
 EntityLogic::EntityLogic(GameData& data):
     mData(data)
@@ -8,34 +12,34 @@ EntityLogic::EntityLogic(GameData& data):
 
 void EntityLogic::update()
 {
-    forEach([&](int32_t id, EntitySpriteInstance& objectSprite)
+    forEach([&](int32_t id, spr::EntitySpriteInstance& objectSprite)
     {
         int32_t spriteId = objectSprite.spriteId;
-        Sprite& sprite = get(spriteId, mData.tSprite);       
-        const Position& position = get(objectSprite.entityId, mData.tPosition);       
+        spr::Sprite& sprite = get(spriteId, mData.spr.t<spr::TSprite>());       
+        const spr::Position& position = get(objectSprite.entityId, mData.spr.t<spr::TPosition>());       
 
         sprite.position = position.coordinate + objectSprite.offset;
 
-        if(sprite.type == Sprite::AnimatedSprite)
+        if(sprite.type == spr::Sprite::AnimatedSprite)
         {
-            AnimatedSprite& animatedSprite = get(spriteId, mData.tAnimatedSprite);
+            spr::AnimatedSprite& animatedSprite = get(spriteId, mData.spr.t<spr::TAnimatedSprite>());
             ++animatedSprite.animationClock;
         }
-        else if(sprite.type == Sprite::FourDirectionalSprite)
+        else if(sprite.type == spr::Sprite::FourDirectionalSprite)
         {
-            const Orientation& orientation = get(objectSprite.entityId, mData.tEntityOrientation).orientation;
-            FourDirectionalSprite& fourDirectionalSprite = get(spriteId, mData.tFourDirectionalSprite);
+            const spr::Orientation& orientation = get(objectSprite.entityId, mData.spr.t<spr::TEntityOrientation>()).orientation;
+            spr::FourDirectionalSprite& fourDirectionalSprite = get(spriteId, mData.spr.t<spr::TFourDirectionalSprite>());
             fourDirectionalSprite.currentOrientation = orientation;
             ++fourDirectionalSprite.animationClock;
         }
 
-    }, mData.tEntitySpriteInstance);
+    }, mData.spr.t<spr::TEntitySpriteInstance>());
 
     forEach([&] (int32_t id, const Health& health)
     {
         if(health.amount <= 0)
             removeEntity(id, mData);
-    }, mData.tHealth);
+    }, mData.data.t<THealth>());
 
     forEach([&](int32_t id)
     {

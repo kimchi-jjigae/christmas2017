@@ -1,4 +1,7 @@
 #include "cameralogic.hpp"
+#include <gamedata.hpp>
+
+#include <spr/data/position.hpp>
 
 CameraLogic::CameraLogic(GameData& data):
     mData(data)
@@ -9,7 +12,7 @@ void CameraLogic::update()
 {
     if(mData.camera.cameraEntity)
     {
-        mData.camera.position = get(*mData.camera.cameraEntity, mData.tPosition).coordinate;
+        mData.camera.position = get(*mData.camera.cameraEntity, mData.spr.t<spr::TPosition>()).coordinate;
     }
 
     glm::ivec2 size = mData.defaultViewport.getSize();

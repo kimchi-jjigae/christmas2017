@@ -1,43 +1,31 @@
 @file-tablecapacity.hpp@
+#pragma once
 #include <cstddef>
 #include <iostream>
+#include <spr/tablecapacity.hpp>
 
-struct TablesCapacity
+@foreach-table@
+#include <data/$table-name$.hpp>
+@end@
+
+struct DataTablesCapacity
 {
 @foreach-table@
     size_t $table-name$Capacity;
 @end@
 };
 
-bool operator==(const TablesCapacity& a, const TablesCapacity& b);
-bool operator!=(const TablesCapacity& a, const TablesCapacity& b);
+bool operator==(const DataTablesCapacity& a, const DataTablesCapacity& b);
+bool operator!=(const DataTablesCapacity& a, const DataTablesCapacity& b);
 
-template <typename TableHolder>
-TablesCapacity tablesCapacity(const TableHolder& tables)
-{
-    TablesCapacity capacity;
-@foreach-table@
-    capacity.$table-name$Capacity = tables.t$table-Name$.ids.capacity();
-@end@
-    return capacity;
-}
-
-template <typename TableHolder>
-void ensureCapacity(size_t capacity, TableHolder& tables)
-{
-@foreach-table@
-    if(tables.t$table-Name$.ids.size() + capacity > tables.t$table-Name$.ids.capacity())
-    {
-        tables.t$table-Name$.ids.reserve(tables.t$table-Name$.ids.size() + capacity);
-        tables.t$table-Name$.data.reserve(tables.t$table-Name$.data.size() + capacity);
-    }
-@end@
-}
+DataTablesCapacity tablesCapacity(const spr::TableModule& tables);
+void ensureCapacity(size_t capacity, spr::TableModule& tables);
 @end@
 
 @file-tablecapacity.cpp@
 #include "tablecapacity.hpp"
-bool operator==(const TablesCapacity& a, const TablesCapacity& b)
+
+bool operator==(const DataTablesCapacity& a, const DataTablesCapacity& b)
 {
     return
 @foreach-table@
@@ -46,8 +34,28 @@ bool operator==(const TablesCapacity& a, const TablesCapacity& b)
     true;
 }
 
-bool operator!=(const TablesCapacity& a, const TablesCapacity& b)
+bool operator!=(const DataTablesCapacity& a, const DataTablesCapacity& b)
 {
     return !(a == b);
+}
+
+DataTablesCapacity tablesCapacity(const spr::TableModule& tables)
+{
+    DataTablesCapacity capacity;
+@foreach-table@
+    capacity.$table-name$Capacity = tables.t<T$table-Name$>().ids.capacity();
+@end@
+    return capacity;
+}
+
+void ensureCapacity(size_t capacity, spr::TableModule& tables)
+{
+@foreach-table@
+    if(tables.t<T$table-Name$>().ids.size() + capacity > tables.t<T$table-Name$>().ids.capacity())
+    {
+        tables.t<T$table-Name$>().ids.reserve(tables.t<T$table-Name$>().ids.size() + capacity);
+        tables.t<T$table-Name$>().data.reserve(tables.t<T$table-Name$>().data.size() + capacity);
+    }
+@end@
 }
 @end@

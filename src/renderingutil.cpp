@@ -1,6 +1,7 @@
 #include "renderingutil.hpp"
 #include "land/chunkutil.hpp"
 #include "land/goodness.hpp"
+#include <gamedata.hpp>
 
 void initializeChunkMasks(GameData& data)
 {

@@ -1,5 +1,6 @@
 #pragma once
-#include <data.hpp>
+
+struct GameData;
 
 class EntityLogic
 {

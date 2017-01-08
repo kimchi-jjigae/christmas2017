@@ -1,6 +1,6 @@
 #include "inputlogic.hpp"
 #include "messages.hpp"
-#include <data.hpp>
+#include <gamedata.hpp>
 
 InputLogic::InputLogic(fea::MessageBus& bus, fea::InputHandler& handler, GameData& data):
     mLogic(handler),

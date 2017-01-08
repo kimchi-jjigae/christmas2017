@@ -1,12 +1,16 @@
 @file-showdatatables.hpp@
 #include <spr/debug/debuggui.hpp>
+#include <spr/tables/tablemodule.hpp>
+@foreach-table@
+#include <data/$table-name$.hpp>
+@end@
 namespace spr
 {
-inline void showDataTables(th::Optional<int32_t>& clickedEntity, const GameData& data)
+inline void showDataTables(th::Optional<int32_t>& clickedEntity, const spr::TableModule& tables)
 {
     showDataTables(clickedEntity
 @foreach-table@
-        ,data.t$table-Name$
+        ,tables.t<T$table-Name$>()
 @end@
     );
 }

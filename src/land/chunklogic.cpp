@@ -3,6 +3,7 @@
 #include "tileutil.hpp"
 #include "renderingutil.hpp"
 #include <fea/rendering/tilemap.hpp>
+#include <gamedata.hpp>
 
 ChunkLogic::ChunkLogic(GameData& data):
     mData(data)

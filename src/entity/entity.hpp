@@ -1,5 +1,11 @@
 #pragma once
-#include <data.hpp>
+#include <spr/hash/stringhash.hpp>
+#include <spr/data/sprite.hpp>
+#include <spr/data/position.hpp>
+#include <spr/data/entityorientation.hpp>
+#include <spr/data/hitbox.hpp>
+#include <spr/data/entitycollider.hpp>
+#include <data/health.hpp>
 
 struct Entity
 {
@@ -14,7 +20,7 @@ struct Entity
             int32_t animationGroup;
         };
 
-        Sprite::Type type;
+        spr::Sprite::Type type;
         glm::vec2 offset;
         int32_t texture;
         glm::vec2 size;
@@ -27,15 +33,15 @@ struct Entity
 
     struct EntityState
     {
-        StringHash stateSet;
-        StringHash state;
+        spr::StringHash stateSet;
+        spr::StringHash state;
     };
 
-    Position position;
-    Orientation orientation;
+    spr::Position position;
+    spr::EntityOrientation orientation;
     th::Optional<glm::vec2> entityDirection;
-    th::Optional<Hitbox> hitbox;
-    th::Optional<EntityCollider> entityCollider;
+    th::Optional<spr::Hitbox> hitbox;
+    th::Optional<spr::EntityCollider> entityCollider;
     th::Optional<Health> health;
     std::vector<EntitySprite> sprites;
     th::Optional<EntityState> entityState;

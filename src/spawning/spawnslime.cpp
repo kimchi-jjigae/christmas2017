@@ -2,29 +2,30 @@
 #include "../entity/entityutil.hpp"
 #include "resources/textureutil.hpp"
 #include "resources/animationutil.hpp"
+#include <gamedata.hpp>
 
-int32_t spawnSlime(glm::vec2 position, GameData& gameData)
+int32_t spawnSlime(glm::vec2 position, GameData& data)
 {
-    return addEntity(Entity{{position}, Orientation::Down,
+    return addEntity(Entity{{position}, spr::Orientation::Down,
     {
         glm::vec2(0.0f, 1.0f),
     },
-    Hitbox
+    spr::Hitbox
     {
-        AABB
+        spr::AABB
         {
             {1 * 4, 1 * 4},
             {8 * 4, 8 * 4}
         }
     },
-    EntityCollider
+    spr::EntityCollider
     {
-        CollisionType::Trigger,
-        CollisionExecutors
+        spr::CollisionType::Trigger,
+        spr::CollisionExecutors
         {
             {
                 "hej",
-                [] (const CollisionContext& context, GameData& data)
+                [&] (const spr::CollisionContext& context)
                 {
                 },
             }
@@ -37,13 +38,13 @@ int32_t spawnSlime(glm::vec2 position, GameData& gameData)
     {
         Entity::EntitySprite
         {
-            Sprite::AnimatedSprite,
+            spr::Sprite::AnimatedSprite,
             {0.0f, 0.0f},
-            *findTexture("slime"_hash, gameData),
+            *findTexture("slime"_hash, data.spr),
             {10*4, 10*4},
             {.animatedSprite=Entity::EntitySprite::AnimatedSprite
             {
-                *findAnimation("slime"_hash, gameData),
+                *findAnimation("slime"_hash, data.spr),
             }},
         }
     },
@@ -51,5 +52,5 @@ int32_t spawnSlime(glm::vec2 position, GameData& gameData)
     {
         "slime"_hash,
         "engage"_hash,
-    }}, gameData);
+    }}, data);
 }

@@ -12,11 +12,14 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Werro
 
 add_custom_target(
     dophax_gen
-    COMMAND dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring.dpx
+    COMMAND dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring.dpx
+    COMMAND dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring/spring.dpx
 )
 
 file(GLOB_RECURSE spr_source_files "spring/spr/*.cpp")
 file(GLOB_RECURSE spr_header_files "spring/spr/*.hpp")
+file(GLOB_RECURSE spr_generated_source_files "spring/generated/spr/*.cpp")
+file(GLOB_RECURSE spr_generated_header_files "spring/generated/spr/*.hpp")
 file(GLOB_RECURSE source_files "src/*.cpp")
 file(GLOB_RECURSE header_files "src/*.hpp")
 file(GLOB_RECURSE generated_source_files "generated/*.cpp")
@@ -61,6 +64,7 @@ include_directories("dophax/datatables")
 include_directories("generated")
 include_directories("src")
 include_directories("spring")
+include_directories("spring/generated")
 file(GLOB_RECURSE dophax_source_files "dophax/datatables/*.cpp")
 file(GLOB_RECURSE dophax_header_files "dophax/datatables/*.h")
 
@@ -68,6 +72,6 @@ include_directories("imgui")
 file(GLOB_RECURSE imgui_source_files "imgui/*.cpp")
 file(GLOB_RECURSE imgui_header_files "imgui/*.h")
 
-add_executable(${executable_name} ${spr_header_files} ${spr_source_files} ${header_files} ${source_files} ${generated_header_files} ${generated_source_files} ${dophax_source_files} ${dophax_header_files} ${imgui_header_files} ${imgui_source_files})
+add_executable(${executable_name} ${spr_header_files} ${spr_source_files} ${spr_generated_header_files} ${spr_generated_source_files} ${header_files} ${source_files} ${generated_header_files} ${generated_source_files} ${dophax_source_files} ${dophax_header_files} ${imgui_header_files} ${imgui_source_files})
 add_dependencies(${executable_name} dophax_gen)
 target_link_libraries(${executable_name} ${FEATHERKIT_LIBRARIES} ${OPENGL_LIBRARIES})

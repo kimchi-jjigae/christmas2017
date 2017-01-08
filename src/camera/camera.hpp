@@ -1,5 +1,5 @@
 #pragma once
-#include <glm.hpp>
+#include <spr/glm.hpp>
 #include <thero/optional.hpp>
 
 struct Camera
