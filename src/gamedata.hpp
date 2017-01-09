@@ -39,7 +39,7 @@ struct GameData
     std::unordered_set<PlayerAction> stoppedPlayerActions;
     
     //rendering
-    std::map<int32_t, spr::RenderPass<GameData>> renderPasses;
+    std::map<int32_t, spr::RenderPass> renderPasses;
     fea::Camera worldCamera;
     fea::Viewport defaultViewport;
     fea::Camera guiCamera;

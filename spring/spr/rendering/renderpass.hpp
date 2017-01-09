@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <spr/glm.hpp>
 #include <fea/rendering/renderer2d.hpp>
 
@@ -6,16 +7,15 @@ namespace spr
 {
 struct RenderContext;
 
-template <typename ExtraData>
+using AllocateFunction   = std::function<void(fea::Renderer2D& renderer)>;
+using PreRenderFunction  = std::function<void(RenderContext& context)>;
+using RenderFunction     = std::function<void(RenderContext& context)>;
+using ResizeFunction     = std::function<void(glm::ivec2 newSize)>;
+using PostRenderFunction = std::function<void(RenderContext& context)>;
+using DeallocateFunction = std::function<void()>;
+
 struct RenderPass
 {
-    using AllocateFunction   = void(*)(fea::Renderer2D& renderer, ExtraData& data);
-    using PreRenderFunction  = void(*)(RenderContext& context, ExtraData& data);
-    using RenderFunction     = void(*)(RenderContext& context, ExtraData& data);
-    using ResizeFunction     = void(*)(glm::ivec2 newSize, ExtraData& data);
-    using PostRenderFunction = void(*)(RenderContext& context, ExtraData& data);
-    using DeallocateFunction = void(*)(ExtraData& data);
-
     AllocateFunction   allocateFunction = nullptr;
     PreRenderFunction  preRenderFunction = nullptr;
     RenderFunction     renderFunction = nullptr;
