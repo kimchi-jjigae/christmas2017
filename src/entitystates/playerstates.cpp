@@ -41,29 +41,29 @@ void registerPlayerStates(GameData& data)
                         {
                             if(data.startedPlayerActions.count(PlayerAction::Staff))
                             {
-                                auto spawnPosition = get(context.entityId, data.spr.t<spr::TPosition>()).coordinate;
-                                auto spawnOrientation = get(context.entityId, data.spr.t<spr::TEntityOrientation>()).orientation;
+                                auto spawnPosition = get(context.entityId, *data.spr.tPosition).coordinate;
+                                auto spawnOrientation = get(context.entityId, *data.spr.tEntityOrientation).orientation;
                                 spawnBall(spawnPosition, toDirection(spawnOrientation), data);
                             }
 
                             if(data.ongoingPlayerActions.count(PlayerAction::WalkUp))
                             {
-                                set(context.entityId, {spr::Orientation{spr::Orientation::Up}}, data.spr.t<spr::TEntityOrientation>());
+                                set(context.entityId, {spr::Orientation{spr::Orientation::Up}}, *data.spr.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
                             else if(data.ongoingPlayerActions.count(PlayerAction::WalkDown))
                             {
-                                set(context.entityId, {spr::Orientation{spr::Orientation::Down}}, data.spr.t<spr::TEntityOrientation>());
+                                set(context.entityId, {spr::Orientation{spr::Orientation::Down}}, *data.spr.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
                             else if(data.ongoingPlayerActions.count(PlayerAction::WalkLeft))
                             {
-                                set(context.entityId, {spr::Orientation{spr::Orientation::Left}}, data.spr.t<spr::TEntityOrientation>());
+                                set(context.entityId, {spr::Orientation{spr::Orientation::Left}}, *data.spr.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
                             else if(data.ongoingPlayerActions.count(PlayerAction::WalkRight))
                             {
-                                set(context.entityId, {spr::Orientation{spr::Orientation::Right}}, data.spr.t<spr::TEntityOrientation>());
+                                set(context.entityId, {spr::Orientation{spr::Orientation::Right}}, *data.spr.tEntityOrientation);
                                 context.emitTransition = "start_walk"_hash;
                             }
                         },
@@ -97,8 +97,8 @@ void registerPlayerStates(GameData& data)
                         spr::everyNthFrame(1, 0),
                         [&] (spr::StateContext& context)
                         {
-                            glm::vec2& pos = get(context.entityId, data.spr.t<spr::TPosition>()).coordinate;
-                            spr::Orientation oldOrientation = get(context.entityId, data.spr.t<spr::TEntityOrientation>()).orientation;
+                            glm::vec2& pos = get(context.entityId, *data.spr.tPosition).coordinate;
+                            spr::Orientation oldOrientation = get(context.entityId, *data.spr.tEntityOrientation).orientation;
 
                             glm::vec2 newDirection;
 
@@ -127,7 +127,7 @@ void registerPlayerStates(GameData& data)
                                 if(!vec2ContainsOrientation(newDirection, oldOrientation))
                                 {
                                     currentOrientation = spr::toOrientation(newDirection);
-                                    set(context.entityId, spr::EntityOrientation{currentOrientation}, data.spr.t<spr::TEntityOrientation>());
+                                    set(context.entityId, spr::EntityOrientation{currentOrientation}, *data.spr.tEntityOrientation);
                                 }
                                 else
                                 {
@@ -135,7 +135,7 @@ void registerPlayerStates(GameData& data)
                                 }
 
                                 pos += newDirection * 3.5f;
-                                set(context.entityId, {newDirection}, data.spr.t<spr::TEntityDirection>());
+                                set(context.entityId, {newDirection}, *data.spr.tEntityDirection);
                             }
                             else
                             {
@@ -144,7 +144,7 @@ void registerPlayerStates(GameData& data)
 
                             if(data.startedPlayerActions.count(PlayerAction::Staff))
                             {
-                                auto spawnPosition = get(context.entityId, data.spr.t<spr::TPosition>()).coordinate;
+                                auto spawnPosition = get(context.entityId, *data.spr.tPosition).coordinate;
 
                                 if(glm::length(newDirection) > 0.0f)
                                     spawnBall(spawnPosition, newDirection, data);

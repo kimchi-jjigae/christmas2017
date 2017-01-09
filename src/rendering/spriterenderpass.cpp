@@ -23,17 +23,17 @@ spr::RenderPass<GameData> createSpriteRenderPass()
                 {            
                     fea::Quad quad(sprite.size);
                     quad.setPosition(sprite.position);
-                    quad.setTexture(*get(sprite.texture, data.spr.t<spr::TTexture>()).texture);
+                    quad.setTexture(*get(sprite.texture, *data.spr.tTexture).texture);
                     context.renderer.render(quad);
                 }
                 else if(sprite.type == spr::Sprite::AnimatedSprite)
                 {
                     fea::AnimatedQuad quad(sprite.size);
                     quad.setPosition(sprite.position);
-                    quad.setTexture(*get(sprite.texture, data.spr.t<spr::TTexture>()).texture);
+                    quad.setTexture(*get(sprite.texture, *data.spr.tTexture).texture);
 
-                    const spr::AnimatedSprite& animSprite = get(id, data.spr.t<spr::TAnimatedSprite>());
-                    const spr::SpriteAnimation& animation = get(animSprite.animation, data.spr.t<spr::TSpriteAnimation>());
+                    const spr::AnimatedSprite& animSprite = get(id, *data.spr.tAnimatedSprite);
+                    const spr::SpriteAnimation& animation = get(animSprite.animation, *data.spr.tSpriteAnimation);
 
                     fea::Animation feaAnimation
                     {
@@ -57,10 +57,10 @@ spr::RenderPass<GameData> createSpriteRenderPass()
                 {
                     fea::AnimatedQuad quad(sprite.size);
                     quad.setPosition(sprite.position);
-                    quad.setTexture(*get(sprite.texture, data.spr.t<spr::TTexture>()).texture);
+                    quad.setTexture(*get(sprite.texture, *data.spr.tTexture).texture);
 
-                    const spr::FourDirectionalSprite& animSprite = get(id, data.spr.t<spr::TFourDirectionalSprite>());
-                    const spr::FourDirectionalAnimationGroup& animGroup = get(animSprite.animationGroup, data.spr.t<spr::TFourDirectionalAnimationGroup>());
+                    const spr::FourDirectionalSprite& animSprite = get(id, *data.spr.tFourDirectionalSprite);
+                    const spr::FourDirectionalAnimationGroup& animGroup = get(animSprite.animationGroup, *data.spr.tFourDirectionalAnimationGroup);
 
                     int32_t animationId = 0;
 
@@ -72,7 +72,7 @@ spr::RenderPass<GameData> createSpriteRenderPass()
                         animationId = animGroup.left;
                     else if(animSprite.currentOrientation == spr::Orientation::Right)
                         animationId = animGroup.right;
-                    const spr::SpriteAnimation& animation = get(animationId, data.spr.t<spr::TSpriteAnimation>());
+                    const spr::SpriteAnimation& animation = get(animationId, *data.spr.tSpriteAnimation);
 
                     fea::Animation feaAnimation
                     {
@@ -92,7 +92,7 @@ spr::RenderPass<GameData> createSpriteRenderPass()
 
                     context.renderer.render(quad);
                 }
-            }, data.spr.t<spr::TSprite>());
+            }, *data.spr.tSprite);
         }),
         spr::RenderPass<GameData>::ResizeFunction(nullptr),
         spr::RenderPass<GameData>::PostRenderFunction(nullptr),

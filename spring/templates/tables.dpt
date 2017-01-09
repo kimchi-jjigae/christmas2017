@@ -1,3 +1,8 @@
+@file-data/alltypes.hpp@
+@foreach-table@
+#include <spr/data/$table-name$.hpp>
+@end@
+@end@
 @foreach-table@
 @file-data/$table-name$.hpp@
 #pragma once

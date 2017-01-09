@@ -12,7 +12,7 @@ void CameraLogic::update()
 {
     if(mData.camera.cameraEntity)
     {
-        mData.camera.position = get(*mData.camera.cameraEntity, mData.spr.t<spr::TPosition>()).coordinate;
+        mData.camera.position = get(*mData.camera.cameraEntity, *mData.spr.tPosition).coordinate;
     }
 
     glm::ivec2 size = mData.defaultViewport.getSize();

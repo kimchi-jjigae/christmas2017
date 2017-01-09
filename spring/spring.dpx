@@ -165,9 +165,8 @@
             "templates/tablesregistering.dpt",
             "templates/addutil.dpt",
             "templates/tablecapacity.dpt",
-
-            "templates/debugguidata.dpt",
-            "templates/showdatatables.dpt"
+            "templates/showdatatables.dpt",
+            "templates/debugguidata.dpt"
         ]
     },
     "tables": [

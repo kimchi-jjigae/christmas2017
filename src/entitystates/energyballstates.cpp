@@ -25,8 +25,8 @@ void registerEnergyBallStates(GameData& data)
                         spr::everyNthFrame(1, 0),
                         [&] (spr::StateContext& context)
                         {
-                            glm::vec2 direction = get(context.entityId, data.spr.t<spr::TEntityDirection>()).direction;
-                            glm::vec2& position = get(context.entityId, data.spr.t<spr::TPosition>()).coordinate;
+                            glm::vec2 direction = get(context.entityId, *data.spr.tEntityDirection).direction;
+                            glm::vec2& position = get(context.entityId, *data.spr.tPosition).coordinate;
                             position += direction * 8.0f;
                         },
                     },

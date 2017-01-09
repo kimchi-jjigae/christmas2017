@@ -1,14 +1,14 @@
 #pragma once
-#include <spr/tables/tablemodule.hpp>
+#include <spr/data/tables.hpp>
 
 namespace spr
 {
 class CollisionLogic
 {
     public:
-        CollisionLogic(TableModule& tables);
+        CollisionLogic(Tables& tables);
         void update();
     private:
-        TableModule& mTables;
+        Tables& mTables;
 };
 }

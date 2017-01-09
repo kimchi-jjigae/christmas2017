@@ -1,6 +1,6 @@
 #include <cstddef>
 #include <iostream>
-#include <spr/tables/tablemodule.hpp>
+#include <spr/data/tables.hpp>
 
 namespace spr
 {
@@ -29,7 +29,7 @@ struct SprTablesCapacity
 bool operator==(const SprTablesCapacity& a, const SprTablesCapacity& b);
 bool operator!=(const SprTablesCapacity& a, const SprTablesCapacity& b);
 
-SprTablesCapacity sprTablesCapacity(const spr::TableModule& tables);
-void sprEnsureCapacity(size_t capacity, spr::TableModule& tables);
+SprTablesCapacity sprTablesCapacity(const spr::Tables& tables);
+void sprEnsureCapacity(size_t capacity, spr::Tables& tables);
 
 }

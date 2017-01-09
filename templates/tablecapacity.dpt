@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <iostream>
 #include <spr/tablecapacity.hpp>
+#include <data/datatables.hpp>
 
 @foreach-table@
 #include <data/$table-name$.hpp>
@@ -18,8 +19,8 @@ struct DataTablesCapacity
 bool operator==(const DataTablesCapacity& a, const DataTablesCapacity& b);
 bool operator!=(const DataTablesCapacity& a, const DataTablesCapacity& b);
 
-DataTablesCapacity tablesCapacity(const spr::TableModule& tables);
-void ensureCapacity(size_t capacity, spr::TableModule& tables);
+DataTablesCapacity tablesCapacity(const GameTables& tables);
+void ensureCapacity(size_t capacity, GameTables& tables);
 @end@
 
 @file-tablecapacity.cpp@
@@ -39,22 +40,22 @@ bool operator!=(const DataTablesCapacity& a, const DataTablesCapacity& b)
     return !(a == b);
 }
 
-DataTablesCapacity tablesCapacity(const spr::TableModule& tables)
+DataTablesCapacity tablesCapacity(const GameTables& tables)
 {
     DataTablesCapacity capacity;
 @foreach-table@
-    capacity.$table-name$Capacity = tables.t<T$table-Name$>().ids.capacity();
+    capacity.$table-name$Capacity = tables.t$table-Name$->ids.capacity();
 @end@
     return capacity;
 }
 
-void ensureCapacity(size_t capacity, spr::TableModule& tables)
+void ensureCapacity(size_t capacity, GameTables& tables)
 {
 @foreach-table@
-    if(tables.t<T$table-Name$>().ids.size() + capacity > tables.t<T$table-Name$>().ids.capacity())
+    if(tables.t$table-Name$->ids.size() + capacity > tables.t$table-Name$->ids.capacity())
     {
-        tables.t<T$table-Name$>().ids.reserve(tables.t<T$table-Name$>().ids.size() + capacity);
-        tables.t<T$table-Name$>().data.reserve(tables.t<T$table-Name$>().data.size() + capacity);
+        tables.t$table-Name$->ids.reserve(tables.t$table-Name$->ids.size() + capacity);
+        tables.t$table-Name$->data.reserve(tables.t$table-Name$->data.size() + capacity);
     }
 @end@
 }

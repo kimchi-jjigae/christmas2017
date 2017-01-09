@@ -3,11 +3,11 @@
 
 namespace spr
 {
-void registerStateSet(StateHash setHash, StateSet set, TableModule& tables)
+void registerStateSet(StateHash setHash, StateSet set, Tables& tables)
 {
     for(auto& stateIter : set)
     {
-        int32_t newSet = insert(std::move(stateIter.second), tables.t<TEntityState>()).id;
+        int32_t newSet = insert(std::move(stateIter.second), *tables.tEntityState).id;
 
         EntityStateIndex index
         {
@@ -16,7 +16,7 @@ void registerStateSet(StateHash setHash, StateSet set, TableModule& tables)
             newSet
         };
 
-        insert(index, tables.t<TEntityStateIndex>());
+        insert(index, *tables.tEntityStateIndex);
     }
 }
 }

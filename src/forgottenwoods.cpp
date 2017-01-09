@@ -1,8 +1,10 @@
 #include "forgottenwoods.hpp"
 #include <fea/ui/sdl2windowbackend.hpp>
 #include <fea/ui/sdl2inputbackend.hpp>
+#include <spr/debugguidata.hpp>
 #include <debugguidata.hpp>
 #include <spr/debug/debug.hpp>
+#include <spr/showdatatables.hpp>
 #include <showdatatables.hpp>
 #include <imgui.h>
 #include "resources/textureutil.hpp"
@@ -17,6 +19,8 @@
 #include <spr/entitystates/stateutil.hpp>
 #include "spawning/spawning.hpp"
 #include <tablecapacity.hpp>
+#include <spr/data/tables.hpp>
+#include <data/datatables.hpp>
 
 #ifdef EMSCRIPTEN
 const fea::ContextSettings::Type contextType = fea::ContextSettings::Type::ES;
@@ -36,6 +40,9 @@ ForgottenWoods::ForgottenWoods() :
     mCollisionLogic(mData.spr),
     mRenderLogic(mFeaRenderer, mData)
 {
+    spr::instantiateTables(mData.spr);
+    instantiateGameTables(mData.game);
+
     mWindow.setVSyncEnabled(true);
     mWindow.setFramerateLimit(60);
 
@@ -161,7 +168,7 @@ void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
 void ForgottenWoods::startScenario()
 {
     spr::sprEnsureCapacity(50, mData.spr);
-    ensureCapacity(50, mData.data);
+    ensureCapacity(50, mData.game);
 
     initializeChunkMasks(mData);
     mData.tilesBackgroundTexture = loadAndAddTexture("tiles_background"_hash, "data/textures/bgtiles.png", mData.spr); 
@@ -269,9 +276,12 @@ void ForgottenWoods::startScenario()
 void ForgottenWoods::loop()
 {
     spr::sprEnsureCapacity(50, mData.spr);
-    ensureCapacity(50, mData.data);
+    ensureCapacity(50, mData.game);
+
+#ifdef DEBUG_ON
     spr::SprTablesCapacity sprCapacitiesBefore = spr::sprTablesCapacity(mData.spr);
-    DataTablesCapacity capacitiesBefore = tablesCapacity(mData.data);
+    DataTablesCapacity capacitiesBefore = tablesCapacity(mData.game);
+#endif
 
     //grab input
     mInputLogic.update();
@@ -296,6 +306,7 @@ void ForgottenWoods::loop()
     temp();
 
     spr::showDataTables(mClickedEntity, mData.spr);
+    showDataTables(mClickedEntity, mData.game);
 
     //TODO
     //if(mClickedEntity)
@@ -308,8 +319,10 @@ void ForgottenWoods::loop()
 
     mWindow.swapBuffers();
 
+#ifdef DEBUG_ON
     spr::SprTablesCapacity sprCapacitiesAfter = spr::sprTablesCapacity(mData.spr);
-    DataTablesCapacity capacitiesAfter = tablesCapacity(mData.data);
+    DataTablesCapacity capacitiesAfter = tablesCapacity(mData.game);
+#endif
 
     TH_ASSERT(sprCapacitiesBefore == sprCapacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
     TH_ASSERT(capacitiesBefore == capacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
@@ -319,7 +332,7 @@ void ForgottenWoods::temp()
 {
     if(rand() % 60 == 0)
     {
-        auto spawnPos = get(mData.playerId, mData.spr.t<spr::TPosition>()).coordinate;
+        auto spawnPos = get(mData.playerId, *mData.spr.tPosition).coordinate;
         spawnPos += glm::diskRand(400.0f);
         spawnSlime(spawnPos, mData);
     }

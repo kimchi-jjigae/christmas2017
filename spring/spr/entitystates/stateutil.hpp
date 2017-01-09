@@ -2,9 +2,9 @@
 #include "statehash.hpp"
 #include <dpx/tables.hpp>
 #include <spr/data/entitystate.hpp>
-#include <spr/tables/tablemodule.hpp>
+#include <spr/data/tables.hpp>
 
 namespace spr
 {
-dpx::TableEntry<EntityState> getEntityState(StateSetHash stateSet, StateHash state, TableModule& tables);
+dpx::TableEntry<EntityState> getEntityState(StateSetHash stateSet, StateHash state, Tables& tables);
 }

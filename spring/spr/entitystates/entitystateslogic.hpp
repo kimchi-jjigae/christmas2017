@@ -1,15 +1,15 @@
 #pragma once
 #include <vector>
-#include <spr/tables/tablemodule.hpp>
+#include <spr/data/tables.hpp>
 
 namespace spr
 {
 class EntityStatesLogic
 {
     public:
-        EntityStatesLogic(TableModule& tables);
+        EntityStatesLogic(Tables& tables);
         std::vector<int32_t> update();
     private:
-        TableModule& mTables;
+        Tables& mTables;
 };
 }

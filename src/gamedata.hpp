@@ -17,12 +17,13 @@
 #include <startupconstants.hpp>
 #include <land/chunk.hpp>
 #include <player/playeraction.hpp>
-#include <spr/tables/tablemodule.hpp>
+#include <spr/data/tables.hpp>
+#include <data/datatables.hpp>
 
 struct GameData
 {
-    spr::TableModule spr;
-    spr::TableModule data;
+    spr::Tables spr;
+    GameTables game;
 
     //land
     std::deque<glm::ivec2> chunksToLoad;

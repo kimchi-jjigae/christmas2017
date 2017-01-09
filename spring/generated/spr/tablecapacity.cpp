@@ -48,121 +48,121 @@ bool operator!=(const SprTablesCapacity& a, const SprTablesCapacity& b)
     return !(a == b);
 }
 
-SprTablesCapacity sprTablesCapacity(const spr::TableModule& tables)
+SprTablesCapacity sprTablesCapacity(const spr::Tables& tables)
 {
     SprTablesCapacity capacity;
-    capacity.entitystatemachineCapacity = tables.t<TEntityStateMachine>().ids.capacity();
-    capacity.entitystateCapacity = tables.t<TEntityState>().ids.capacity();
-    capacity.entitystateindexCapacity = tables.t<TEntityStateIndex>().ids.capacity();
-    capacity.entityorientationCapacity = tables.t<TEntityOrientation>().ids.capacity();
-    capacity.positionCapacity = tables.t<TPosition>().ids.capacity();
-    capacity.hitboxCapacity = tables.t<THitbox>().ids.capacity();
-    capacity.entitycolliderCapacity = tables.t<TEntityCollider>().ids.capacity();
-    capacity.textureCapacity = tables.t<TTexture>().ids.capacity();
-    capacity.textureindexCapacity = tables.t<TTextureIndex>().ids.capacity();
-    capacity.spriteanimationCapacity = tables.t<TSpriteAnimation>().ids.capacity();
-    capacity.spriteanimationindexCapacity = tables.t<TSpriteAnimationIndex>().ids.capacity();
-    capacity.fourdirectionalanimationgroupCapacity = tables.t<TFourDirectionalAnimationGroup>().ids.capacity();
-    capacity.fourdirectionalanimationgroupindexCapacity = tables.t<TFourDirectionalAnimationGroupIndex>().ids.capacity();
-    capacity.entityspriteinstanceCapacity = tables.t<TEntitySpriteInstance>().ids.capacity();
-    capacity.spriteCapacity = tables.t<TSprite>().ids.capacity();
-    capacity.fourdirectionalspriteCapacity = tables.t<TFourDirectionalSprite>().ids.capacity();
-    capacity.animatedspriteCapacity = tables.t<TAnimatedSprite>().ids.capacity();
-    capacity.entitydirectionCapacity = tables.t<TEntityDirection>().ids.capacity();
+    capacity.entitystatemachineCapacity = tables.tEntityStateMachine->ids.capacity();
+    capacity.entitystateCapacity = tables.tEntityState->ids.capacity();
+    capacity.entitystateindexCapacity = tables.tEntityStateIndex->ids.capacity();
+    capacity.entityorientationCapacity = tables.tEntityOrientation->ids.capacity();
+    capacity.positionCapacity = tables.tPosition->ids.capacity();
+    capacity.hitboxCapacity = tables.tHitbox->ids.capacity();
+    capacity.entitycolliderCapacity = tables.tEntityCollider->ids.capacity();
+    capacity.textureCapacity = tables.tTexture->ids.capacity();
+    capacity.textureindexCapacity = tables.tTextureIndex->ids.capacity();
+    capacity.spriteanimationCapacity = tables.tSpriteAnimation->ids.capacity();
+    capacity.spriteanimationindexCapacity = tables.tSpriteAnimationIndex->ids.capacity();
+    capacity.fourdirectionalanimationgroupCapacity = tables.tFourDirectionalAnimationGroup->ids.capacity();
+    capacity.fourdirectionalanimationgroupindexCapacity = tables.tFourDirectionalAnimationGroupIndex->ids.capacity();
+    capacity.entityspriteinstanceCapacity = tables.tEntitySpriteInstance->ids.capacity();
+    capacity.spriteCapacity = tables.tSprite->ids.capacity();
+    capacity.fourdirectionalspriteCapacity = tables.tFourDirectionalSprite->ids.capacity();
+    capacity.animatedspriteCapacity = tables.tAnimatedSprite->ids.capacity();
+    capacity.entitydirectionCapacity = tables.tEntityDirection->ids.capacity();
     return capacity;
 }
 
-void sprEnsureCapacity(size_t capacity, spr::TableModule& tables)
+void sprEnsureCapacity(size_t capacity, spr::Tables& tables)
 {
-    if(tables.t<TEntityStateMachine>().ids.size() + capacity > tables.t<TEntityStateMachine>().ids.capacity())
+    if(count(*tables.tEntityStateMachine) + capacity > tables.tEntityStateMachine->ids.capacity())
     {
-        tables.t<TEntityStateMachine>().ids.reserve(tables.t<TEntityStateMachine>().ids.size() + capacity);
-        tables.t<TEntityStateMachine>().data.reserve(tables.t<TEntityStateMachine>().data.size() + capacity);
+        tables.tEntityStateMachine->ids.reserve(count(*tables.tEntityStateMachine) + capacity);
+        tables.tEntityStateMachine->data.reserve(count(*tables.tEntityStateMachine) + capacity);
     }
-    if(tables.t<TEntityState>().ids.size() + capacity > tables.t<TEntityState>().ids.capacity())
+    if(count(*tables.tEntityState) + capacity > tables.tEntityState->ids.capacity())
     {
-        tables.t<TEntityState>().ids.reserve(tables.t<TEntityState>().ids.size() + capacity);
-        tables.t<TEntityState>().data.reserve(tables.t<TEntityState>().data.size() + capacity);
+        tables.tEntityState->ids.reserve(count(*tables.tEntityState) + capacity);
+        tables.tEntityState->data.reserve(count(*tables.tEntityState) + capacity);
     }
-    if(tables.t<TEntityStateIndex>().ids.size() + capacity > tables.t<TEntityStateIndex>().ids.capacity())
+    if(count(*tables.tEntityStateIndex) + capacity > tables.tEntityStateIndex->ids.capacity())
     {
-        tables.t<TEntityStateIndex>().ids.reserve(tables.t<TEntityStateIndex>().ids.size() + capacity);
-        tables.t<TEntityStateIndex>().data.reserve(tables.t<TEntityStateIndex>().data.size() + capacity);
+        tables.tEntityStateIndex->ids.reserve(count(*tables.tEntityStateIndex) + capacity);
+        tables.tEntityStateIndex->data.reserve(count(*tables.tEntityStateIndex) + capacity);
     }
-    if(tables.t<TEntityOrientation>().ids.size() + capacity > tables.t<TEntityOrientation>().ids.capacity())
+    if(count(*tables.tEntityOrientation) + capacity > tables.tEntityOrientation->ids.capacity())
     {
-        tables.t<TEntityOrientation>().ids.reserve(tables.t<TEntityOrientation>().ids.size() + capacity);
-        tables.t<TEntityOrientation>().data.reserve(tables.t<TEntityOrientation>().data.size() + capacity);
+        tables.tEntityOrientation->ids.reserve(count(*tables.tEntityOrientation) + capacity);
+        tables.tEntityOrientation->data.reserve(count(*tables.tEntityOrientation) + capacity);
     }
-    if(tables.t<TPosition>().ids.size() + capacity > tables.t<TPosition>().ids.capacity())
+    if(count(*tables.tPosition) + capacity > tables.tPosition->ids.capacity())
     {
-        tables.t<TPosition>().ids.reserve(tables.t<TPosition>().ids.size() + capacity);
-        tables.t<TPosition>().data.reserve(tables.t<TPosition>().data.size() + capacity);
+        tables.tPosition->ids.reserve(count(*tables.tPosition) + capacity);
+        tables.tPosition->data.reserve(count(*tables.tPosition) + capacity);
     }
-    if(tables.t<THitbox>().ids.size() + capacity > tables.t<THitbox>().ids.capacity())
+    if(count(*tables.tHitbox) + capacity > tables.tHitbox->ids.capacity())
     {
-        tables.t<THitbox>().ids.reserve(tables.t<THitbox>().ids.size() + capacity);
-        tables.t<THitbox>().data.reserve(tables.t<THitbox>().data.size() + capacity);
+        tables.tHitbox->ids.reserve(count(*tables.tHitbox) + capacity);
+        tables.tHitbox->data.reserve(count(*tables.tHitbox) + capacity);
     }
-    if(tables.t<TEntityCollider>().ids.size() + capacity > tables.t<TEntityCollider>().ids.capacity())
+    if(count(*tables.tEntityCollider) + capacity > tables.tEntityCollider->ids.capacity())
     {
-        tables.t<TEntityCollider>().ids.reserve(tables.t<TEntityCollider>().ids.size() + capacity);
-        tables.t<TEntityCollider>().data.reserve(tables.t<TEntityCollider>().data.size() + capacity);
+        tables.tEntityCollider->ids.reserve(count(*tables.tEntityCollider) + capacity);
+        tables.tEntityCollider->data.reserve(count(*tables.tEntityCollider) + capacity);
     }
-    if(tables.t<TTexture>().ids.size() + capacity > tables.t<TTexture>().ids.capacity())
+    if(count(*tables.tTexture) + capacity > tables.tTexture->ids.capacity())
     {
-        tables.t<TTexture>().ids.reserve(tables.t<TTexture>().ids.size() + capacity);
-        tables.t<TTexture>().data.reserve(tables.t<TTexture>().data.size() + capacity);
+        tables.tTexture->ids.reserve(count(*tables.tTexture) + capacity);
+        tables.tTexture->data.reserve(count(*tables.tTexture) + capacity);
     }
-    if(tables.t<TTextureIndex>().ids.size() + capacity > tables.t<TTextureIndex>().ids.capacity())
+    if(count(*tables.tTextureIndex) + capacity > tables.tTextureIndex->ids.capacity())
     {
-        tables.t<TTextureIndex>().ids.reserve(tables.t<TTextureIndex>().ids.size() + capacity);
-        tables.t<TTextureIndex>().data.reserve(tables.t<TTextureIndex>().data.size() + capacity);
+        tables.tTextureIndex->ids.reserve(count(*tables.tTextureIndex) + capacity);
+        tables.tTextureIndex->data.reserve(count(*tables.tTextureIndex) + capacity);
     }
-    if(tables.t<TSpriteAnimation>().ids.size() + capacity > tables.t<TSpriteAnimation>().ids.capacity())
+    if(count(*tables.tSpriteAnimation) + capacity > tables.tSpriteAnimation->ids.capacity())
     {
-        tables.t<TSpriteAnimation>().ids.reserve(tables.t<TSpriteAnimation>().ids.size() + capacity);
-        tables.t<TSpriteAnimation>().data.reserve(tables.t<TSpriteAnimation>().data.size() + capacity);
+        tables.tSpriteAnimation->ids.reserve(count(*tables.tSpriteAnimation) + capacity);
+        tables.tSpriteAnimation->data.reserve(count(*tables.tSpriteAnimation) + capacity);
     }
-    if(tables.t<TSpriteAnimationIndex>().ids.size() + capacity > tables.t<TSpriteAnimationIndex>().ids.capacity())
+    if(count(*tables.tSpriteAnimationIndex) + capacity > tables.tSpriteAnimationIndex->ids.capacity())
     {
-        tables.t<TSpriteAnimationIndex>().ids.reserve(tables.t<TSpriteAnimationIndex>().ids.size() + capacity);
-        tables.t<TSpriteAnimationIndex>().data.reserve(tables.t<TSpriteAnimationIndex>().data.size() + capacity);
+        tables.tSpriteAnimationIndex->ids.reserve(count(*tables.tSpriteAnimationIndex) + capacity);
+        tables.tSpriteAnimationIndex->data.reserve(count(*tables.tSpriteAnimationIndex) + capacity);
     }
-    if(tables.t<TFourDirectionalAnimationGroup>().ids.size() + capacity > tables.t<TFourDirectionalAnimationGroup>().ids.capacity())
+    if(count(*tables.tFourDirectionalAnimationGroup) + capacity > tables.tFourDirectionalAnimationGroup->ids.capacity())
     {
-        tables.t<TFourDirectionalAnimationGroup>().ids.reserve(tables.t<TFourDirectionalAnimationGroup>().ids.size() + capacity);
-        tables.t<TFourDirectionalAnimationGroup>().data.reserve(tables.t<TFourDirectionalAnimationGroup>().data.size() + capacity);
+        tables.tFourDirectionalAnimationGroup->ids.reserve(count(*tables.tFourDirectionalAnimationGroup) + capacity);
+        tables.tFourDirectionalAnimationGroup->data.reserve(count(*tables.tFourDirectionalAnimationGroup) + capacity);
     }
-    if(tables.t<TFourDirectionalAnimationGroupIndex>().ids.size() + capacity > tables.t<TFourDirectionalAnimationGroupIndex>().ids.capacity())
+    if(count(*tables.tFourDirectionalAnimationGroupIndex) + capacity > tables.tFourDirectionalAnimationGroupIndex->ids.capacity())
     {
-        tables.t<TFourDirectionalAnimationGroupIndex>().ids.reserve(tables.t<TFourDirectionalAnimationGroupIndex>().ids.size() + capacity);
-        tables.t<TFourDirectionalAnimationGroupIndex>().data.reserve(tables.t<TFourDirectionalAnimationGroupIndex>().data.size() + capacity);
+        tables.tFourDirectionalAnimationGroupIndex->ids.reserve(count(*tables.tFourDirectionalAnimationGroupIndex) + capacity);
+        tables.tFourDirectionalAnimationGroupIndex->data.reserve(count(*tables.tFourDirectionalAnimationGroupIndex) + capacity);
     }
-    if(tables.t<TEntitySpriteInstance>().ids.size() + capacity > tables.t<TEntitySpriteInstance>().ids.capacity())
+    if(count(*tables.tEntitySpriteInstance) + capacity > tables.tEntitySpriteInstance->ids.capacity())
     {
-        tables.t<TEntitySpriteInstance>().ids.reserve(tables.t<TEntitySpriteInstance>().ids.size() + capacity);
-        tables.t<TEntitySpriteInstance>().data.reserve(tables.t<TEntitySpriteInstance>().data.size() + capacity);
+        tables.tEntitySpriteInstance->ids.reserve(count(*tables.tEntitySpriteInstance) + capacity);
+        tables.tEntitySpriteInstance->data.reserve(count(*tables.tEntitySpriteInstance) + capacity);
     }
-    if(tables.t<TSprite>().ids.size() + capacity > tables.t<TSprite>().ids.capacity())
+    if(count(*tables.tSprite) + capacity > tables.tSprite->ids.capacity())
     {
-        tables.t<TSprite>().ids.reserve(tables.t<TSprite>().ids.size() + capacity);
-        tables.t<TSprite>().data.reserve(tables.t<TSprite>().data.size() + capacity);
+        tables.tSprite->ids.reserve(count(*tables.tSprite) + capacity);
+        tables.tSprite->data.reserve(count(*tables.tSprite) + capacity);
     }
-    if(tables.t<TFourDirectionalSprite>().ids.size() + capacity > tables.t<TFourDirectionalSprite>().ids.capacity())
+    if(count(*tables.tFourDirectionalSprite) + capacity > tables.tFourDirectionalSprite->ids.capacity())
     {
-        tables.t<TFourDirectionalSprite>().ids.reserve(tables.t<TFourDirectionalSprite>().ids.size() + capacity);
-        tables.t<TFourDirectionalSprite>().data.reserve(tables.t<TFourDirectionalSprite>().data.size() + capacity);
+        tables.tFourDirectionalSprite->ids.reserve(count(*tables.tFourDirectionalSprite) + capacity);
+        tables.tFourDirectionalSprite->data.reserve(count(*tables.tFourDirectionalSprite) + capacity);
     }
-    if(tables.t<TAnimatedSprite>().ids.size() + capacity > tables.t<TAnimatedSprite>().ids.capacity())
+    if(count(*tables.tAnimatedSprite) + capacity > tables.tAnimatedSprite->ids.capacity())
     {
-        tables.t<TAnimatedSprite>().ids.reserve(tables.t<TAnimatedSprite>().ids.size() + capacity);
-        tables.t<TAnimatedSprite>().data.reserve(tables.t<TAnimatedSprite>().data.size() + capacity);
+        tables.tAnimatedSprite->ids.reserve(count(*tables.tAnimatedSprite) + capacity);
+        tables.tAnimatedSprite->data.reserve(count(*tables.tAnimatedSprite) + capacity);
     }
-    if(tables.t<TEntityDirection>().ids.size() + capacity > tables.t<TEntityDirection>().ids.capacity())
+    if(count(*tables.tEntityDirection) + capacity > tables.tEntityDirection->ids.capacity())
     {
-        tables.t<TEntityDirection>().ids.reserve(tables.t<TEntityDirection>().ids.size() + capacity);
-        tables.t<TEntityDirection>().data.reserve(tables.t<TEntityDirection>().data.size() + capacity);
+        tables.tEntityDirection->ids.reserve(count(*tables.tEntityDirection) + capacity);
+        tables.tEntityDirection->data.reserve(count(*tables.tEntityDirection) + capacity);
     }
 }
 }

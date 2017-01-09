@@ -1,4 +1,5 @@
 #pragma once
+#include <thero/assert.hpp>
 #include <cstdint>
 #include <spr/orientation/orientation.hpp>
 

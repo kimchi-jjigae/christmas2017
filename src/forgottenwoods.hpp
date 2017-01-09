@@ -6,6 +6,8 @@
 #include "messages.hpp"
 #include "land/chunklogic.hpp"
 #include <gamedata.hpp>
+#include <spr/data/alltypes.hpp>
+#include <data/alltypes.hpp>
 
 #include <spr/rendering/renderlogic.hpp>
 #include <spr/entitystates/entitystateslogic.hpp>

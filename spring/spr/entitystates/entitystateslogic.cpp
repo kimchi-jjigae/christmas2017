@@ -7,7 +7,7 @@
 
 namespace spr
 {
-EntityStatesLogic::EntityStatesLogic(TableModule& tables):
+EntityStatesLogic::EntityStatesLogic(Tables& tables):
     mTables(tables)
 {
 }
@@ -18,7 +18,7 @@ std::vector<int32_t> EntityStatesLogic::update()
 
     forEach([&](int32_t id, EntityStateMachine& stateMachine)
     {
-        const EntityState& state = dpx::get(stateMachine.currentState, mTables.t<TEntityState>());
+        const EntityState& state = dpx::get(stateMachine.currentState, *mTables.tEntityState);
 
         int32_t currentStateFrame = stateMachine.stateContext.stateFrameCount;
 
@@ -96,7 +96,7 @@ std::vector<int32_t> EntityStatesLogic::update()
                     }
 
                     return dpx::LoopResult::Continue;
-                }, mTables.t<TEntityStateIndex>());
+                }, *mTables.tEntityStateIndex);
 
                 TH_ASSERT(foundState, "Requested state '" << changeToState->string << "' not found");
 
@@ -109,7 +109,7 @@ std::vector<int32_t> EntityStatesLogic::update()
                 stateMachine.currentState = *foundState;
             }
         }
-    }, mTables.t<TEntityStateMachine>());
+    }, *mTables.tEntityStateMachine);
 
     return toRemove;
 }

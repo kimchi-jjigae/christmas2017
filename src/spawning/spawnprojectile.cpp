@@ -33,7 +33,7 @@ int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& data)
                     if(context.collidedWithId != data.playerId)
                     {
                         int32_t targetId = context.collidedWithId;
-                        auto health = findId(targetId, data.data.t<THealth>());
+                        auto health = findId(targetId, *data.game.tHealth);
 
                         if(health)
                         {
