@@ -5,14 +5,14 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for executables
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 
 #project name
-set(project_name spring)
+set(project_name spring_template)
 project(${project_name})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Werror -Wconversion -Wno-long-long -Wno-unused-parameter -Wno-unused-variable -Wno-format-pedantic -Wno-conversion")
 
 add_custom_target(
     dophax_gen
-    COMMAND dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring.dpx
+    COMMAND dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring_template.dpx
     COMMAND dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring/spring.dpx
 )
 
@@ -20,12 +20,12 @@ file(GLOB_RECURSE spr_source_files "spring/spr/*.cpp")
 file(GLOB_RECURSE spr_header_files "spring/spr/*.hpp")
 file(GLOB_RECURSE spr_generated_source_files "spring/generated/spr/*.cpp")
 file(GLOB_RECURSE spr_generated_header_files "spring/generated/spr/*.hpp")
+file(GLOB_RECURSE lode_png_source_files "spring/lodepng/*.cpp")
+file(GLOB_RECURSE lode_png_header_files "spring/lodepng/*.hpp")
 file(GLOB_RECURSE source_files "src/*.cpp")
 file(GLOB_RECURSE header_files "src/*.hpp")
 file(GLOB_RECURSE generated_source_files "generated/*.cpp")
 file(GLOB_RECURSE generated_header_files "generated/*.hpp")
-file(GLOB_RECURSE lode_png_source_files "spring/lodepng/*.cpp")
-file(GLOB_RECURSE lode_png_header_files "spring/lodepng/*.hpp")
 
 if(EMSCRIPTEN)
     set(CMAKE_EXECUTABLE_SUFFIX ".html")

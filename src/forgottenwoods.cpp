@@ -329,10 +329,10 @@ void ForgottenWoods::loop()
 #ifdef DEBUG_ON
     spr::SprTablesCapacity sprCapacitiesAfter = spr::sprTablesCapacity(mData.spr);
     DataTablesCapacity capacitiesAfter = tablesCapacity(mData.game);
-#endif
 
     TH_ASSERT(sprCapacitiesBefore == sprCapacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
     TH_ASSERT(capacitiesBefore == capacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
+#endif
 }
 
 void ForgottenWoods::temp()
