@@ -33,6 +33,7 @@ class ForgottenWoods : public fea::Application,
         void handleMessage(const MouseReleaseMessage& message) override;
         void handleMessage(const MouseMoveMessage& message) override;
         void handleMessage(const MouseWheelMessage& message) override;
+        void loadResources();
 		void startScenario();
     protected:
         void loop() override;
@@ -67,7 +68,7 @@ class ForgottenWoods : public fea::Application,
         spr::CollisionLogic mCollisionLogic;
 
         //InterfaceLogic mInterfaceLogic;
-        spr::RenderLogic<GameData> mRenderLogic;
+        spr::RenderLogic mRenderLogic;
 
         void temp();
 };

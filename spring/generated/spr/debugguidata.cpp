@@ -322,4 +322,36 @@ namespace spr
             spr::toStringList(data.direction),
         };
     }
+    std::vector<std::string> debugHeaders(const TRenderPassInstance& table)
+    {
+        return
+        {
+            "RenderPass",
+            "Priority",
+        };
+    }
+
+    void debugText(const RenderPassInstance& data, std::vector<std::vector<std::string>>& outText)
+    {
+        outText =
+        {
+            spr::toStringList(data.renderPass),
+            spr::toStringList(data.priority),
+        };
+    }
+    std::vector<std::string> debugHeaders(const TView& table)
+    {
+        return
+        {
+            "Viewport",
+        };
+    }
+
+    void debugText(const View& data, std::vector<std::vector<std::string>>& outText)
+    {
+        outText =
+        {
+            spr::toStringList(data.viewport),
+        };
+    }
 }

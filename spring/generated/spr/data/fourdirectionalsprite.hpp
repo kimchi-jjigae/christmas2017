@@ -4,6 +4,8 @@
 #include <dpx/tables.hpp>
 #include <memory>
 #include <thero/optional.hpp>
+#include <spr/rendering/renderpass.hpp>
+#include <fea/rendering/viewport.hpp>
 #include <fea/rendering/texture.hpp>
 #include <vector>
 #include <spr/entitystates/stateexecutor.hpp>

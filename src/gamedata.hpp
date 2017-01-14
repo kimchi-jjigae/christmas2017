@@ -6,14 +6,13 @@
 #include <map>
 #include <unordered_set>
 #include <dpx/tables.hpp>
+#include <dpx/tableid.hpp>
 #include <spr/glm.hpp>
 #include <spr/rendering/renderpass.hpp>
-#include <fea/rendering/camera.hpp>
-#include <fea/rendering/viewport.hpp>
 #include <camera/camera.hpp>
 #include <rendering/effectoverlaydata.hpp>
-#include <layeredtiles.hpp>
-#include <chunkviewdata.hpp>
+#include <rendering/layeredtiles.hpp>
+#include <rendering/chunkviewdata.hpp>
 #include <startupconstants.hpp>
 #include <land/chunk.hpp>
 #include <player/playeraction.hpp>
@@ -39,13 +38,15 @@ struct GameData
     std::unordered_set<PlayerAction> stoppedPlayerActions;
     
     //rendering
-    std::map<int32_t, spr::RenderPass> renderPasses;
-    fea::Camera worldCamera;
-    fea::Viewport defaultViewport;
-    fea::Camera guiCamera;
-    fea::Viewport guiViewport;
-    fea::Camera overlayCamera;
-    fea::Viewport overlayViewport;
+    dpx::TableId worldView;
+    dpx::TableId guiView;
+    dpx::TableId overlayView;
+    //fea::Camera worldCamera;
+    //fea::Viewport defaultViewport;
+    //fea::Camera guiCamera;
+    //fea::Viewport guiViewport;
+    //fea::Camera overlayCamera;
+    //fea::Viewport overlayViewport;
     EffectOverlayData effectOverlayData;
     
     //entities

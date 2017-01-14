@@ -8,6 +8,8 @@
 #include <spr/data/fourdirectionalanimationgroup.hpp>
 #include <spr/data/texture.hpp>
 
+namespace spr
+{
 spr::RenderPass createSpriteRenderPass(dpx::TableId viewId, spr::Tables& tables)
 {
     return
@@ -101,4 +103,5 @@ spr::RenderPass createSpriteRenderPass(dpx::TableId viewId, spr::Tables& tables)
         spr::PostRenderFunction(nullptr),
         spr::DeallocateFunction(nullptr),
     };
+}
 }

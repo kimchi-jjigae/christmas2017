@@ -1,7 +1,7 @@
 #include "chunklogic.hpp"
 #include "chunk.hpp"
 #include "tileutil.hpp"
-#include "renderingutil.hpp"
+#include <rendering/renderingutil.hpp>
 #include <fea/rendering/tilemap.hpp>
 #include <gamedata.hpp>
 

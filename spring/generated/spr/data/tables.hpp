@@ -45,6 +45,10 @@ struct AnimatedSprite;
 using TAnimatedSprite = dpx::DataTable<AnimatedSprite, true>;
 struct EntityDirection;
 using TEntityDirection = dpx::DataTable<EntityDirection, true>;
+struct RenderPassInstance;
+using TRenderPassInstance = dpx::DataTable<RenderPassInstance, false>;
+struct View;
+using TView = dpx::DataTable<View, false>;
 
 struct Tables
 {
@@ -66,6 +70,8 @@ struct Tables
     std::unique_ptr<TFourDirectionalSprite> tFourDirectionalSprite;
     std::unique_ptr<TAnimatedSprite> tAnimatedSprite;
     std::unique_ptr<TEntityDirection> tEntityDirection;
+    std::unique_ptr<TRenderPassInstance> tRenderPassInstance;
+    std::unique_ptr<TView> tView;
 };
 
 void instantiateTables(Tables& tables);

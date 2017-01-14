@@ -9,13 +9,14 @@
 #include <imgui.h>
 #include "resources/textureutil.hpp"
 #include "resources/animationutil.hpp"
-#include "renderingutil.hpp"
+#include <rendering/renderingutil.hpp>
 #include <unordered_set>
-#include "land/chunkutil.hpp"
-#include "tileutil.hpp"
+#include <land/chunkutil.hpp>
+#include <land/tileutil.hpp>
 #include "entity/entityutil.hpp"
 #include "entitystates/entitystates.hpp"
 #include "rendering/renderpasses.hpp"
+#include <rendering/renderingutil.hpp>
 #include <spr/entitystates/stateutil.hpp>
 #include "spawning/spawning.hpp"
 #include <tablecapacity.hpp>
@@ -38,7 +39,7 @@ ForgottenWoods::ForgottenWoods() :
     mEntityStatesLogic(mData.spr),
     mEntityLogic(mData),
     mCollisionLogic(mData.spr),
-    mRenderLogic(mFeaRenderer, mData)
+    mRenderLogic(mFeaRenderer, mData.spr)
 {
     spr::instantiateTables(mData.spr);
     instantiateGameTables(mData.game);
@@ -62,7 +63,11 @@ ForgottenWoods::ForgottenWoods() :
     mImguiFontTexture.create({width, height}, pixels);
     io.Fonts->TexID = reinterpret_cast<void*>(mImguiFontTexture.getId());
 
+    loadResources();
+
+    registerRenderPasses(mFeaRenderer, mData);
     mRenderLogic.resize(mData.screenSize);
+    resizeViewports(mData.screenSize, mData);
 
     startScenario();
 }
@@ -110,7 +115,7 @@ void ForgottenWoods::handleMessage(const ResizeMessage& message)
     io.DisplaySize.x = mData.screenSize.x;
     io.DisplaySize.y = mData.screenSize.y;
     mRenderLogic.resize(mData.screenSize);
-    //mFeaRenderer.setViewport(fea::Viewport(mData.screenSize, {0, 0}, fea::Camera(static_cast<glm::vec2>(mData.screenSize / 2))));
+    resizeViewports(mData.screenSize, mData);
 }
 
 void ForgottenWoods::handleMessage(const MouseClickMessage& message)
@@ -165,7 +170,7 @@ void ForgottenWoods::handleMessage(const MouseWheelMessage& message)
     io.MouseWheel = static_cast<float>(message.delta);
 }
 
-void ForgottenWoods::startScenario()
+void ForgottenWoods::loadResources()
 {
     spr::sprEnsureCapacity(50, mData.spr);
     ensureCapacity(50, mData.game);
@@ -267,9 +272,11 @@ void ForgottenWoods::startScenario()
         20
     }, mData.spr);
 
-    registerRenderPasses(mFeaRenderer, mData);
     registerEntityStates(mData);
+}
 
+void ForgottenWoods::startScenario()
+{
     mData.playerId = spawnPlayer(mData);
 }
 

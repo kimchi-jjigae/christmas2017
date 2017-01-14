@@ -19,6 +19,8 @@
 #include <spr/data/fourdirectionalsprite.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/entitydirection.hpp>
+#include <spr/data/renderpassinstance.hpp>
+#include <spr/data/view.hpp>
 
 namespace spr
 {
@@ -42,5 +44,7 @@ void instantiateTables(Tables& tables)
     tables.tFourDirectionalSprite = std::make_unique<TFourDirectionalSprite>("Four Directional Sprite", "A sprite that is animatable in four directions");
     tables.tAnimatedSprite = std::make_unique<TAnimatedSprite>("Animated Sprite", "A sprite with animation capabilities");
     tables.tEntityDirection = std::make_unique<TEntityDirection>("Entity Direction", "The logical direction of an entity");
+    tables.tRenderPassInstance = std::make_unique<TRenderPassInstance>("Render Pass Instance", "A piece of rendering logic");
+    tables.tView = std::make_unique<TView>("View", "A view on the screen");
 }
 }

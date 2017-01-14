@@ -2,6 +2,7 @@
 #include <gamedata.hpp>
 
 #include <spr/data/position.hpp>
+#include <spr/data/view.hpp>
 
 CameraLogic::CameraLogic(GameData& data):
     mData(data)
@@ -15,7 +16,8 @@ void CameraLogic::update()
         mData.camera.position = get(*mData.camera.cameraEntity, *mData.spr.tPosition).coordinate;
     }
 
-    glm::ivec2 size = mData.defaultViewport.getSize();
+    fea::Viewport& worldViewport = get(mData.worldView, *mData.spr.tView).viewport;
+    glm::ivec2 size = worldViewport.getSize();
 
     auto start = mData.camera.position - size / 2;
     auto end = mData.camera.position + size / 2;
@@ -49,4 +51,9 @@ void CameraLogic::update()
         if(chunksThatWereInView.count(iter.first) == 0)
             mData.chunksThatLeftView.emplace_back(iter.first);
     }
+
+    //update render cameras
+    fea::Camera& worldCamera = worldViewport.getCamera();
+    worldCamera.setPosition(mData.camera.position);
+    worldCamera.setZoom({mData.camera.zoom, mData.camera.zoom});
 }

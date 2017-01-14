@@ -17,6 +17,8 @@
 #include <spr/data/fourdirectionalsprite.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/entitydirection.hpp>
+#include <spr/data/renderpassinstance.hpp>
+#include <spr/data/view.hpp>
 namespace spr
 {
 bool operator==(const SprTablesCapacity& a, const SprTablesCapacity& b)
@@ -40,6 +42,8 @@ bool operator==(const SprTablesCapacity& a, const SprTablesCapacity& b)
     a.fourdirectionalspriteCapacity == b.fourdirectionalspriteCapacity &&
     a.animatedspriteCapacity == b.animatedspriteCapacity &&
     a.entitydirectionCapacity == b.entitydirectionCapacity &&
+    a.renderpassinstanceCapacity == b.renderpassinstanceCapacity &&
+    a.viewCapacity == b.viewCapacity &&
     true;
 }
 
@@ -69,6 +73,8 @@ SprTablesCapacity sprTablesCapacity(const spr::Tables& tables)
     capacity.fourdirectionalspriteCapacity = tables.tFourDirectionalSprite->ids.capacity();
     capacity.animatedspriteCapacity = tables.tAnimatedSprite->ids.capacity();
     capacity.entitydirectionCapacity = tables.tEntityDirection->ids.capacity();
+    capacity.renderpassinstanceCapacity = tables.tRenderPassInstance->ids.capacity();
+    capacity.viewCapacity = tables.tView->ids.capacity();
     return capacity;
 }
 
@@ -163,6 +169,16 @@ void sprEnsureCapacity(size_t capacity, spr::Tables& tables)
     {
         tables.tEntityDirection->ids.reserve(count(*tables.tEntityDirection) + capacity);
         tables.tEntityDirection->data.reserve(count(*tables.tEntityDirection) + capacity);
+    }
+    if(count(*tables.tRenderPassInstance) + capacity > tables.tRenderPassInstance->ids.capacity())
+    {
+        tables.tRenderPassInstance->ids.reserve(count(*tables.tRenderPassInstance) + capacity);
+        tables.tRenderPassInstance->data.reserve(count(*tables.tRenderPassInstance) + capacity);
+    }
+    if(count(*tables.tView) + capacity > tables.tView->ids.capacity())
+    {
+        tables.tView->ids.reserve(count(*tables.tView) + capacity);
+        tables.tView->data.reserve(count(*tables.tView) + capacity);
     }
 }
 }

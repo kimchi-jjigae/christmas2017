@@ -118,6 +118,20 @@
             ],
             "name": "collision_executor",
             "output": "CollisionExecutor"
+        },
+        {
+            "dependencies": [
+                "#include <spr/rendering/renderpass.hpp>"
+            ],
+            "name": "RenderPass",
+            "output": "RenderPass"
+        },
+        {
+            "dependencies": [
+                "#include <fea/rendering/viewport.hpp>"
+            ],
+            "name": "Viewport",
+            "output": "fea::Viewport"
         }
     ],
     "field_types": [
@@ -588,6 +602,42 @@
             "external_id": true,
             "inherits": null,
             "name": "entity_direction"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "RenderPass",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "renderPass"
+                },
+                {
+                    "data_type": "int32",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "priority"
+                }
+            ],
+            "description": "A piece of rendering logic",
+            "display_name": "Render Pass Instance",
+            "external_id": false,
+            "inherits": null,
+            "name": "render_pass_instance"
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "Viewport",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "viewport"
+                }
+            ],
+            "description": "A view on the screen",
+            "display_name": "View",
+            "external_id": false,
+            "inherits": null,
+            "name": "view"
         }
     ]
 }

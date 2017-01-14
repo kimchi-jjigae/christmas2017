@@ -1,6 +1,7 @@
 #include "renderingutil.hpp"
 #include "land/chunkutil.hpp"
 #include "land/goodness.hpp"
+#include <spr/data/view.hpp>
 #include <gamedata.hpp>
 
 void initializeChunkMasks(GameData& data)
@@ -42,4 +43,19 @@ void setupOverlay(glm::ivec2 chunkCoordinate, ChunkViewData& overlayData, const 
     overlayData.overlayQuad.setSize(glm::ivec2{chunkSize, chunkSize});
     overlayData.overlayQuad.setPosition(position);
     overlayData.overlayQuad.setTexture(overlayData.overlayMasks[1]);
+}
+
+void resizeViewports(glm::ivec2 newSize, GameData& data)
+{
+    fea::Viewport& worldViewport = get(data.worldView, *data.spr.tView).viewport;
+
+    auto cam = worldViewport.getCamera();
+    worldViewport = fea::Viewport(newSize, {}, {});
+    worldViewport.setCamera(cam);
+
+    fea::Viewport& guiViewport = get(data.guiView, *data.spr.tView).viewport;
+
+    cam = guiViewport.getCamera();
+    guiViewport = fea::Viewport(newSize, {}, {});
+    guiViewport.setCamera(cam);
 }

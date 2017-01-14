@@ -20,6 +20,8 @@
 #include <spr/data/fourdirectionalsprite.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/entitydirection.hpp>
+#include <spr/data/renderpassinstance.hpp>
+#include <spr/data/view.hpp>
 
 namespace spr
 {
@@ -59,4 +61,8 @@ namespace spr
     void debugText(const struct AnimatedSprite& data, std::vector<std::vector<std::string>>& outText);
     std::vector<std::string> debugHeaders(const TEntityDirection& table);
     void debugText(const struct EntityDirection& data, std::vector<std::vector<std::string>>& outText);
+    std::vector<std::string> debugHeaders(const TRenderPassInstance& table);
+    void debugText(const struct RenderPassInstance& data, std::vector<std::vector<std::string>>& outText);
+    std::vector<std::string> debugHeaders(const TView& table);
+    void debugText(const struct View& data, std::vector<std::vector<std::string>>& outText);
 }

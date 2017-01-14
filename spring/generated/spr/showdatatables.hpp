@@ -18,6 +18,8 @@
 #include <spr/data/fourdirectionalsprite.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/entitydirection.hpp>
+#include <spr/data/renderpassinstance.hpp>
+#include <spr/data/view.hpp>
 namespace spr
 {
 inline void showDataTables(th::Optional<int32_t>& clickedEntity, const spr::Tables& tables)
@@ -41,6 +43,8 @@ inline void showDataTables(th::Optional<int32_t>& clickedEntity, const spr::Tabl
         ,*tables.tFourDirectionalSprite
         ,*tables.tAnimatedSprite
         ,*tables.tEntityDirection
+        ,*tables.tRenderPassInstance
+        ,*tables.tView
     );
 }
 }

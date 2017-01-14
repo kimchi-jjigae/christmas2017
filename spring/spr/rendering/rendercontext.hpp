@@ -7,6 +7,5 @@ namespace spr
 struct RenderContext
 {
     fea::Renderer2D& renderer;
-    glm::ivec2 sceneSize;
 };
 }

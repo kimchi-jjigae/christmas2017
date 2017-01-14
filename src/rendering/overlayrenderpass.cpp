@@ -1,16 +1,18 @@
 #include "overlayrenderpass.hpp"
+#include <spr/data/view.hpp>
 #include <spr/rendering/rendercontext.hpp>
 #include <spr/rendering/drawables/imguidrawable.hpp>
+#include <gamedata.hpp>
 #include "../land/chunkutil.hpp"
 #include "../land/goodness.hpp"
 #include "../resources/textureutil.hpp"
 #include <imgui.h>
 
-spr::RenderPass<GameData> createOverlayRenderPass()
+spr::RenderPass createOverlayRenderPass(GameData& data)
 {
     return
     {
-        spr::RenderPass<GameData>::AllocateFunction([](fea::Renderer2D&, GameData& data)
+        spr::AllocateFunction([&](fea::Renderer2D&)
         {
             data.effectOverlayData.noiseAnimation = {{0,0}, {32, 32}, 4, 4};
             data.effectOverlayData.sinCounter = 0;
@@ -18,7 +20,7 @@ spr::RenderPass<GameData> createOverlayRenderPass()
             data.effectOverlayData.overlayQuad.setSize({2048, 2048});
             data.effectOverlayData.overlayQuad.setTexture(data.effectOverlayData.overlayTarget.getTexture());
             data.effectOverlayData.overlayQuad.setVFlip(true);
-            data.overlayViewport = fea::Viewport({2048, 2048}, {}, fea::Camera{});
+            data.overlayView = insert(spr::View{fea::Viewport({2048, 2048}, {}, fea::Camera{})}, *data.spr.tView).id;
             data.effectOverlayData.noiseOverlay.setSize({130000.0f, 130000.0f});
             data.effectOverlayData.noiseOverlay.setPosition(-data.effectOverlayData.noiseOverlay.getSize() / 2.0f);
             data.effectOverlayData.noiseOverlay.setTexture(getFeaTexture(data.noiseTexture, data.spr));
@@ -32,7 +34,7 @@ spr::RenderPass<GameData> createOverlayRenderPass()
             data.effectOverlayData.fogOverlay.setScrollSpeed({0.00001f, 0.0f});
             data.effectOverlayData.fogOverlay.setParallax({0.1f, 0.1f});
         }),
-        spr::RenderPass<GameData>::PreRenderFunction([](spr::RenderContext& context, GameData& data)
+        spr::PreRenderFunction([&](spr::RenderContext& context)
         {
             context.renderer.clear(data.effectOverlayData.overlayTarget, fea::Color::Transparent);
 
@@ -55,18 +57,21 @@ spr::RenderPass<GameData> createOverlayRenderPass()
             data.effectOverlayData.noiseOverlay.setOpacity(std::max(0.0f, evilAmount / 100.0f - 0.15f));
             data.effectOverlayData.fogOverlay.setOpacity(std::max(0.0f, dyingAmount / 100.0f - 0.15f));
 
-            data.overlayCamera.setPosition(data.camera.position);// - glm::ivec2(-342, 0));
-            data.overlayCamera.setZoom({1, data.camera.zoom});
+            fea::Camera& overlayCamera = get(data.overlayView, *data.spr.tView).viewport.getCamera();
+            overlayCamera.setPosition(data.camera.position);// - glm::ivec2(-342, 0));
+            overlayCamera.setZoom({1, data.camera.zoom});
         }),
-        spr::RenderPass<GameData>::RenderFunction([](spr::RenderContext& context, GameData& data)
+        spr::RenderFunction([&](spr::RenderContext& context)
         {
             context.renderer.render(data.effectOverlayData.fogOverlay);
             context.renderer.render(data.effectOverlayData.noiseOverlay);
             data.effectOverlayData.fogOverlay.tick();
             data.effectOverlayData.noiseOverlay.tick();
+           
+            fea::Viewport& overlayViewport = get(data.overlayView, *data.spr.tView).viewport; 
+            fea::Viewport& worldViewport = get(data.worldView, *data.spr.tView).viewport; 
             
-            data.overlayViewport.setCamera(data.overlayCamera);
-            context.renderer.setViewport(data.overlayViewport);
+            context.renderer.setViewport(overlayViewport);
             //overlay stuff
             for(auto& overlays : data.chunksInView)
             {
@@ -74,19 +79,19 @@ spr::RenderPass<GameData> createOverlayRenderPass()
                 context.renderer.render(overlays.second.overlayQuad, data.effectOverlayData.overlayTarget);
             }
             
-            context.renderer.setViewport(data.defaultViewport);
+            context.renderer.setViewport(worldViewport);
             data.effectOverlayData.overlayQuad.setPosition(data.camera.position - glm::ivec2(1024.0f, 1024.0f));
             context.renderer.setBlendMode(fea::MULTIPLY);
             context.renderer.render(data.effectOverlayData.overlayQuad);
             context.renderer.setBlendMode(fea::ALPHA);
 
         }),
-        spr::RenderPass<GameData>::ResizeFunction([](glm::ivec2 newSize, GameData& data)
+        spr::ResizeFunction([](glm::ivec2 newSize)
         {
 
         }),
-        spr::RenderPass<GameData>::PostRenderFunction(nullptr),
+        spr::PostRenderFunction(nullptr),
         //deallocate gui
-        spr::RenderPass<GameData>::DeallocateFunction(nullptr),
+        spr::DeallocateFunction(nullptr),
     };
 }

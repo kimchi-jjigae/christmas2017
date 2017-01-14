@@ -27,16 +27,12 @@
 
 namespace spr
 {
-//Sprite - 2D Image in the gameworld
-struct Sprite
+//View - A view on the screen
+struct View
 {
-    enum Type { _Base, FourDirectionalSprite, AnimatedSprite, };
-    Type type;
-    glm::vec2 position;
-    glm::vec2 size;
-    dpx::TableId texture;
+    fea::Viewport viewport;
 };
 
-using TSprite = dpx::DataTable<Sprite, false>;
+using TView = dpx::DataTable<View, false>;
 }
 

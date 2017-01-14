@@ -27,16 +27,13 @@
 
 namespace spr
 {
-//Sprite - 2D Image in the gameworld
-struct Sprite
+//Render Pass Instance - A piece of rendering logic
+struct RenderPassInstance
 {
-    enum Type { _Base, FourDirectionalSprite, AnimatedSprite, };
-    Type type;
-    glm::vec2 position;
-    glm::vec2 size;
-    dpx::TableId texture;
+    RenderPass renderPass;
+    int32_t priority;
 };
 
-using TSprite = dpx::DataTable<Sprite, false>;
+using TRenderPassInstance = dpx::DataTable<RenderPassInstance, false>;
 }
 

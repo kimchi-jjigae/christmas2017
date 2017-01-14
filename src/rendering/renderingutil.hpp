@@ -7,3 +7,4 @@ struct Chunk;
 
 void initializeChunkMasks(GameData& data);
 void setupOverlay(glm::ivec2 chunkCoordinate, ChunkViewData& overlayData, const Chunk& chunk, GameData& data);
+void resizeViewports(glm::ivec2 newSize, GameData& data);

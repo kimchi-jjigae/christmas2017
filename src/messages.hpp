@@ -12,22 +12,6 @@ struct ResizeMessage
     glm::uvec2 size;
 };
 
-struct PlayMusicMessage
-{
-    std::string name;
-    bool loop;
-};
-
-struct PlaySoundMessage
-{
-    std::string name;
-    bool loop;
-};
-
-struct StopSoundMessage
-{
-};
-
 struct MouseClickMessage
 {
     fea::Mouse::Button button;

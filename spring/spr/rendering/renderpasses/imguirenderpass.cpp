@@ -1,25 +1,30 @@
 #include "imguirenderpass.hpp"
+#include <dpx/get.hpp>
+#include <spr/data/view.hpp>
 #include <spr/rendering/rendercontext.hpp>
 #include <spr/rendering/drawables/imguidrawable.hpp>
 #include <imgui.h>
 
-spr::RenderPass<GameData> createImguiRenderPass()
+namespace spr
+{
+spr::RenderPass createImguiRenderPass(dpx::TableId guiViewId, spr::Tables& tables)
 {
     return
     {
         //maybe allocate gui    
-        spr::RenderPass<GameData>::AllocateFunction(nullptr),
-        spr::RenderPass<GameData>::PreRenderFunction([](spr::RenderContext& context, GameData& data)
+        spr::AllocateFunction(nullptr),
+        spr::PreRenderFunction([](spr::RenderContext& context)
         {
             ImGui::NewFrame();
         }),
-        spr::RenderPass<GameData>::RenderFunction([](spr::RenderContext& context, GameData& data)
+        spr::RenderFunction([guiViewId, &tables](spr::RenderContext& context)
         {
+            fea::Viewport& guiViewport = get(guiViewId, *tables.tView).viewport;
+
             ImGui::Render();
             ImDrawData& drawData = *ImGui::GetDrawData();
 
-            context.renderer.setViewport(data.guiViewport);
-            //context.renderer.getViewport().setCamera(mGuiCamera); NOTE: fix GUI CAMERA
+            context.renderer.setViewport(guiViewport);
            
             // Avoid rendering when minimized, scale coordinates for retina displays (screen coordinates != framebuffer coordinates)
             ImGuiIO& io = ImGui::GetIO();
@@ -57,12 +62,15 @@ spr::RenderPass<GameData> createImguiRenderPass()
             
             glDisable(GL_SCISSOR_TEST);
         }),
-        spr::RenderPass<GameData>::ResizeFunction([](glm::ivec2 newSize, GameData& data)
+        spr::ResizeFunction([guiViewId, &tables](glm::ivec2 newSize)
         {
-            data.guiCamera.setPosition(newSize / 2);
+            fea::Viewport& guiViewport = get(guiViewId, *tables.tView).viewport;
+
+            guiViewport.getCamera().setPosition(newSize / 2);
         }),
-        spr::RenderPass<GameData>::PostRenderFunction(nullptr),
+        spr::PostRenderFunction(nullptr),
         //deallocate gui
-        spr::RenderPass<GameData>::DeallocateFunction(nullptr),
+        spr::DeallocateFunction(nullptr),
     };
+}
 }

@@ -1,15 +1,18 @@
 #include "tilerenderpass.hpp"
 #include <spr/rendering/rendercontext.hpp>
+#include <spr/data/view.hpp>
+#include <gamedata.hpp>
 
-spr::RenderPass<GameData> createTileRenderPass()
+spr::RenderPass createTileRenderPass(GameData& data)
 {
     return
     {
-        spr::RenderPass<GameData>::AllocateFunction(nullptr),
-        spr::RenderPass<GameData>::PreRenderFunction(nullptr),
-        spr::RenderPass<GameData>::RenderFunction([](spr::RenderContext& context, GameData& data)
+        spr::AllocateFunction(nullptr),
+        spr::PreRenderFunction(nullptr),
+        spr::RenderFunction([&](spr::RenderContext& context)
         {
-            context.renderer.setViewport(data.defaultViewport);
+            fea::Viewport& worldViewport = get(data.worldView, *data.spr.tView).viewport;
+            context.renderer.setViewport(worldViewport);
 
             for(const auto& tileIter : data.worldTileMaps)
             {
@@ -17,8 +20,8 @@ spr::RenderPass<GameData> createTileRenderPass()
                 context.renderer.render(tileIter.second.center);
             }
         }),
-        spr::RenderPass<GameData>::ResizeFunction(nullptr),
-        spr::RenderPass<GameData>::PostRenderFunction(nullptr),
-        spr::RenderPass<GameData>::DeallocateFunction(nullptr),
+        spr::ResizeFunction(nullptr),
+        spr::PostRenderFunction(nullptr),
+        spr::DeallocateFunction(nullptr),
     };
 }

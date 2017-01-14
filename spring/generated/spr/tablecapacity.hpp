@@ -24,6 +24,8 @@ struct SprTablesCapacity
     size_t fourdirectionalspriteCapacity;
     size_t animatedspriteCapacity;
     size_t entitydirectionCapacity;
+    size_t renderpassinstanceCapacity;
+    size_t viewCapacity;
 };
 
 bool operator==(const SprTablesCapacity& a, const SprTablesCapacity& b);

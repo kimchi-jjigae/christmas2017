@@ -16,3 +16,5 @@
 #include <spr/data/fourdirectionalsprite.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/entitydirection.hpp>
+#include <spr/data/renderpassinstance.hpp>
+#include <spr/data/view.hpp>

@@ -1,6 +1,7 @@
 #pragma once
 #include <fea/rendering/color.hpp>
 #include <fea/rendering/texture.hpp>
+#include <fea/rendering/viewport.hpp>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -9,6 +10,7 @@
 #include <spr/physics/collisiontype.hpp>
 #include <spr/physics/collisionexecutor.hpp>
 #include <spr/physics/aabb.hpp>
+#include <spr/rendering/renderpass.hpp>
 
 namespace spr
 {
@@ -20,6 +22,8 @@ std::vector<std::string> toStringList(const fea::Texture& texture);
 std::vector<std::string> toStringList(const StateExecutor& executor);
 std::vector<std::string> toStringList(const CollisionExecutor& executor);
 std::vector<std::string> toStringList(const StateContext& stateContext);
+std::vector<std::string> toStringList(const fea::Viewport& viewport);
+std::vector<std::string> toStringList(const RenderPass& renderPass);
 
 std::vector<std::string> toStringList(CollisionType type);
 std::vector<std::string> toStringList(AABB aabb);

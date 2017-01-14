@@ -64,6 +64,23 @@ std::vector<std::string> toStringList(const StateContext& stateContext)
     };
 }
 
+std::vector<std::string> toStringList(const fea::Viewport& viewport)
+{
+    return
+    {
+        toString(viewport.getPosition()),
+        toString(viewport.getSize()),
+    };
+}
+
+std::vector<std::string> toStringList(const RenderPass& renderPass)
+{
+    return
+    {
+        std::string("renderpass"),
+    };
+}
+
 std::vector<std::string> toStringList(CollisionType type)
 {
     return
