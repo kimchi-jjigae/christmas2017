@@ -296,7 +296,10 @@ void ForgottenWoods::loop()
     mCameraLogic.update();
 
     mChunkLogic.update();
-    mEntityStatesLogic.update();
+    auto entitiesToRemove = mEntityStatesLogic.update();
+    for(dpx::TableId toRemove : entitiesToRemove)
+        removeEntity(toRemove, mData);
+
     mEntityLogic.update();
 
     mCollisionLogic.update();
@@ -312,8 +315,8 @@ void ForgottenWoods::loop()
 
     temp();
 
-    spr::showDataTables(mClickedEntity, mData.spr);
-    showDataTables(mClickedEntity, mData.game);
+    spr::showDataTables("Spring tables", mClickedEntity, mData.spr);
+    showDataTables("Game tables", mClickedEntity, mData.game);
 
     //TODO
     //if(mClickedEntity)
