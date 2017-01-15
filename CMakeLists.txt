@@ -9,6 +9,12 @@ set(project_name spring_template)
 project(${project_name})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Werror -Wconversion -Wno-long-long -Wno-unused-parameter -Wno-unused-variable -Wno-format-pedantic -Wno-conversion")
+if(NOT EMSCRIPTEN)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Wshadow -Werror -Wconversion -Wno-long-long -Wno-unused-parameter -Wno-unused-variable -Wno-format-pedantic")
+else()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++1z -Wall -Wextra -Werror -Wconversion -Wno-long-long -Wno-unused-parameter -Wno-unused-variable -Wno-format-pedantic -Wno-conversion -Wno-shadow")
+endif()
+
 
 add_custom_target(
     dophax_gen

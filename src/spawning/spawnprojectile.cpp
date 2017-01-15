@@ -9,7 +9,7 @@ int32_t spawnBall(glm::vec2 position, glm::vec2 direction, GameData& data)
 {
     spr::Orientation orientation = spr::toOrientation(direction);
 
-    return addEntity(Entity{{position}, orientation,
+    return addEntity(Entity{{position}, {orientation},
     {
         direction,
     },

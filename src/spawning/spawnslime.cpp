@@ -6,7 +6,7 @@
 
 int32_t spawnSlime(glm::vec2 position, GameData& data)
 {
-    return addEntity(Entity{{position}, spr::Orientation::Down,
+    return addEntity(Entity{{position}, {spr::Orientation::Down},
     {
         glm::vec2(0.0f, 1.0f),
     },

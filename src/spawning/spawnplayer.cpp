@@ -6,7 +6,7 @@
 
 int32_t spawnPlayer(GameData& data)
 {
-    int32_t player = addEntity(Entity{{{30000.0f, 30000.0f}}, spr::Orientation::Down,
+    int32_t player = addEntity(Entity{{{30000.0f, 30000.0f}}, {spr::Orientation::Down},
     {
         {0.0f, 1.0f},
     },
