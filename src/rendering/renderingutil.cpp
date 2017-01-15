@@ -30,7 +30,7 @@ void setupOverlay(glm::ivec2 chunkCoordinate, ChunkViewData& overlayData, const 
             for(int32_t x = 0; x < ChunkWidth; ++x)
             {
                 int32_t goodness = chunk.tiles[tileIndex].goodness;
-                int32_t color = goodness / 100.0f * 255 + 35;
+                int32_t color = static_cast<int32_t>(static_cast<float>(goodness) / 100.0f * 255.0f) + 35;
 
                 overlayData.overlayMasks[goodnessLevel].setPixel({x, y}, fea::Color(color, color, color, color));
                 ++tileIndex;

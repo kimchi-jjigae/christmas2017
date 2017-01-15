@@ -53,8 +53,8 @@ ForgottenWoods::ForgottenWoods() :
 
     //imgui
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize.x = mData.screenSize.x;
-    io.DisplaySize.y = mData.screenSize.y;
+    io.DisplaySize.x = static_cast<float>(mData.screenSize.x);
+    io.DisplaySize.y = static_cast<float>(mData.screenSize.y);
     io.IniFilename = "data/imgui.ini";
     io.MousePos = {0, 0};
     unsigned char* pixels;
@@ -112,8 +112,8 @@ void ForgottenWoods::handleMessage(const ResizeMessage& message)
 {
     mData.screenSize = message.size;
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize.x = mData.screenSize.x;
-    io.DisplaySize.y = mData.screenSize.y;
+    io.DisplaySize.x = static_cast<float>(mData.screenSize.x);
+    io.DisplaySize.y = static_cast<float>(mData.screenSize.y);
     mRenderLogic.resize(mData.screenSize);
     resizeViewports(mData.screenSize, mData);
 }
@@ -358,7 +358,7 @@ void ForgottenWoods::spreadHappiness()
         for(int32_t x = tileCoord.x - 6; x < tileCoord.x + 6; ++x)
         {
             float distance = glm::distance(static_cast<glm::vec2>(tileCoord), glm::vec2(x, y));
-            int32_t increase = std::max(0.0f, 8.5f - distance + (rand() % 8) / 10.0f) / 2;
+            int32_t increase = static_cast<int32_t>(std::max(0.0f, 8.5f - distance + static_cast<float>((rand() % 8)) / 10.0f)) / 2;
             setTileGoodness({x, y}, std::min(99, tileGoodness({x, y}, mData) + increase), mData);
         }
     }

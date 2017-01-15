@@ -69,7 +69,7 @@ void setTileGoodness(glm::ivec2 tileCoord, int32_t goodness, GameData& data)
     tile.goodness = goodness;
     auto& overlayData = data.chunksInView.at(chunkCoord);
 
-    int32_t color = goodness / 100.0f * 255 + 35;
+    int32_t color = static_cast<int32_t>(static_cast<float>(goodness) / 100.0f * 255) + 35;
     for(size_t i = 0; i < overlayData.overlayMasks.size(); ++i)
     {
         overlayData.overlayMasks[i].setPixel({chunkTileCoord.x, chunkTileCoord.y}, fea::Color(color, color, color, color));

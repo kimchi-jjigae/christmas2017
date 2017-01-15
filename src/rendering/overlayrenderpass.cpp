@@ -51,11 +51,11 @@ spr::RenderPass createOverlayRenderPass(GameData& data)
             if(data.effectOverlayData.sinCounter > 314159)
                 data.effectOverlayData.sinCounter = 0;
 
-            float sinInput = data.effectOverlayData.sinCounter / 100000.0f;
+            float sinInput = static_cast<float>(data.effectOverlayData.sinCounter) / 100000.0f;
             float sinOut = std::sin(sinInput);
             data.effectOverlayData.noiseOverlay.setColor({static_cast<int32_t>(255 * std::fabs(sinOut)), 0, 0, 255});
-            data.effectOverlayData.noiseOverlay.setOpacity(std::max(0.0f, evilAmount / 100.0f - 0.15f));
-            data.effectOverlayData.fogOverlay.setOpacity(std::max(0.0f, dyingAmount / 100.0f - 0.15f));
+            data.effectOverlayData.noiseOverlay.setOpacity(std::max(0.0f, static_cast<float>(evilAmount) / 100.0f - 0.15f));
+            data.effectOverlayData.fogOverlay.setOpacity(std::max(0.0f, static_cast<float>(dyingAmount) / 100.0f - 0.15f));
 
             fea::Camera& overlayCamera = get(data.overlayView, *data.spr.tView).viewport.getCamera();
             overlayCamera.setPosition(data.camera.position);// - glm::ivec2(-342, 0));
