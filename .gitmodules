@@ -7,3 +7,6 @@
 [submodule "thero"]
 	path = thero
 	url = git@github.com:therocode/thero.git
+[submodule "spring"]
+	path = spring
+	url = git@github.com:therocode/spring.git
