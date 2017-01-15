@@ -130,7 +130,7 @@
                     "name": "amount"
                 }
             ],
-            "description": "The logical direction of an entity",
+            "description": "The health of an entity",
             "display_name": "Health",
             "external_id": true,
             "inherits": null,
