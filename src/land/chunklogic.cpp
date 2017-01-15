@@ -49,7 +49,7 @@ void ChunkLogic::loadPipeLine()
             for(int32_t x = 0; x < ChunkWidth; ++x)
             {
                 glm::vec2 simplexCoord = glm::vec2((coordinate * ChunkWidth + glm::ivec2(x, y)) * TileWidth) / 9200.0f;
-                int32_t goodness = static_cast<int32_t>((glm::simplex(simplexCoord) + 1.0f) / 2.0f) * 100;
+                int32_t goodness = static_cast<int32_t>((glm::simplex(simplexCoord) + 1.0f) / 2.0f * 100);
                 goodness = std::max(0, std::min(99, goodness));
                 chunk.tiles[tileIndex] = path ? Tile{TileType::Path, goodness} : ((rand() % 8 != 0) ? Tile{TileType::Grass, goodness} : Tile{TileType::Trees, goodness});
                 ++tileIndex;
