@@ -37,7 +37,7 @@ void instantiateGameTables(GameTables& tables);
 void instantiateGameTables(GameTables& tables)
 {
 @foreach-table@
-    tables.t$table-Name$ = std::make_unique<T$table-Name$>("$display-name$", "$description$");
+    tables.t$table-Name$ = std::make_unique<T$table-Name$>("$Table name$", "$description$");
 @end@
 }
 @end@

@@ -131,7 +131,6 @@
                 }
             ],
             "description": "The health of an entity",
-            "display_name": "Health",
             "external_id": true,
             "inherits": null,
             "name": "health"

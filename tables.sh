@@ -1,1 +1,1 @@
-./dophax/build/dophax_gui_imgui -d "."
+./dophax/build/dophax_gui -d "."

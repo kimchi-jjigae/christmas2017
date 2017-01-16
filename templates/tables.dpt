@@ -16,7 +16,7 @@
 $dependency$
 @end@
 
-//$display-name$ - $description$
+//$Table name$ - $description$
 struct $table-Name$
 {
 @if-is_parent@
