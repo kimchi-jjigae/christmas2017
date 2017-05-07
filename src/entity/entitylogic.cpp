@@ -1,9 +1,17 @@
 #include "entitylogic.hpp"
+#include <dpx/foreach.hpp>
+#include <dpx/get.hpp>
+#include <dpx/clear.hpp>
+#include <dpx/join.hpp>
 #include "entityutil.hpp"
 #include <gamedata.hpp>
-#include <spr/data/entityspriteinstance.hpp>
+#include <startupconstants.hpp>
+#include <spr/data/position.hpp>
+#include <spr/data/entityorientation.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/fourdirectionalsprite.hpp>
+#include <spr/data/entitycollider.hpp>
+#include <constants/world.hpp>
 
 EntityLogic::EntityLogic(GameData& data):
     mData(data)
@@ -12,34 +20,21 @@ EntityLogic::EntityLogic(GameData& data):
 
 void EntityLogic::update()
 {
-    forEach([&](int32_t id, spr::EntitySpriteInstance& objectSprite)
+    forEach([&](int32_t spriteId, spr::Sprite& sprite)
     {
-        int32_t spriteId = objectSprite.spriteId;
-        spr::Sprite& sprite = get(spriteId, *mData.spr.tSprite);       
-        const spr::Position& position = get(objectSprite.entityId, *mData.spr.tPosition);       
-
-        sprite.position = position.coordinate + objectSprite.offset;
-
-        if(sprite.type == spr::Sprite::AnimatedSprite)
+        auto animatedSprite = findId(spriteId, *mData.spr.tAnimatedSprite);
+        auto fourDirectionalSprite = findId(spriteId, *mData.spr.tFourDirectionalSprite);
+        if(animatedSprite)
         {
-            spr::AnimatedSprite& animatedSprite = get(spriteId, *mData.spr.tAnimatedSprite);
-            ++animatedSprite.animationClock;
+            ++animatedSprite->animationClock;
         }
-        else if(sprite.type == spr::Sprite::FourDirectionalSprite)
+        else if(fourDirectionalSprite)
         {
-            const spr::Orientation& orientation = get(objectSprite.entityId, *mData.spr.tEntityOrientation).orientation;
-            spr::FourDirectionalSprite& fourDirectionalSprite = get(spriteId, *mData.spr.tFourDirectionalSprite);
-            fourDirectionalSprite.currentOrientation = orientation;
-            ++fourDirectionalSprite.animationClock;
+            const spr::Orientation& orientation = get(spriteId, *mData.spr.tEntityOrientation).orientation;
+            fourDirectionalSprite->currentOrientation = orientation;
+            ++fourDirectionalSprite->animationClock;
         }
-
-    }, *mData.spr.tEntitySpriteInstance);
-
-    forEach([&] (int32_t id, const Health& health)
-    {
-        if(health.amount <= 0)
-            removeEntity(id, mData);
-    }, *mData.game.tHealth);
+    }, *mData.spr.tSprite);
 
     forEach([&](int32_t id)
     {
@@ -47,4 +42,17 @@ void EntityLogic::update()
     }, mData.entitiesToRemove);
 
     clear(mData.entitiesToRemove);
+}
+
+void EntityLogic::updateSpatialTree()
+{
+    join([&] (int32_t id, const spr::Position& position, const spr::EntityCollider&)
+    {
+        float halfSpatialStorageSize = mData.c->world->spatialStorageSize / 2.0f;
+
+        if(withinSpatialBounds(position.coordinate, mData))
+        {
+            mData.spatialEntityStorage.move(static_cast<int32_t>(id), {position.coordinate.x + halfSpatialStorageSize, position.coordinate.y + halfSpatialStorageSize});
+        }
+    }, *mData.spr.tPosition, *mData.spr.tEntityCollider);
 }

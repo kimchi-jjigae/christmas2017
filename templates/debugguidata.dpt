@@ -19,6 +19,7 @@
 
 #include "debugguidata.hpp"
 #include <spr/tostring/tostringlist.hpp>
+#include <tostring.hpp>
 
 @foreach-table@
     std::vector<std::string> debugHeaders(const T$table-Name$& table)

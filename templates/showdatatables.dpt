@@ -8,9 +8,9 @@
 #include <data/$table-name$.hpp>
 @end@
 
-inline void showDataTables(const std::string& category, th::Optional<int32_t>& clickedEntity, const GameTables& tables)
+inline void showDataTables(const std::string& category, th::Optional<int32_t>& clickedEntity, const GameTables& tables, spr::Tables& sprTables)
 {
-    spr::showDataTables(category, clickedEntity
+    spr::showDataTables(category, clickedEntity, sprTables
 @foreach-table@
         ,*tables.t$table-Name$
 @end@

@@ -23,6 +23,14 @@ struct GameTables
 };
 
 void instantiateGameTables(GameTables& tables);
+
+template<typename Functor>
+void forEachTable(Functor f, GameTables& tables)
+{
+@foreach-table@
+   f(*tables.t$table-Name$); 
+@end@
+}
 @end@
 
 @file-data/datatables.cpp@

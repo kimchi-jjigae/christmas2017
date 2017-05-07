@@ -26,3 +26,11 @@ perf.data.old
 vgcore.*
 generated/*
 .fileHistory
+cotire/*
+*_CXX_cotire.cmake
+*.user
+*.trace
+*_C_cotire.cmake
+index_C_cotire.cmake
+index_CXX_cotire.cmake
+*.cbp

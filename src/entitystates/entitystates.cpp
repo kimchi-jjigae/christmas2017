@@ -1,12 +1,8 @@
-#include "playerstates.hpp"
-#include "energyballstates.hpp"
-#include "slimestates.hpp"
+#include "brainstates.hpp"
 
 struct GameData;
 
 void registerEntityStates(GameData& data)
 {
-    registerPlayerStates(data);
-    registerEnergyBallStates(data);
-    registerSlimeStates(data);
+    //registerBrainStates(data);
 }

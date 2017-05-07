@@ -1,107 +1,165 @@
 #include "inputlogic.hpp"
-#include "messages.hpp"
 #include <gamedata.hpp>
+#include <SDL2/SDL.h>
 
-InputLogic::InputLogic(fea::MessageBus& bus, fea::InputHandler& handler, GameData& data):
-    mLogic(handler),
-    mBus(bus),
-    mData(data),
-    mMouseDown(false)
+InputLogic::InputLogic(GameData& data):
+    mData(data)
 {
 }
 
 void InputLogic::update()
 {
+    mData.systemInput = {};
+    mData.mouseClick = {};
+    mData.mouseRelease = {};
+    mData.mouseWheel = {};
+
     mData.startedPlayerActions.clear();
     mData.stoppedPlayerActions.clear();
-    fea::Event event;
-    while(mLogic.pollEvent(event))
-    {
-        if(event.type == fea::Event::KEYPRESSED)
-        {
-            if(event.key.code == fea::Keyboard::ESCAPE)
-                mBus.send(QuitMessage());
-            else if(event.key.code == fea::Keyboard::W)
-            {
-                mData.startedPlayerActions.insert(PlayerAction::WalkUp);
-                mData.ongoingPlayerActions.insert(PlayerAction::WalkUp);
-            }
-            else if(event.key.code == fea::Keyboard::S)
-            {
-                mData.startedPlayerActions.insert(PlayerAction::WalkDown);
-                mData.ongoingPlayerActions.insert(PlayerAction::WalkDown);
-            }
-            else if(event.key.code == fea::Keyboard::A)
-            {
-                mData.startedPlayerActions.insert(PlayerAction::WalkLeft);
-                mData.ongoingPlayerActions.insert(PlayerAction::WalkLeft);
-            }
-            else if(event.key.code == fea::Keyboard::D)
-            {
-                mData.startedPlayerActions.insert(PlayerAction::WalkRight);
-                mData.ongoingPlayerActions.insert(PlayerAction::WalkRight);
-            }
-            else if(event.key.code == fea::Keyboard::H)
-            {
-                mData.startedPlayerActions.insert(PlayerAction::Staff);
-                mData.ongoingPlayerActions.insert(PlayerAction::Staff);
-            }
 
-            mBus.send(KeyPressedMessage{event.key.code});
-        }
-        else if(event.type == fea::Event::KEYRELEASED)
+    SDL_Event event;
+    while(SDL_PollEvent(&event))
+    {
+        if(event.type == SDL_KEYDOWN)
         {
-            if(event.key.code == fea::Keyboard::W)
+            //don't handle key repeats
+            if(event.key.repeat != 0)
+                continue;
+
+            if(event.key.keysym.sym == SDLK_ESCAPE)
+                mData.systemInput.quit = true;
+            else if(event.key.keysym.sym == SDLK_w)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::WalkUp);
-                mData.ongoingPlayerActions.erase(PlayerAction::WalkUp);
+                mData.startedPlayerActions.insert(PlayerAction::Throttle);
+                mData.ongoingPlayerActions.insert(PlayerAction::Throttle);
             }
-            else if(event.key.code == fea::Keyboard::S)
+            else if(event.key.keysym.sym == SDLK_s)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::WalkDown);
-                mData.ongoingPlayerActions.erase(PlayerAction::WalkDown);
+                mData.startedPlayerActions.insert(PlayerAction::Reverse);
+                mData.ongoingPlayerActions.insert(PlayerAction::Reverse);
             }
-            else if(event.key.code == fea::Keyboard::A)
+            else if(event.key.keysym.sym == SDLK_a)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::WalkLeft);
-                mData.ongoingPlayerActions.erase(PlayerAction::WalkLeft);
+                mData.startedPlayerActions.insert(PlayerAction::StrafeLeft);
+                mData.ongoingPlayerActions.insert(PlayerAction::StrafeLeft);
             }
-            else if(event.key.code == fea::Keyboard::D)
+            else if(event.key.keysym.sym == SDLK_d)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::WalkRight);
-                mData.ongoingPlayerActions.erase(PlayerAction::WalkRight);
+                mData.startedPlayerActions.insert(PlayerAction::StrafeRight);
+                mData.ongoingPlayerActions.insert(PlayerAction::StrafeRight);
             }
-            else if(event.key.code == fea::Keyboard::H)
+            else if(event.key.keysym.sym == SDLK_LEFT)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::Staff);
-                mData.ongoingPlayerActions.erase(PlayerAction::Staff);
+                mData.startedPlayerActions.insert(PlayerAction::TurnLeft);
+                mData.ongoingPlayerActions.insert(PlayerAction::TurnLeft);
+            }
+            else if(event.key.keysym.sym == SDLK_RIGHT)
+            {
+                mData.startedPlayerActions.insert(PlayerAction::TurnRight);
+                mData.ongoingPlayerActions.insert(PlayerAction::TurnRight);
+            }
+            else if(event.key.keysym.sym == SDLK_SPACE)
+            {
+                mData.startedPlayerActions.insert(PlayerAction::Fire);
+                mData.ongoingPlayerActions.insert(PlayerAction::Fire);
             }
         }
-        else if(event.type == fea::Event::CLOSED)
+        else if(event.type == SDL_KEYUP)
         {
-            mBus.send(QuitMessage());
+            if(event.key.keysym.sym == SDLK_w)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::Throttle);
+                mData.ongoingPlayerActions.erase(PlayerAction::Throttle);
+            }
+            else if(event.key.keysym.sym == SDLK_s)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::Reverse);
+                mData.ongoingPlayerActions.erase(PlayerAction::Reverse);
+            }
+            else if(event.key.keysym.sym == SDLK_a)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::StrafeLeft);
+                mData.ongoingPlayerActions.erase(PlayerAction::StrafeLeft);
+            }
+            else if(event.key.keysym.sym == SDLK_d)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::StrafeRight);
+                mData.ongoingPlayerActions.erase(PlayerAction::StrafeRight);
+            }
+            else if(event.key.keysym.sym == SDLK_LEFT)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::TurnLeft);
+                mData.ongoingPlayerActions.erase(PlayerAction::TurnLeft);
+            }
+            else if(event.key.keysym.sym == SDLK_RIGHT)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::TurnRight);
+                mData.ongoingPlayerActions.erase(PlayerAction::TurnRight);
+            }
+            else if(event.key.keysym.sym == SDLK_SPACE)
+            {
+                mData.stoppedPlayerActions.insert(PlayerAction::Fire);
+                mData.ongoingPlayerActions.erase(PlayerAction::Fire);
+            }
+            else if(event.key.keysym.sym == SDLK_o)
+            {
+                ++mData.advancePaused;
+            }
+            else if(event.key.keysym.sym == SDLK_p)
+            {
+                mData.paused = !mData.paused;
+            }
+            else if(event.key.keysym.sym == SDLK_COMMA)
+            {
+                mData.showDebugMenu = !mData.showDebugMenu;
+            }
+            else if(event.key.keysym.sym == SDLK_PERIOD)
+            {
+                mData.showProfiler = !mData.showProfiler;
+            }
         }
-        else if(event.type == fea::Event::RESIZED)
+        else if(event.type == SDL_QUIT)
         {
-            mBus.send(ResizeMessage{{event.size.width, event.size.height}});
+            mData.systemInput.quit = true;
         }
-        else if(event.type == fea::Event::MOUSEBUTTONPRESSED)
+        else if(event.type == SDL_WINDOWEVENT)
         {
-            mMouseDown = true;
-            mBus.send(MouseClickMessage{event.mouseButton.button, {event.mouseButton.x, event.mouseButton.y}});
+            if(event.window.event == SDL_WINDOWEVENT_RESIZED)
+                mData.systemInput.resized = {event.window.data1, event.window.data2};
         }
-        else if(event.type == fea::Event::MOUSEBUTTONRELEASED)
+        else if(event.type == SDL_MOUSEBUTTONDOWN)
         {
-            mMouseDown = false;
-            mBus.send(MouseReleaseMessage{event.mouseButton.button, {event.mouseButton.x, event.mouseButton.y}});
+            MouseButton button = MouseButton::Left;
+
+            if(event.button.button == SDL_BUTTON_LEFT)
+                button = MouseButton::Left;
+            else if(event.button.button == SDL_BUTTON_RIGHT)
+                button = MouseButton::Right;
+            else if(event.button.button == SDL_BUTTON_MIDDLE)
+                button = MouseButton::Middle;
+
+            mData.mouseClick = MouseClick{{event.button.x, event.button.y}, button};
         }
-        else if(event.type == fea::Event::MOUSEMOVED)
+        else if(event.type == SDL_MOUSEBUTTONUP)
         {
-            mBus.send(MouseMoveMessage{{event.mouseMove.x, event.mouseMove.y}, mMouseDown});
+            MouseButton button = MouseButton::Left;
+
+            if(event.button.button == SDL_BUTTON_LEFT)
+                button = MouseButton::Left;
+            else if(event.button.button == SDL_BUTTON_RIGHT)
+                button = MouseButton::Right;
+            else if(event.button.button == SDL_BUTTON_MIDDLE)
+                button = MouseButton::Middle;
+
+            mData.mouseRelease = MouseRelease{{event.button.x, event.button.y}, button};
         }
-        else if(event.type == fea::Event::MOUSEWHEELMOVED)
+        else if(event.type == SDL_MOUSEMOTION)
         {
-            mBus.send(MouseWheelMessage{event.mouseWheel.delta});
+            mData.mousePosition = glm::ivec2(event.motion.x, event.motion.y);
+        }
+        else if(event.type == SDL_MOUSEWHEEL)
+        {
+            mData.mouseWheel = event.wheel.y;
         }
     }
 }

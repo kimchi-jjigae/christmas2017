@@ -2,10 +2,10 @@
 
 struct GameData;
 
-class InputLogic
+class PlayerLogic
 {
     public:
-        InputLogic(GameData& data);
+        PlayerLogic(GameData& data);
         void update();
     private:
         GameData& mData;

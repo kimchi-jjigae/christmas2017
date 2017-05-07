@@ -2,7 +2,7 @@
 
 #include <functional>
 
-enum class PlayerAction { WalkUp, WalkDown, WalkLeft, WalkRight, Staff };
+enum class PlayerAction { Throttle, Reverse, TurnLeft, TurnRight, StrafeLeft, StrafeRight, Fire };
 
 namespace std
 {

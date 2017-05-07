@@ -1,7 +1,7 @@
-#include "forgottenwoods.hpp"
+#include "spring_template.hpp"
 
 int main(int argc, char *argv[])
 {
-    ForgottenWoods forgottenWoods;
-    forgottenWoods.run(argc, argv);
+    SpringTemplate springTemplate;
+    springTemplate.run(argc, argv);
 }

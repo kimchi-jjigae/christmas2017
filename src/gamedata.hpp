@@ -1,68 +1,62 @@
 #pragma once
 
 #include <cstdint>
-#include <deque>
-#include <unordered_map>
 #include <map>
+#include <random>
 #include <unordered_set>
+
 #include <dpx/tables.hpp>
 #include <dpx/tableid.hpp>
-#include <spr/glm.hpp>
-#include <spr/rendering/renderpass.hpp>
-#include <camera/camera.hpp>
-#include <rendering/effectoverlaydata.hpp>
-#include <rendering/layeredtiles.hpp>
-#include <rendering/chunkviewdata.hpp>
-#include <startupconstants.hpp>
-#include <land/chunk.hpp>
-#include <player/playeraction.hpp>
 #include <spr/data/tables.hpp>
+#include <spr/physics/quadtree.hpp>
+
+#include <constants/constants.hpp>
 #include <data/datatables.hpp>
+#include <player/playeraction.hpp>
+#include <startupconstants.hpp>
+#include <input/input.hpp>
+#include <spr/profiler/profiler.hpp>
 
 struct GameData
 {
+    GameData();
+    ~GameData();
+    //tables
     spr::Tables spr;
     GameTables game;
 
-    //land
-    std::deque<glm::ivec2> chunksToLoad;
-    std::deque<glm::ivec2> chunksToBuildTileMap;
-    std::unordered_map<glm::ivec2, Chunk> worldChunks;
+    //gameplay constants
+    std::unique_ptr<constants::Constants> c = constants::makeConstants();
     
     //system
-    glm::ivec2 screenSize = initialScreenSize;
+    glm::ivec2 screenSize = cInitialScreenSize;
+    bool paused = false;
+    int32_t advancePaused = 0;
+    bool showDebugMenu = false;
+    bool showProfiler = false;
     
     //input
+    SystemInput systemInput;
+    th::Optional<MouseClick> mouseClick;
+    th::Optional<MouseRelease> mouseRelease;
+    th::Optional<int32_t> mouseWheel;
+    glm::ivec2 mousePosition;
     std::unordered_set<PlayerAction> startedPlayerActions;
     std::unordered_set<PlayerAction> ongoingPlayerActions;
     std::unordered_set<PlayerAction> stoppedPlayerActions;
-    
+
     //rendering
-    dpx::TableId worldView;
-    dpx::TableId guiView;
-    dpx::TableId overlayView;
-    //fea::Camera worldCamera;
-    //fea::Viewport defaultViewport;
-    //fea::Camera guiCamera;
-    //fea::Viewport guiViewport;
-    //fea::Camera overlayCamera;
-    //fea::Viewport overlayViewport;
-    EffectOverlayData effectOverlayData;
+    dpx::TableId mainViewport = 0;
+    dpx::TableId worldCamera = 0;
+    dpx::TableId guiCamera = 0;
     
     //entities
     dpx::IdSet entitiesToRemove;
-    int32_t playerId;
+    spr::QuadTree spatialEntityStorage;
     
-    //graphics
-    Camera camera;
-    std::unordered_map<glm::ivec2, LayeredTiles> worldTileMaps;
-    int32_t tilesBackgroundTexture;
-    int32_t tilesCenterTexture;
-    int32_t fogTexture;
-    int32_t noiseTexture;
-    int32_t wizardTexture;
-    std::deque<std::array<fea::Texture, 4>> chunkOverlayPool;
-    std::deque<glm::ivec2> chunksToPutInView;
-    std::unordered_map<glm::ivec2, ChunkViewData> chunksInView;
-    std::deque<glm::ivec2> chunksThatLeftView;
+    //random engine
+    std::mt19937 randomEngine;
+
+    // profile
+    spr::Profiler profiler;
 };
