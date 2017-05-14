@@ -1,10 +1,10 @@
 #pragma once
 #include <cstdint>
-#include "entityproperties.hpp"
+#include <spr/entity/entityproperties.hpp>
 
 struct GameData;
 
-int32_t addEntity(EntityProperties properties, GameData& data);
+int32_t addEntity(spr::EntityProperties properties, GameData& data);
 void removeEntity(int32_t entityId, GameData& data);
 void removeEntityData(int32_t entityId, GameData& data);
 void clearAllCurrentEntities(GameData& data);
