@@ -32,7 +32,7 @@ int32_t addEntity(spr::EntityProperties properties, GameData& data)
 
         //if the entity is spawned outside of the quadtree range, we just give it a random position in it.
         float halfStorageSize = data.c->world->spatialStorageSize / 2.0f;
-        if(!withinSpatialBounds(position.coordinate, data))
+        if(!withinSpatialBounds(spr::xy(position.coordinate), data))
             spatialTreePosition = {};
         else
             spatialTreePosition = {position.coordinate.x + halfStorageSize, position.coordinate.y + halfStorageSize};
