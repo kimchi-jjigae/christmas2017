@@ -50,7 +50,7 @@ void EntityLogic::updateSpatialTree()
     {
         float halfSpatialStorageSize = mData.c->world->spatialStorageSize / 2.0f;
 
-        if(withinSpatialBounds(position.coordinate, mData))
+        if(withinSpatialBounds(spr::xy(position.coordinate), mData))
         {
             mData.spatialEntityStorage.move(static_cast<int32_t>(id), {position.coordinate.x + halfSpatialStorageSize, position.coordinate.y + halfSpatialStorageSize});
         }

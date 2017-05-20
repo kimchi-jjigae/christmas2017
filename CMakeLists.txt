@@ -19,7 +19,7 @@ endif()
 
 add_custom_target(
     dophax_gen
-    COMMAND ${CMAKE_CURRENT_LIST_DIR}/dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring_template.dpx
+    COMMAND ${CMAKE_CURRENT_LIST_DIR}/dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/${project_name}.dpx
     COMMAND ${CMAKE_CURRENT_LIST_DIR}/dophax/build/dophax_gen ${CMAKE_CURRENT_LIST_DIR}/spring/spring.dpx
 )
 

@@ -1,6 +1,7 @@
 #include "renderlogic.hpp"
 #include <imgui.h>
 #include <gamedata.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <spr/debug/debugrenderer.hpp>
 #include <spr/data/gltexture.hpp>
 #include <spr/data/shaderprogram.hpp>
@@ -112,5 +113,5 @@ void RenderLogic::resizeWindow(glm::ivec2 size)
     worldCamera.projection = projection;
     spr::Camera& guiCamera = get(mData.guiCamera, *mData.spr.tCamera);
     guiCamera.projection = projection;
-    guiCamera.translation = {static_cast<glm::vec2>(size) / 2.0f, 0.0f};
+    guiCamera.translation = glm::vec3{static_cast<glm::vec2>(size) / 2.0f, 0.0f};
 }
