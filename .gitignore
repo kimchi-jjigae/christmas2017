@@ -34,3 +34,4 @@ cotire/*
 index_C_cotire.cmake
 index_CXX_cotire.cmake
 *.cbp
+build/*
