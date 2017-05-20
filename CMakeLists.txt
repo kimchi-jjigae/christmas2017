@@ -1,7 +1,6 @@
 #cmake ver req
 cmake_minimum_required(VERSION 2.8.3)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)   #for executables
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake/modules/")
 set(TRACK_TIME TRUE CACHE BOOL "Selects if time taken should be output when compiling")
 set(PROFILE TRUE CACHE BOOL "Selects if profiling should be enabled")
