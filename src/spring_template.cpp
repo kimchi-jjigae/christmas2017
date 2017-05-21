@@ -64,6 +64,8 @@ SpringTemplate::SpringTemplate() :
     float spatialStorageSize = mData.c->world->spatialStorageSize;
     mData.spatialEntityStorage = spr::QuadTree({mData.c->world->spatialStorageSize, mData.c->world->spatialStorageSize});
     mCollisionLogic.setQuadTree(mData.spatialEntityStorage, {spatialStorageSize / 2.0f, spatialStorageSize / 2.0f});
+
+    startScenario();
 }
 
 void SpringTemplate::loadResources()
