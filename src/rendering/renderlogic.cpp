@@ -103,15 +103,21 @@ void RenderLogic::renderFrame()
     spr::DRen::render(mData.mainViewport, mData.worldCamera, mShader);
 }
 
-void RenderLogic::resizeWindow(glm::ivec2 size)
+void RenderLogic::resizeWindow(glm::ivec2 iSize)
 {
+    glm::vec2 size = static_cast<glm::vec2>(iSize);
+    glm::vec2 halfSize = size / 4.0f;
+    float zoom = 0.5f;
+    glm::vec2 worldHalfSize = halfSize * zoom;
+
     spr::gl::resizeViewport(mData.screenSize, mData.mainViewport, mData.spr);
 
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(size.x), static_cast<float>(size.y), 0.0f, -100.0f, 100.0f);
-
     spr::Camera& worldCamera = get(mData.worldCamera, *mData.spr.tCamera);
-    worldCamera.projection = projection;
+    glm::mat4 worldProjection = glm::ortho(-worldHalfSize.x, worldHalfSize.x, worldHalfSize.y, -worldHalfSize.y, -100.0f, 100.0f);
+    worldCamera.projection = worldProjection;
+
     spr::Camera& guiCamera = get(mData.guiCamera, *mData.spr.tCamera);
-    guiCamera.projection = projection;
-    guiCamera.translation = glm::vec3{static_cast<glm::vec2>(size) / 2.0f, 0.0f};
+    glm::mat4 guiProjection = glm::ortho(0.0f, size.x, size.y, 0.0f, -100.0f, 100.0f);
+    guiCamera.projection = guiProjection;
+    guiCamera.translation = glm::vec3{size / 2.0f, 0.0f};
 }
