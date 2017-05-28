@@ -2,8 +2,7 @@
 
 ## Set up project dependencies
 
-1. ```git submodule init```
-2. ```git submodule update```
+1. ```git submodule update --init --recursive```
 
 
 ## Build dophax
