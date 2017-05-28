@@ -106,8 +106,8 @@ void RenderLogic::renderFrame()
 void RenderLogic::resizeWindow(glm::ivec2 iSize)
 {
     glm::vec2 size = static_cast<glm::vec2>(iSize);
-    glm::vec2 halfSize = size / 4.0f;
-    float zoom = 0.5f;
+    glm::vec2 halfSize = size / 2.0f;
+    float zoom = 1.0f;
     glm::vec2 worldHalfSize = halfSize * zoom;
 
     spr::gl::resizeViewport(mData.screenSize, mData.mainViewport, mData.spr);
