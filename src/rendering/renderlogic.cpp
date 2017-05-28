@@ -119,5 +119,4 @@ void RenderLogic::resizeWindow(glm::ivec2 iSize)
     spr::Camera& guiCamera = get(mData.guiCamera, *mData.spr.tCamera);
     glm::mat4 guiProjection = glm::ortho(0.0f, size.x, size.y, 0.0f, -100.0f, 100.0f);
     guiCamera.projection = guiProjection;
-    guiCamera.translation = glm::vec3{size / 2.0f, 0.0f};
 }
