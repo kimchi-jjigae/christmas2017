@@ -4,8 +4,11 @@
 
 1. ```git submodule update --init --recursive```
 
+## Build dophax - With script
 
-## Build dophax
+1. ```./build_dophax.sh```
+
+## Build dophax - Manual version
 
 1. ```cd dophax```
 2. ```git submodule init```
