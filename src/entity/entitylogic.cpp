@@ -7,7 +7,6 @@
 #include <gamedata.hpp>
 #include <startupconstants.hpp>
 #include <spr/data/position.hpp>
-#include <spr/data/entityorientation.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/fourdirectionalsprite.hpp>
 #include <spr/data/entitycollider.hpp>
@@ -30,8 +29,6 @@ void EntityLogic::update()
         }
         else if(fourDirectionalSprite)
         {
-            const spr::Orientation& orientation = get(spriteId, *mData.spr.tEntityOrientation).orientation;
-            fourDirectionalSprite->currentOrientation = orientation;
             ++fourDirectionalSprite->animationClock;
         }
     }, *mData.spr.tSprite);

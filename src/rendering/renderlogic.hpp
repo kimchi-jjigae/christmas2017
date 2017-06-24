@@ -1,4 +1,5 @@
 #pragma once
+#include <spr/glm.hpp>
 #include <spr/color/color.hpp>
 #include <spr/rendering/spriterenderer.hpp>
 #include <spr/rendering/imguirenderer.hpp>

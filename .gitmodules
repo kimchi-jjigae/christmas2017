@@ -1,12 +1,27 @@
-[submodule "dophax"]
-	path = dophax
-	url = git@github.com:therocode/dophax.git
 [submodule "json"]
 	path = json
 	url = https://github.com/nlohmann/json.git
-[submodule "thero"]
-	path = thero
-	url = git@github.com:therocode/thero.git
-[submodule "spring"]
-	path = spring
-	url = git@github.com:therocode/spring.git
+[submodule "dependencies/thero"]
+	path = dependencies/thero
+	url = git@gitlab.com:spring-dev/libs/thero.git
+[submodule "dependencies/imgui"]
+	path = dependencies/imgui
+	url = git@gitlab.com:spring-dev/libs/imgui.git
+[submodule "dependencies/dophax"]
+	path = dependencies/dophax
+	url = git@gitlab.com:spring-dev/libs/dophax.git
+[submodule "dependencies/lodepng"]
+	path = dependencies/lodepng
+	url = git@gitlab.com:spring-dev/libs/lodepng.git
+[submodule "dependencies/nlohmann_json"]
+	path = dependencies/nlohmann_json
+	url = git@gitlab.com:spring-dev/libs/nlohmann_json.git
+[submodule "dependencies/spring"]
+	path = dependencies/spring
+	url = git@gitlab.com:spring-dev/libs/spring.git
+[submodule "dependencies/glades2"]
+	path = dependencies/glades2
+	url = git@gitlab.com:spring-dev/libs/glades2.git
+[submodule "sconstools"]
+	path = sconstools
+	url = git@gitlab.com:spring-dev/libs/sconstools.git
