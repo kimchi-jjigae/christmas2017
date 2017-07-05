@@ -1,17 +1,19 @@
+import os
+
 # parse arguments
-all = ARGUMENTS.get('all', 0)
-debug = ARGUMENTS.get('debug', 0)
-profile = ARGUMENTS.get('profile', 0)
-release = ARGUMENTS.get('release', 0)
+all = ARGUMENTS.get('all', '0')
+debug = ARGUMENTS.get('debug', '0')
+profile = ARGUMENTS.get('profile', '0')
+release = ARGUMENTS.get('release', '0')
 
 # if no profile is selected, select release
-if debug == 0 and profile == 0 and release == 0:
-    release = 1
+if debug == '0' and profile == '0' and release == '0':
+    release = '1'
 
-if all != 0:
-    release = 1
-    debug = 1
-    profile = 1
+if all != '0':
+    release = '1'
+    debug = '1'
+    profile = '1'
 
 # Set our required libraries
 libraries 		= ['SDL2', 'SDL2_mixer']
@@ -32,6 +34,7 @@ common_env.Append(depot_dir = "#depot/")
 common_env.Append(mode = None)
 common_env.Append(first_include = False)
 common_env.Append(first_mode_include = False)
+common_env['ENV']['TERM'] = os.environ['TERM']
 
 # Define all envs
 envs = {}

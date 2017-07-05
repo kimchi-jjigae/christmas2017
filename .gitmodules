@@ -13,9 +13,6 @@
 [submodule "dependencies/lodepng"]
 	path = dependencies/lodepng
 	url = git@gitlab.com:spring-dev/libs/lodepng.git
-[submodule "dependencies/nlohmann_json"]
-	path = dependencies/nlohmann_json
-	url = git@gitlab.com:spring-dev/libs/nlohmann_json.git
 [submodule "dependencies/spring"]
 	path = dependencies/spring
 	url = git@gitlab.com:spring-dev/libs/spring.git
@@ -25,3 +22,6 @@
 [submodule "sconstools"]
 	path = sconstools
 	url = git@gitlab.com:spring-dev/libs/sconstools.git
+[submodule "dependencies/json"]
+	path = dependencies/json
+	url = git@gitlab.com:spring-dev/libs/json.git
