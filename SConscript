@@ -28,20 +28,20 @@ sources.extend(Glob('#build/' + mode + '/spring_template/generated/*/*.cpp'))
 sources.extend(Glob('#build/' + mode + '/spring_template/generated/*/*/*.cpp'))
 env.Append(CPPPATH=['#build/' + mode + '/spring_template/generated'])
 
+dependencies.include_conscript(env, '#dependencies/lodepng')
 dependencies.include_conscript(env, '#dependencies/spring')
 dependencies.include_conscript(env, '#dependencies/glades2')
-dependencies.include_conscript(env, '#dependencies/lodepng')
 dependencies.include_conscript(env, '#dependencies/imgui')
 dependencies.include_conscript(env, '#dependencies/thero')
 
-dependencies.use_lib(env = env, lib_name = 'spring')
+dependencies.use_lib(env = env, lib_name = 'lodepng')
 dependencies.use_lib(env = env, lib_name = 'dophax')
-dependencies.use_lib(env = env, lib_name = 'thero', headers_only = True)
+dependencies.use_lib(env = env, lib_name = 'spring')
 env.Append(CPPPATH=['#build/' + mode + '/spring/generated'])
 
 dependencies.use_lib(env = env, lib_name = 'imgui')
 dependencies.use_lib(env = env, lib_name = 'glades2')
-dependencies.use_lib(env = env, lib_name = 'lodepng')
+dependencies.use_lib(env = env, lib_name = 'thero', headers_only = True)
 
 headers = []
 headers.extend(Glob('src/*.hpp'))
