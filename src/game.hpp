@@ -15,10 +15,10 @@
 #include <rendering/renderlogic.hpp>
 #include <spr/audio/audiologic.hpp>
 
-class SpringTemplate : public spr::Application
+class Game : public spr::Application
 {
     public:
-        SpringTemplate();
+        Game();
         void loadResources();
 		void startScenario();
     protected:

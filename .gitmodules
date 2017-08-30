@@ -25,3 +25,6 @@
 [submodule "dependencies/json"]
 	path = dependencies/json
 	url = git@gitlab.com:spring-dev/libs/json.git
+[submodule "dependencies/catch"]
+	path = dependencies/catch
+	url = git@gitlab.com:spring-dev/libs/catch.git

@@ -1,7 +1,7 @@
-#include "spring_template.hpp"
+#include "game.hpp"
 
 int main(int argc, char *argv[])
 {
-    SpringTemplate application;
+    Game application;
     application.run(argc, argv);
 }

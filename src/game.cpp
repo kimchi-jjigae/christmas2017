@@ -1,4 +1,4 @@
-#include "spring_template.hpp"
+#include "game.hpp"
 #include <dpx/accesspattern.hpp>
 #include <dpx/randomget.hpp>
 #include <dpx/foreach.hpp>
@@ -27,8 +27,8 @@
 
 const spr::GlContextSettings::Type contextType = spr::GlContextSettings::Type::ES;
 
-SpringTemplate::SpringTemplate() :
-    mWindow(cInitialScreenSize, "SpringTemplate", {0, 0, 0, 2, 0, contextType}),
+Game::Game() :
+    mWindow(cInitialScreenSize, "Game", {0, 0, 0, 2, 0, contextType}),
     mInputLogic(mData),
     mPlayerLogic(mData),
     mEntityStatesLogic(mData.spr),
@@ -68,7 +68,7 @@ SpringTemplate::SpringTemplate() :
     startScenario();
 }
 
-void SpringTemplate::loadResources()
+void Game::loadResources()
 {
     spr::sprEnsureCapacity(1024, mData.spr);
     ensureCapacity(1024, mData.game);
@@ -91,18 +91,18 @@ void SpringTemplate::loadResources()
     registerEntityStates(mData);
 }
 
-void SpringTemplate::startScenario()
+void Game::startScenario()
 {
     //initialise game
 }
 
-void SpringTemplate::setup(const std::vector<std::string>& args)
+void Game::setup(const std::vector<std::string>& args)
 {
     if(args.size() > 1 && args[1] == "p")
         mData.paused = true;
 }
 
-void SpringTemplate::loop()
+void Game::loop()
 {
     spr::FrameBlock frameBlock(mData.profiler);
 
@@ -199,7 +199,7 @@ void SpringTemplate::loop()
 #endif
 }
 
-void SpringTemplate::handleInput()
+void Game::handleInput()
 {
     ImGuiIO& io = ImGui::GetIO();
 
