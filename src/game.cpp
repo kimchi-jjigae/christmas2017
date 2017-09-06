@@ -8,6 +8,7 @@
 #include <spr/debugguidata.hpp>
 #include <spr/entitystates/stateutil.hpp>
 #include <spr/debug/debug.hpp>
+#include <spr/debug/debugmenu.hpp>
 #include <spr/showdatatables.hpp>
 #include <spr/profiler/profilergui.hpp>
 #include <spr/gl/texture.hpp>
@@ -162,7 +163,7 @@ void Game::loop()
 
     {
         spr::ProfileBlock b("datatables"_hash, spr::Color::Pink, mData.profiler);
-        if(mData.showDebugMenu)
+        if(mData.showTables)
         {
             spr::showDataTables("Spring tables", mClickedEntity, mData.spr);
             showDataTables("Game tables", mClickedEntity, mData.game, mData.spr);
@@ -173,6 +174,11 @@ void Game::loop()
     {
         spr::ProfileBlock b("profiler_gui"_hash, spr::Color::Yellow, mData.profiler);
         showProfilerGui(mData.profiler);
+    }
+
+    if(mData.showDebugMenu)
+    {
+        spr::showDebugMenu(mData.spr);
     }
 
     {

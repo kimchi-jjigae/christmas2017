@@ -27,15 +27,16 @@ RenderLogic::RenderLogic(GameData& data):
     mData.guiCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
-        glm::quat(),
-        glm::mat4(),
+        glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+        glm::mat4(1.0f),
     }, *mData.spr.tCamera).id;
     mData.worldCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
-        glm::quat(),
-        glm::mat4(),
+        glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+        glm::mat4{1.0f},
     }, *mData.spr.tCamera).id;
+
 
     //initialize our global debug renderer
     spr::DRen::initialize(mData.worldCamera, data.spr);
@@ -107,7 +108,7 @@ void RenderLogic::resizeWindow(glm::ivec2 iSize)
 {
     glm::vec2 size = static_cast<glm::vec2>(iSize);
     glm::vec2 halfSize = size / 2.0f;
-    float zoom = 1.0f;
+    float zoom = 0.5f;
     glm::vec2 worldHalfSize = halfSize * zoom;
 
     spr::gl::resizeViewport(mData.screenSize, mData.mainViewport, mData.spr);

@@ -33,6 +33,7 @@ struct GameData
     bool paused = false;
     int32_t advancePaused = 0;
     bool showDebugMenu = false;
+    bool showTables = false;
     bool showProfiler = false;
     
     //input

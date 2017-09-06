@@ -111,11 +111,15 @@ void InputLogic::update()
             }
             else if(event.key.keysym.sym == SDLK_COMMA)
             {
-                mData.showDebugMenu = !mData.showDebugMenu;
+                mData.showTables = !mData.showTables;
             }
             else if(event.key.keysym.sym == SDLK_PERIOD)
             {
                 mData.showProfiler = !mData.showProfiler;
+            }
+            else if(event.key.keysym.sym == SDLK_SLASH)
+            {
+                mData.showDebugMenu = !mData.showDebugMenu;
             }
         }
         else if(event.type == SDL_QUIT)
