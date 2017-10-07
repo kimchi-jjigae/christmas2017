@@ -49,8 +49,12 @@ dependencies.use_lib(env = env, lib_name = 'stb_truetype')
 #add generated files as includes
 env.Append(CPPPATH=['#build/' + mode + '/spring/generated'])
 
+web_libs = []
+if 'web' in mode:
+    web_libs.extend(glob.recursive_glob(env, '#depot/*/lib', '*' + mode + '.bc'))
+
 ##build our application
-binary = env.Program(target = project_name + '_' + mode, source = sources, duplicate=0)
+binary = env.Program(target = project_name + '_' + mode, source = (sources + web_libs), duplicate=0)
 
 #move to bin
 env.Install('#bin', binary)

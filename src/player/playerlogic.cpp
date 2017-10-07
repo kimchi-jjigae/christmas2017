@@ -11,6 +11,7 @@ PlayerLogic::PlayerLogic(GameData& data):
 
 void PlayerLogic::update()
 {
+    (void)mData;
     ////set world camera
     //glm::vec2 playerPosition = get(*mData.playerBrain, *mData.spr.tPosition).coordinate;
     //spr::Camera& worldCam = get(mData.worldCamera, *mData.spr.tCamera);
