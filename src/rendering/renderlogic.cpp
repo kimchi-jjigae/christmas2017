@@ -28,14 +28,15 @@ RenderLogic::RenderLogic(GameData& data):
     mData.guiCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
-        glm::quat(),
-        glm::mat4(),
+        glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+        glm::mat4(1.0f),
+
     }, *mData.spr.tCamera).id;
     mData.worldCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
-        glm::quat(),
-        glm::mat4(),
+        glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
+        glm::mat4(1.0f),
     }, *mData.spr.tCamera).id;
 
     //initialize our global debug renderer
