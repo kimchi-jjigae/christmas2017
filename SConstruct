@@ -11,6 +11,13 @@ env['ENV']['TERM'] = os.environ['TERM']
 project_name = 'spring_template'
 env['project_name'] = project_name
 arguments = ARGUMENTS
+
+env['data_folder'] = 'data'
+
+system_libraries = []
+if os.environ.get('EMSCRIPTEN') is None:
+    system_libraries = ['SDL2', 'SDL2_mixer']
+
 system_libraries = ['SDL2', 'SDL2_mixer']
 system_libraries_paths = []
 cpp_defines = {}
