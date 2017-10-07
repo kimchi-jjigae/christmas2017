@@ -12,7 +12,7 @@ project_name = 'spring_template'
 env['project_name'] = project_name
 arguments = ARGUMENTS
 
-env['data_folder'] = 'data'
+env['data_folder'] = 'assets'
 
 system_libraries = []
 if os.environ.get('EMSCRIPTEN') is None:
