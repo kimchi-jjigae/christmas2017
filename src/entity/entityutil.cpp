@@ -11,8 +11,8 @@
 #include <spr/data/sceneparent.hpp>
 #include <spr/entity/entityutil.hpp>
 #include <constants/world.hpp>
-#include <data/health.hpp>
 #include <gamedata.hpp>
+#include <entityaddremove.hpp>
 
 int32_t addEntity(spr::EntityProperties properties, GameData& data)
 {
@@ -41,7 +41,7 @@ int32_t addEntity(spr::EntityProperties properties, GameData& data)
     }
 
     //game tables
-    insertOptional(newId, "health"_hash, properties, *data.game.tHealth);
+    addEntityGenerated(newId, properties, data.game);
 
     return newId;
 }
@@ -62,8 +62,7 @@ void removeEntityData(int32_t entityId, GameData& data)
 
     spr::removeEntityData(entityId, data.spr);
 
-    //tables
-    erase(entityId, *data.game.tHealth);
+    removeEntityDataGenerated(entityId, data.game);
 }
 
 void clearAllCurrentEntities(GameData& data)

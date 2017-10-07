@@ -28,3 +28,12 @@
 [submodule "dependencies/catch"]
 	path = dependencies/catch
 	url = git@gitlab.com:spring-dev/libs/catch.git
+[submodule "dependencies/binpack"]
+	path = dependencies/binpack
+	url = git@gitlab.com:spring-dev/libs/rect_bin_pack.git
+[submodule "dependencies/stb_truetype"]
+	path = dependencies/stb_truetype
+	url = git@gitlab.com:spring-dev/libs/stb_truetype.git
+[submodule "dependencies/glm"]
+	path = dependencies/glm
+	url = git@gitlab.com:spring-dev/libs/glm.git

@@ -31,6 +31,8 @@ dependencies.include_conscript(env, '#dependencies/spring')
 dependencies.include_conscript(env, '#dependencies/glades2')
 dependencies.include_conscript(env, '#dependencies/imgui')
 dependencies.include_conscript(env, '#dependencies/thero')
+dependencies.include_conscript(env, '#dependencies/binpack')
+dependencies.include_conscript(env, '#dependencies/stb_truetype')
 
 #use them
 dependencies.use_lib(env = env, lib_name = 'spring')
@@ -39,6 +41,8 @@ dependencies.use_lib(env = env, lib_name = 'dophax')
 dependencies.use_lib(env = env, lib_name = 'imgui')
 dependencies.use_lib(env = env, lib_name = 'glades2')
 dependencies.use_lib(env = env, lib_name = 'thero', headers_only = True)
+dependencies.use_lib(env = env, lib_name = 'binpack')
+dependencies.use_lib(env = env, lib_name = 'stb_truetype')
 
 #add generated files as includes
 env.Append(CPPPATH=['#build/' + mode + '/spring/generated'])

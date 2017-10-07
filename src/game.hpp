@@ -19,6 +19,7 @@ class Game : public spr::Application
 {
     public:
         Game();
+        ~Game();
         void loadResources();
 		void startScenario();
     protected:

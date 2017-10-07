@@ -16,6 +16,7 @@
 RenderLogic::RenderLogic(GameData& data):
     mData(data),
     mSpriteRenderer(mData.spr),
+    mTextRenderer(mData.spr),
     mImguiRenderer(mData.spr)
 {
     //setup cameras and views
@@ -27,16 +28,15 @@ RenderLogic::RenderLogic(GameData& data):
     mData.guiCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
-        glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-        glm::mat4(1.0f),
+        glm::quat(),
+        glm::mat4(),
     }, *mData.spr.tCamera).id;
     mData.worldCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
-        glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
-        glm::mat4{1.0f},
+        glm::quat(),
+        glm::mat4(),
     }, *mData.spr.tCamera).id;
-
 
     //initialize our global debug renderer
     spr::DRen::initialize(mData.worldCamera, data.spr);
@@ -77,7 +77,7 @@ void main()
     gl_FragColor = texture2D(texture, vTex) * vColor;
 }
 )";
-    mShader = createShaderProgram(vertex, fragment, {{"position", 0}, {"texCoord", 1}, {"color", 2}}, mData.spr);
+    mData.mainShader = createShaderProgram(vertex, fragment, {{"position", 0}, {"texCoord", 1}, {"color", 2}}, mData.spr);
 
     //setup gl values
     glEnable(GL_BLEND);
@@ -87,7 +87,7 @@ void main()
 void RenderLogic::frameStart(spr::Color clearColor)
 {
     glClearColor(clearColor.rAsFloat(), clearColor.gAsFloat(), clearColor.bAsFloat(), clearColor.aAsFloat());
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     spr::gl::setViewport(mData.mainViewport, mData.spr);
 
@@ -97,18 +97,20 @@ void RenderLogic::frameStart(spr::Color clearColor)
 void RenderLogic::renderFrame()
 {
     //all sprites
-    mSpriteRenderer.render(mData.mainViewport, mData.worldCamera, mShader);
-    //imgui
-    mImguiRenderer.renderFrame(mData.mainViewport, mData.guiCamera, mShader);
+    mSpriteRenderer.render();
+    //all texts
+    mTextRenderer.render();
     //draw all debug primitives
-    spr::DRen::render(mData.mainViewport, mData.worldCamera, mShader);
+    spr::DRen::render(mData.mainViewport, mData.worldCamera, mData.mainShader);
+    //imgui
+    mImguiRenderer.renderFrame(mData.mainViewport, mData.guiCamera, mData.mainShader);
 }
 
 void RenderLogic::resizeWindow(glm::ivec2 iSize)
 {
     glm::vec2 size = static_cast<glm::vec2>(iSize);
     glm::vec2 halfSize = size / 2.0f;
-    float zoom = 0.5f;
+    float zoom = 1.0f;
     glm::vec2 worldHalfSize = halfSize * zoom;
 
     spr::gl::resizeViewport(mData.screenSize, mData.mainViewport, mData.spr);

@@ -3,6 +3,7 @@
 #include <spr/color/color.hpp>
 #include <spr/rendering/spriterenderer.hpp>
 #include <spr/rendering/imguirenderer.hpp>
+#include <spr/rendering/textrenderer.hpp>
 
 struct GameData;
 
@@ -15,7 +16,7 @@ class RenderLogic
         void resizeWindow(glm::ivec2 size);
     private:
         GameData& mData;
-        dpx::TableId mShader;
         spr::SpriteRenderer mSpriteRenderer;
+        spr::TextRenderer mTextRenderer;
         spr::ImguiRenderer mImguiRenderer;
 };

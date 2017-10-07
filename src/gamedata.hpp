@@ -47,9 +47,10 @@ struct GameData
     std::unordered_set<PlayerAction> stoppedPlayerActions;
 
     //rendering
-    dpx::TableId mainViewport = 0;
-    dpx::TableId worldCamera = 0;
-    dpx::TableId guiCamera = 0;
+    dpx::TableId mainShader = dpx::Null;
+    dpx::TableId mainViewport = dpx::Null;
+    dpx::TableId worldCamera = dpx::Null;
+    dpx::TableId guiCamera = dpx::Null;
     
     //entities
     dpx::IdSet entitiesToRemove;

@@ -123,6 +123,7 @@
             "templates/addutil.dpt",
             "templates/tablecapacity.dpt",
             "templates/debugguidata.dpt",
+            "templates/entityaddremove.dpt",
             "templates/showdatatables.dpt",
             "templates/tablesregistering.dpt"
         ]

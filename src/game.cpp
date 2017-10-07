@@ -69,6 +69,11 @@ Game::Game() :
     startScenario();
 }
 
+Game::~Game()
+{
+    ImGui::Shutdown();
+}
+
 void Game::loadResources()
 {
     spr::sprEnsureCapacity(1024, mData.spr);
@@ -182,6 +187,13 @@ void Game::loop()
     }
 
     {
+        spr::DRen::out << spr::DebugLine
+        {
+            {0.0f, 0.0f},
+            {100.0f, 200.0f},
+            spr::Color::Blue,
+            2
+        };
         spr::ProfileBlock b("rendering"_hash, spr::Color::Blue, mData.profiler);
         mRenderLogic.renderFrame();
     }
