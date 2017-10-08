@@ -15,7 +15,7 @@ arguments = ARGUMENTS
 env['data_folder'] = 'assets'
 
 system_libraries = []
-if os.environ.get('EMSCRIPTEN') is None:
+if os.environ.get('EMSDK') is None:
     system_libraries = ['SDL2', 'SDL2_mixer']
 
 system_libraries_paths = []
