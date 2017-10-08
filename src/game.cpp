@@ -67,6 +67,9 @@ Game::Game() :
     mData.spatialEntityStorage = spr::QuadTree({mData.c->world->spatialStorageSize, mData.c->world->spatialStorageSize});
     mCollisionLogic.setQuadTree(mData.spatialEntityStorage, {spatialStorageSize / 2.0f, spatialStorageSize / 2.0f});
 
+    //setup logic settings
+    mData.frameData.sFrameTimeMode = spr::FrameTimeMode::Fixed;
+
     startScenario();
 }
 
