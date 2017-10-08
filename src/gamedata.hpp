@@ -9,6 +9,7 @@
 #include <dpx/tableid.hpp>
 #include <spr/data/tables.hpp>
 #include <spr/physics/quadtree.hpp>
+#include <spr/frame/framelogic.hpp>
 
 #include <constants/constants.hpp>
 #include <data/datatables.hpp>
@@ -36,6 +37,9 @@ struct GameData
     bool showTables = false;
     bool showProfiler = false;
     
+    //logic data
+    spr::FrameLogic::Data frameData;
+
     //input
     SystemInput systemInput;
     th::Optional<MouseClick> mouseClick;

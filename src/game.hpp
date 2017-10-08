@@ -4,6 +4,7 @@
 #include <spr/data/alltypes.hpp> //needed to give unique_ptrs ability to destroy
 #include <spr/data/alltypes.hpp> //needed to give unique_ptrs ability to destroy
 #include <data/alltypes.hpp> //needed to give unique_ptrs ability to destroy
+#include <spr/frame/framelogic.hpp>
 #include <spr/entitystates/entitystateslogic.hpp>
 #include <spr/physics/collisionlogic.hpp>
 #include <spr/scene/scenelogic.hpp>
@@ -32,6 +33,9 @@ class Game : public spr::Application
 
         //window
         spr::GlWindow mWindow;
+
+        //frame
+        spr::FrameLogic mFrameLogic;
 
         //input
         InputLogic mInputLogic;

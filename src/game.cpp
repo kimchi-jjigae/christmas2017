@@ -30,13 +30,14 @@ const spr::GlContextSettings::Type contextType = spr::GlContextSettings::Type::E
 
 Game::Game() :
     mWindow(cInitialScreenSize, "Game", {0, 0, 0, 2, 0, contextType}),
+    mFrameLogic(mData.frameData, mData.spr),
     mInputLogic(mData),
     mPlayerLogic(mData),
     mEntityStatesLogic(mData.spr),
     mEntityLogic(mData),
     mCollisionLogic(mData.spr),
     mSceneLogic(mData.spr),
-    mPhysicsLogic(mData.spr),
+    mPhysicsLogic(mData.frameData, mData.spr),
     mRenderLogic(mData),
     mAudioLogic(mData.spr)
 {
@@ -110,50 +111,64 @@ void Game::setup(const std::vector<std::string>& args)
 
 void Game::loop()
 {
+    mFrameLogic.newFrame();
     spr::FrameBlock frameBlock(mData.profiler);
 
-    spr::sprEnsureCapacity(1024, mData.spr);
-    ensureCapacity(1024, mData.game);
+    while(mFrameLogic.timeRemains())
+    {
+        mFrameLogic.advanceDeltaTime();
+
+        spr::sprEnsureCapacity(1024, mData.spr);
+        ensureCapacity(1024, mData.game);
 
 #ifdef DEBUG_ON
-    spr::SprTablesCapacity sprCapacitiesBefore = spr::sprTablesCapacity(mData.spr);
-    DataTablesCapacity capacitiesBefore = tablesCapacity(mData.game);
+        spr::SprTablesCapacity sprCapacitiesBefore = spr::sprTablesCapacity(mData.spr);
+        DataTablesCapacity capacitiesBefore = tablesCapacity(mData.game);
 #endif
 
-    mInputLogic.update();
-    handleInput();
+        mInputLogic.update();
+        handleInput();
 
-    if(!mData.paused || mData.advancePaused)
-    {
+        if(!mData.paused || mData.advancePaused)
         {
-            spr::ProfileBlock b("player_logic"_hash, spr::Color::Yellow, mData.profiler);
-            mPlayerLogic.update();
-        }
-        {
-            spr::ProfileBlock b("physics"_hash, spr::Color::Red, mData.profiler);
-            mPhysicsLogic.update();
-        }
-        mEntityLogic.updateSpatialTree();
-        {
-            spr::ProfileBlock b("collision"_hash, spr::Color::Green, mData.profiler);
-            mCollisionLogic.update();
-        }
-        {
-            spr::ProfileBlock b("scene_logic"_hash, spr::Color::Brown, mData.profiler);
-            mSceneLogic.update();
+            {
+                spr::ProfileBlock b("player_logic"_hash, spr::Color::Yellow, mData.profiler);
+                mPlayerLogic.update();
+            }
+            {
+                spr::ProfileBlock b("physics"_hash, spr::Color::Red, mData.profiler);
+                mPhysicsLogic.update();
+            }
+            mEntityLogic.updateSpatialTree();
+            {
+                spr::ProfileBlock b("collision"_hash, spr::Color::Green, mData.profiler);
+                mCollisionLogic.update();
+            }
+            {
+                spr::ProfileBlock b("scene_logic"_hash, spr::Color::Brown, mData.profiler);
+                mSceneLogic.update();
+            }
+
+            //entity logic
+            auto entitiesToRemove = mEntityStatesLogic.update();
+            for(dpx::TableId toRemove : entitiesToRemove)
+            {
+                removeEntity(toRemove, mData);
+            }
+
+            mEntityLogic.update();
+
+            if(mData.advancePaused > 0)
+                --mData.advancePaused;
         }
 
-        //entity logic
-        auto entitiesToRemove = mEntityStatesLogic.update();
-        for(dpx::TableId toRemove : entitiesToRemove)
-        {
-            removeEntity(toRemove, mData);
-        }
-
-        mEntityLogic.update();
-
-        if(mData.advancePaused > 0)
-            --mData.advancePaused;
+#ifdef DEBUG_ON
+        spr::SprTablesCapacity sprCapacitiesAfter = spr::sprTablesCapacity(mData.spr);
+        DataTablesCapacity capacitiesAfter = tablesCapacity(mData.game);
+    
+        TH_ASSERT(sprCapacitiesBefore == sprCapacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
+        TH_ASSERT(capacitiesBefore == capacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
+#endif
     }
 
     //imgui
@@ -200,14 +215,6 @@ void Game::loop()
         spr::ProfileBlock b("audio"_hash, spr::Color::Tan, mData.profiler);
         mAudioLogic.update();
     }
-
-#ifdef DEBUG_ON
-    spr::SprTablesCapacity sprCapacitiesAfter = spr::sprTablesCapacity(mData.spr);
-    DataTablesCapacity capacitiesAfter = tablesCapacity(mData.game);
-
-    TH_ASSERT(sprCapacitiesBefore == sprCapacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
-    TH_ASSERT(capacitiesBefore == capacitiesAfter, "Spawning crossed capacity boundary in the middle of frame");
-#endif
 }
 
 void Game::handleInput()
