@@ -8,7 +8,7 @@ env = Environment()
 env['ENV']['TERM'] = os.environ['TERM']
 
 #setup project parameters
-project_name = 'spring_template'
+project_name = 'christmas2017'
 env['project_name'] = project_name
 arguments = ARGUMENTS
 
