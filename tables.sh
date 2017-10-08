@@ -1,1 +1,1 @@
-./dophax/build/dophax_gui -d "."
+./build/release/dophax/dophaxgui_release -d "."
