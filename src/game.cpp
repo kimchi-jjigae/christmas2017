@@ -7,6 +7,7 @@
 #include <spr/data/tables.hpp>
 #include <spr/debugguidata.hpp>
 #include <spr/entitystates/stateutil.hpp>
+#include <spr/entity/spawnentity.hpp>
 #include <spr/debug/debug.hpp>
 #include <spr/debug/debugmenu.hpp>
 #include <spr/showdatatables.hpp>
@@ -84,7 +85,7 @@ void Game::loadResources()
     ensureCapacity(1024, mData.game);
 
     //textures
-    //loadAndAddTexture("bullet"_hash,     "data/textures/weapon/bullet.png",    mData.spr); 
+    loadAndAddTexture("santa"_hash, "assets/santa.png", mData.spr); 
    
     //animations
     //addSpriteAnimation("explosion"_hash, spr::SpriteAnimation
@@ -104,6 +105,8 @@ void Game::loadResources()
 void Game::startScenario()
 {
     //initialise game
+    spr::EntityProperties prop = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {144.0f, 110.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    addEntity(prop, mData);
 }
 
 void Game::setup(const std::vector<std::string>& args)
