@@ -50,23 +50,23 @@ void InputLogic::update()
             }
             else if(event.key.keysym.sym == SDLK_UP)
             {
-                mData.startedPlayerActions.insert(PlayerAction::TurnLeft);
-                mData.ongoingPlayerActions.insert(PlayerAction::TurnLeft);
+                mData.startedPlayerActions.insert(PlayerAction::Up);
+                mData.ongoingPlayerActions.insert(PlayerAction::Up);
             }
             else if(event.key.keysym.sym == SDLK_DOWN)
             {
-                mData.startedPlayerActions.insert(PlayerAction::TurnLeft);
-                mData.ongoingPlayerActions.insert(PlayerAction::TurnLeft);
+                mData.startedPlayerActions.insert(PlayerAction::Down);
+                mData.ongoingPlayerActions.insert(PlayerAction::Down);
             }
             else if(event.key.keysym.sym == SDLK_LEFT)
             {
-                mData.startedPlayerActions.insert(PlayerAction::TurnLeft);
-                mData.ongoingPlayerActions.insert(PlayerAction::TurnLeft);
+                mData.startedPlayerActions.insert(PlayerAction::Left);
+                mData.ongoingPlayerActions.insert(PlayerAction::Left);
             }
             else if(event.key.keysym.sym == SDLK_RIGHT)
             {
-                mData.startedPlayerActions.insert(PlayerAction::TurnRight);
-                mData.ongoingPlayerActions.insert(PlayerAction::TurnRight);
+                mData.startedPlayerActions.insert(PlayerAction::Right);
+                mData.ongoingPlayerActions.insert(PlayerAction::Right);
             }
             else if(event.key.keysym.sym == SDLK_SPACE)
             {
@@ -98,23 +98,23 @@ void InputLogic::update()
             }
             else if(event.key.keysym.sym == SDLK_UP)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::TurnLeft);
-                mData.ongoingPlayerActions.erase(PlayerAction::TurnLeft);
+                mData.stoppedPlayerActions.insert(PlayerAction::Up);
+                mData.ongoingPlayerActions.erase(PlayerAction::Up);
             }
             else if(event.key.keysym.sym == SDLK_DOWN)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::TurnLeft);
-                mData.ongoingPlayerActions.erase(PlayerAction::TurnLeft);
+                mData.stoppedPlayerActions.insert(PlayerAction::Down);
+                mData.ongoingPlayerActions.erase(PlayerAction::Down);
             }
             else if(event.key.keysym.sym == SDLK_LEFT)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::TurnLeft);
-                mData.ongoingPlayerActions.erase(PlayerAction::TurnLeft);
+                mData.stoppedPlayerActions.insert(PlayerAction::Left);
+                mData.ongoingPlayerActions.erase(PlayerAction::Left);
             }
             else if(event.key.keysym.sym == SDLK_RIGHT)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::TurnRight);
-                mData.ongoingPlayerActions.erase(PlayerAction::TurnRight);
+                mData.stoppedPlayerActions.insert(PlayerAction::Right);
+                mData.ongoingPlayerActions.erase(PlayerAction::Right);
             }
             else if(event.key.keysym.sym == SDLK_SPACE)
             {
