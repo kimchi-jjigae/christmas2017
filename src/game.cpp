@@ -86,6 +86,7 @@ void Game::loadResources()
 
     //textures
     loadAndAddTexture("santa"_hash, "assets/santa.png", mData.spr); 
+    loadAndAddTexture("santa"_hash, "assets/arm.png", mData.spr); 
    
     //animations
     //addSpriteAnimation("explosion"_hash, spr::SpriteAnimation
@@ -105,8 +106,11 @@ void Game::loadResources()
 void Game::startScenario()
 {
     //initialise game
-    spr::EntityProperties prop = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
-    addEntity(prop, mData);
+    spr::EntityProperties santa = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties arm = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {11.0f, 17.0f}, *spr::findTexture("arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+
+    addEntity(santa, mData);
+    addEntity(arm, mData);
 }
 
 void Game::setup(const std::vector<std::string>& args)
