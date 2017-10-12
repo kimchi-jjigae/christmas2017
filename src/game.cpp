@@ -105,7 +105,7 @@ void Game::loadResources()
 void Game::startScenario()
 {
     //initialise game
-    spr::EntityProperties prop = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {144.0f, 110.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties prop = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
     addEntity(prop, mData);
 }
 
