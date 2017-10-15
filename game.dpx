@@ -138,10 +138,64 @@
                     "name": "amount"
                 }
             ],
+            "dependencies": [],
             "description": "life",
             "external_id": true,
             "inherits": null,
-            "name": "health"
+            "name": "health",
+            "tags": []
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "float",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "acceleration"
+                },
+                {
+                    "data_type": "float",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "velocity"
+                },
+                {
+                    "data_type": "float",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "maximumVelocity"
+                }
+            ],
+            "dependencies": [],
+            "description": "",
+            "external_id": true,
+            "inherits": null,
+            "name": "angular_physics",
+            "tags": [
+                "entity",
+                "auto_add",
+                "auto_del"
+            ]
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "float",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "velocity"
+                }
+            ],
+            "dependencies": [],
+            "description": "",
+            "external_id": true,
+            "inherits": null,
+            "name": "auto_walk",
+            "tags": [
+                "entity",
+                "auto_add",
+                "auto_del"
+            ]
         }
     ]
 }

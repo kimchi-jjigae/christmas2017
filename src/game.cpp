@@ -1,31 +1,37 @@
 #include "game.hpp"
+#include <algorithm>
 #include <dpx/accesspattern.hpp>
 #include <dpx/randomget.hpp>
 #include <dpx/foreach.hpp>
 #include <dpx/count.hpp>
+#include <dpx/join.hpp>
 #include <imgui/imgui.h>
+#include <spr/data/rotation.hpp>
 #include <spr/data/tables.hpp>
 #include <spr/debugguidata.hpp>
 #include <spr/entitystates/stateutil.hpp>
 #include <spr/entity/spawnentity.hpp>
 #include <spr/debug/debug.hpp>
 #include <spr/debug/debugmenu.hpp>
-#include <spr/showdatatables.hpp>
-#include <spr/profiler/profilergui.hpp>
 #include <spr/gl/texture.hpp>
 #include <spr/gl/viewport.hpp>
-
-#include <constants/allconstants.hpp>
-#include <data/datatables.hpp>
-#include <debugguidata.hpp>
-#include <entity/entityutil.hpp>
-#include <entitystates/entitystates.hpp>
+#include <spr/profiler/profileblock.hpp>
+#include <spr/profiler/profilergui.hpp>
+#include <spr/random/random.hpp>
 #include <spr/resources/animation.hpp>
 #include <spr/resources/texture.hpp>
 #include <spr/resources/audiosample.hpp>
+#include <spr/showdatatables.hpp>
+
+#include <constants/allconstants.hpp>
+#include <data/datatables.hpp>
+#include <data/angularphysics.hpp>
+#include <data/autowalk.hpp>
+#include <debugguidata.hpp>
+#include <entity/entityutil.hpp>
+#include <entitystates/entitystates.hpp>
 #include <showdatatables.hpp>
 #include <tablecapacity.hpp>
-#include <spr/profiler/profileblock.hpp>
 
 const spr::GlContextSettings::Type contextType = spr::GlContextSettings::Type::ES;
 
@@ -85,8 +91,10 @@ void Game::loadResources()
     ensureCapacity(1024, mData.game);
 
     //textures
+    loadAndAddTexture("bg"_hash, "assets/bg.png", mData.spr); 
     loadAndAddTexture("santa"_hash, "assets/santa.png", mData.spr); 
-    loadAndAddTexture("santa"_hash, "assets/arm.png", mData.spr); 
+    loadAndAddTexture("arm"_hash, "assets/arm.png", mData.spr); 
+    loadAndAddTexture("child"_hash, "assets/girl.png", mData.spr); 
    
     //animations
     //addSpriteAnimation("explosion"_hash, spr::SpriteAnimation
@@ -106,11 +114,16 @@ void Game::loadResources()
 void Game::startScenario()
 {
     //initialise game
-    spr::EntityProperties santa = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
-    spr::EntityProperties arm = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {11.0f, 17.0f}, *spr::findTexture("arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties bg = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {640.0f, 400.0f}, *spr::findTexture("bg"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties santa = spr::createSpriteProperties({-270.0f, 100.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
 
-    addEntity(santa, mData);
-    addEntity(arm, mData);
+    addEntity(bg, mData);
+    mData.santaId = addEntity(santa, mData);
+    spr::EntityProperties armAnchor = spr::createSpriteProperties({-4.5f, 5.5f, 0.0f}, {}, mData.santaId, {0.0f, 0.0f}, {}, mData.mainShader, mData.mainViewport, mData.worldCamera);
+    armAnchor["angular_physics"_hash] = AngularPhysics{0.0f, 0.0f, 0.262f};
+    mData.armAnchorId = addEntity(armAnchor, mData);
+    spr::EntityProperties arm = spr::createSpriteProperties({2.0f, 8.0f, 0.0f}, {}, mData.armAnchorId, {11.0f, 17.0f}, *spr::findTexture("arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    mData.armId = addEntity(arm, mData);
 }
 
 void Game::setup(const std::vector<std::string>& args)
@@ -148,6 +161,16 @@ void Game::loop()
             {
                 spr::ProfileBlock b("physics"_hash, spr::Color::Red, mData.profiler);
                 mPhysicsLogic.update();
+                dpx::join([&](int32_t id, AngularPhysics& angPhysics, spr::Rotation& rotation)
+                {
+                    const float acc = angPhysics.acceleration;
+                    const float maxVel = angPhysics.maximumVelocity;
+                    float& vel = angPhysics.velocity;
+                    float& rot = rotation.angle;
+                    vel += acc;
+                    vel = std::min(vel, maxVel);
+                    rot -= vel;
+                }, *mData.game.tAngularPhysics, *mData.spr.tRotation);
             }
             mEntityLogic.updateSpatialTree();
             {
@@ -165,6 +188,20 @@ void Game::loop()
             {
                 removeEntity(toRemove, mData);
             }
+
+            glm::vec3 childSpawnPosition = {300.0f, 150.0f, 0.0f};
+            if(spr::randomChance(0.01f, mData.randomEngine))
+            {
+                spr::EntityProperties newChild = spr::createSpriteProperties(childSpawnPosition, {}, {}, {48.0f, 48.0f}, *spr::findTexture("child"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+                newChild["auto_walk"_hash] = AutoWalk{-1.0f};
+                addEntity(newChild, mData);
+            }
+            dpx::join([&](int32_t id, AutoWalk& autoWalk, spr::Position& position)
+            {
+                const float vel = autoWalk.velocity;
+                glm::vec3& pos = position.coordinate;
+                pos.x += vel;
+            }, *mData.game.tAutoWalk, *mData.spr.tPosition);
 
             mEntityLogic.update();
 

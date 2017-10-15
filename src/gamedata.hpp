@@ -59,6 +59,9 @@ struct GameData
     //entities
     dpx::IdSet entitiesToRemove;
     spr::QuadTree spatialEntityStorage;
+    dpx::TableId santaId;
+    dpx::TableId armAnchorId;
+    dpx::TableId armId;
     
     //random engine
     std::mt19937 randomEngine;
