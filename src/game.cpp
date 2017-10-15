@@ -131,7 +131,17 @@ void Game::startScenario()
     mData.armId = addEntity(arm, mData);
 
     spr::EntityProperties armCollider = spr::createSceneProperties({2.0f, 11.0f, 0.0f}, {}, mData.armId);
-    armCollider["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, {}};
+    std::vector<spr::CollisionExecutor> executors = {
+    {
+        "punch",
+        [&](const spr::CollisionContext& context)
+        {
+            dpx::TableId fist = context.entityId;
+            dpx::TableId child = context.collidedWithId;
+            removeEntity(child, mData);
+        }
+    }};
+    armCollider["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, executors};
     armCollider["obb_collider"_hash] = spr::ObbCollider{glm::vec2(19.0f, 19.0f)};
     armCollider["hitbox"_hash] = spr::Hitbox{glm::vec2(-9.5f, -9.5f), glm::vec2(9.5f, 9.5f)};
     mData.armColliderId = addEntity(armCollider, mData);
@@ -210,6 +220,9 @@ void Game::loop()
             {
                 spr::EntityProperties newChild = spr::createSpriteProperties(childSpawnPosition, {}, {}, {48.0f, 48.0f}, *spr::findTexture("child"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
                 newChild["auto_walk"_hash] = AutoWalk{-1.0f};
+                newChild["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, {}};
+                newChild["obb_collider"_hash] = spr::ObbCollider{glm::vec2(32.0f, 48.0f)};
+                newChild["hitbox"_hash] = spr::Hitbox{glm::vec2(-16.0f, -24.0f), glm::vec2(10.0f, 24.0f)};
                 addEntity(newChild, mData);
             }
             dpx::join([&](int32_t id, AutoWalk& autoWalk, spr::Position& position)
