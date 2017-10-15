@@ -69,4 +69,12 @@ struct GameData
 
     // profile
     spr::Profiler profiler;
+
+    // misc
+    // assuming 0.0f, 0.0f is the middle of the background
+    struct Bounds {float top; float bottom; float left; float right;};
+    Bounds bounds =
+    {
+        40.0f, 176.0f, -276.0f, 276.0f
+    };
 };
