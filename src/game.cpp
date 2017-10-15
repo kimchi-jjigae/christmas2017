@@ -119,11 +119,19 @@ void Game::startScenario()
 
     addEntity(bg, mData);
     mData.santaId = addEntity(santa, mData);
-    spr::EntityProperties armAnchor = spr::createSpriteProperties({-4.5f, 5.5f, 0.0f}, {}, mData.santaId, {0.0f, 0.0f}, {}, mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties armAnchor = spr::createSceneProperties({-3.0f, 0.0f, 0.0f}, {}, mData.santaId);
     armAnchor["angular_physics"_hash] = AngularPhysics{0.0f, 0.0f, 0.262f};
     mData.armAnchorId = addEntity(armAnchor, mData);
-    spr::EntityProperties arm = spr::createSpriteProperties({2.0f, 8.0f, 0.0f}, {}, mData.armAnchorId, {11.0f, 17.0f}, *spr::findTexture("arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+
+    spr::EntityProperties arm = spr::createSpriteProperties({4.0f, 15.0f, 0.0f}, {}, mData.armAnchorId, {23.0f, 42.0f}, *spr::findTexture("arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
     mData.armId = addEntity(arm, mData);
+
+    /*
+    spr::EntityProperties armCollider = spr::createSceneProperties({5.0f, 12.0f, 0.0f}, {}, mData.armAnchorId);
+    arm["obb_collider"_hash] = spr::ObbCollider{0.0f, 0.0f, 0.262f};
+    arm["hitbox"_hash] = spr::Hitbox{0.0f, 0.0f, 0.262f};
+    mData.armColliderId = addEntity(armCollider, mData);
+    */
 }
 
 void Game::setup(const std::vector<std::string>& args)
@@ -177,11 +185,6 @@ void Game::loop()
                 spr::ProfileBlock b("collision"_hash, spr::Color::Green, mData.profiler);
                 mCollisionLogic.update();
             }
-            {
-                spr::ProfileBlock b("scene_logic"_hash, spr::Color::Brown, mData.profiler);
-                mSceneLogic.update();
-            }
-
             //entity logic
             auto entitiesToRemove = mEntityStatesLogic.update();
             for(dpx::TableId toRemove : entitiesToRemove)
@@ -207,6 +210,11 @@ void Game::loop()
 
             if(mData.advancePaused > 0)
                 --mData.advancePaused;
+
+            {
+                spr::ProfileBlock b("scene_logic"_hash, spr::Color::Brown, mData.profiler);
+                mSceneLogic.update();
+            }
         }
 
 #ifdef DEBUG_ON
