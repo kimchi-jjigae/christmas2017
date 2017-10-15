@@ -62,6 +62,7 @@ struct GameData
     dpx::TableId santaId;
     dpx::TableId armAnchorId;
     dpx::TableId armId;
+    dpx::TableId armColliderId;
     
     //random engine
     std::mt19937 randomEngine;

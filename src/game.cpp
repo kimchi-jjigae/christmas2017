@@ -6,15 +6,19 @@
 #include <dpx/count.hpp>
 #include <dpx/join.hpp>
 #include <imgui/imgui.h>
+#include <spr/data/entitycollider.hpp>
+#include <spr/data/hitbox.hpp>
+#include <spr/data/obbcollider.hpp>
 #include <spr/data/rotation.hpp>
 #include <spr/data/tables.hpp>
+#include <spr/debug/debug.hpp>
+#include <spr/debug/debugmenu.hpp>
 #include <spr/debugguidata.hpp>
 #include <spr/entitystates/stateutil.hpp>
 #include <spr/entity/spawnentity.hpp>
-#include <spr/debug/debug.hpp>
-#include <spr/debug/debugmenu.hpp>
 #include <spr/gl/texture.hpp>
 #include <spr/gl/viewport.hpp>
+#include <spr/physics/collisiontype.hpp>
 #include <spr/profiler/profileblock.hpp>
 #include <spr/profiler/profilergui.hpp>
 #include <spr/random/random.hpp>
@@ -126,12 +130,20 @@ void Game::startScenario()
     spr::EntityProperties arm = spr::createSpriteProperties({4.0f, 15.0f, 0.0f}, {}, mData.armAnchorId, {23.0f, 42.0f}, *spr::findTexture("arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
     mData.armId = addEntity(arm, mData);
 
-    /*
-    spr::EntityProperties armCollider = spr::createSceneProperties({5.0f, 12.0f, 0.0f}, {}, mData.armAnchorId);
-    arm["obb_collider"_hash] = spr::ObbCollider{0.0f, 0.0f, 0.262f};
-    arm["hitbox"_hash] = spr::Hitbox{0.0f, 0.0f, 0.262f};
+    spr::EntityProperties armCollider = spr::createSceneProperties({2.0f, 11.0f, 0.0f}, {}, mData.armId);
+    armCollider["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, {}};
+    armCollider["obb_collider"_hash] = spr::ObbCollider{glm::vec2(19.0f, 19.0f)};
+    armCollider["hitbox"_hash] = spr::Hitbox{glm::vec2(-9.5f, -9.5f), glm::vec2(9.5f, 9.5f)};
     mData.armColliderId = addEntity(armCollider, mData);
-    */
+    /*
+struct EntityCollider
+{
+    enum Type { _Base, CircleCollider, ObbCollider, };
+    Type entityColliderType;
+    CollisionType collisionType;
+    std::vector<CollisionExecutor> executors;
+};
+*/
 }
 
 void Game::setup(const std::vector<std::string>& args)
@@ -184,6 +196,7 @@ void Game::loop()
             {
                 spr::ProfileBlock b("collision"_hash, spr::Color::Green, mData.profiler);
                 mCollisionLogic.update();
+                //mCollisionLogic.setDebugDraw(true);
             }
             //entity logic
             auto entitiesToRemove = mEntityStatesLogic.update();
