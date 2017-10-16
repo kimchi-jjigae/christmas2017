@@ -139,17 +139,26 @@ void Game::startScenario()
         "punch",
         [&](const spr::CollisionContext& context)
         {
-            const dpx::TableId fist = context.entityId;
-            const dpx::TableId child = context.collidedWithId;
-            AutoWalk& autoWalk = dpx::get(child, *mData.game.tAutoWalk);
-            spr::Physics& physics = dpx::get(child, *mData.spr.tPhysics);
-            physics.velocity = glm::vec2(4.0f,-8.0f);
-            autoWalk.on = false;
+            if(mData.ongoingPlayerActions.count(PlayerAction::LoadPunch))
+            {
+                // ignore fist if currently loading punch
+            }
+            else
+            {
+                const dpx::TableId fist = context.entityId;
+                const dpx::TableId child = context.collidedWithId;
+                AutoWalk& autoWalk = dpx::get(child, *mData.game.tAutoWalk);
+                spr::Physics& physics = dpx::get(child, *mData.spr.tPhysics);
+                float punchVelocity = std::fabs(dpx::get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity);
+                glm::vec2 punchDirection = glm::vec2(1.5f, -3.0f);
+                physics.velocity = punchDirection * punchVelocity;
+                autoWalk.on = false;
+            }
         }
     }};
     armCollider["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, executors};
     armCollider["obb_collider"_hash] = spr::ObbCollider{glm::vec2(19.0f, 19.0f)};
-    armCollider["hitbox"_hash] = spr::Hitbox{glm::vec2(-9.5f, -9.5f), glm::vec2(9.5f, 9.5f)};
+    armCollider["hitbox"_hash] = spr::Hitbox{{glm::vec2(-9.5f, -9.5f), glm::vec2(9.5f, 9.5f)}};
     mData.armColliderId = addEntity(armCollider, mData);
 }
 
@@ -222,7 +231,7 @@ void Game::loop()
                 newChild["auto_walk"_hash] = AutoWalk{true, -1.0f};
                 newChild["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, {}};
                 newChild["obb_collider"_hash] = spr::ObbCollider{glm::vec2(32.0f, 48.0f)};
-                newChild["hitbox"_hash] = spr::Hitbox{glm::vec2(-16.0f, -24.0f), glm::vec2(10.0f, 24.0f)};
+                newChild["hitbox"_hash] = spr::Hitbox{{glm::vec2(-16.0f, -24.0f), glm::vec2(10.0f, 24.0f)}};
                 addEntity(newChild, mData);
             }
             dpx::join([&](int32_t id, AutoWalk& autoWalk, spr::Position& position, spr::Physics& physics)
