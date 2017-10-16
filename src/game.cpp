@@ -95,6 +95,9 @@ void Game::loadResources()
     ensureCapacity(1024, mData.game);
 
     //textures
+    loadAndAddTexture("blood1"_hash, "assets/blood.png", mData.spr); 
+    loadAndAddTexture("blood2a"_hash, "assets/blood2a.png", mData.spr); 
+    loadAndAddTexture("blood2b"_hash, "assets/blood2b.png", mData.spr); 
     loadAndAddTexture("bg"_hash, "assets/bg.png", mData.spr); 
     loadAndAddTexture("santa"_hash, "assets/santa.png", mData.spr); 
     loadAndAddTexture("arm"_hash, "assets/arm.png", mData.spr); 
@@ -193,6 +196,7 @@ void Game::loop()
                 mPhysicsLogic.update();
                 dpx::join([&](int32_t id, AngularPhysics& angPhysics, spr::Rotation& rotation)
                 {
+                    // this is basically only the arm anchor lol
                     const float acc = angPhysics.acceleration;
                     const float maxVel = angPhysics.maximumVelocity;
                     float& vel = angPhysics.velocity;
@@ -267,6 +271,7 @@ void Game::loop()
         if(mData.showTables)
         {
             spr::showDataTables("Spring tables", mClickedEntity, mData.spr);
+
             showDataTables("Game tables", mClickedEntity, mData.game, mData.spr);
         }
     }
