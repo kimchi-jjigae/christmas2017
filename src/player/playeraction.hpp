@@ -2,7 +2,7 @@
 
 #include <functional>
 
-enum class PlayerAction { Up, Down, Left, Right, Punch };
+enum class PlayerAction { Up, Down, Left, Right, LoadPunch };
 
 namespace std
 {

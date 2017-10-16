@@ -196,7 +196,7 @@ void Game::loop()
                     float& vel = angPhysics.velocity;
                     float& rot = rotation.angle;
                     vel += acc;
-                    vel = std::min(vel, maxVel);
+                    //vel = std::min(vel, maxVel);
                     rot -= vel;
                 }, *mData.game.tAngularPhysics, *mData.spr.tRotation);
             }
