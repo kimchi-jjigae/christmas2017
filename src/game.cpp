@@ -237,9 +237,7 @@ void Game::loop()
                     physics.acceleration.y = 0.0f;
                 }
                 else
-                {
-                    physics.acceleration.y = 0.1f;
-                }
+                { physics.acceleration.y = 0.1f; }
             }, *mData.game.tAutoWalk, *mData.spr.tPosition, *mData.spr.tPhysics);
 
             mEntityLogic.update();

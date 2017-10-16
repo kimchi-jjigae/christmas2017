@@ -70,8 +70,8 @@ void InputLogic::update()
             }
             else if(event.key.keysym.sym == SDLK_SPACE)
             {
-                mData.startedPlayerActions.insert(PlayerAction::Punch);
-                mData.ongoingPlayerActions.insert(PlayerAction::Punch);
+                mData.startedPlayerActions.insert(PlayerAction::LoadPunch);
+                mData.ongoingPlayerActions.insert(PlayerAction::LoadPunch);
             }
         }
         else if(event.type == SDL_KEYUP)
@@ -118,8 +118,8 @@ void InputLogic::update()
             }
             else if(event.key.keysym.sym == SDLK_SPACE)
             {
-                mData.stoppedPlayerActions.insert(PlayerAction::Punch);
-                mData.ongoingPlayerActions.erase(PlayerAction::Punch);
+                mData.stoppedPlayerActions.insert(PlayerAction::LoadPunch);
+                mData.ongoingPlayerActions.erase(PlayerAction::LoadPunch);
             }
             else if(event.key.keysym.sym == SDLK_o)
             {

@@ -18,10 +18,10 @@ void PlayerLogic::update()
     //glm::vec2 playerPosition = get(*mData.playerBrain, *mData.spr.tPosition).coordinate;
     //spr::Camera& worldCam = get(mData.worldCamera, *mData.spr.tCamera);
     //worldCam.translation = {playerPosition.x, playerPosition.y, 100.0f};
-    if(mData.ongoingPlayerActions.count(PlayerAction::Punch))
+    if(mData.ongoingPlayerActions.count(PlayerAction::LoadPunch))
     {
         float& acc = get(mData.armAnchorId, *mData.game.tAngularPhysics).acceleration;
-        acc = 0.009f;
+        acc = -0.001f;
     }
     else {
         float& acc = get(mData.armAnchorId, *mData.game.tAngularPhysics).acceleration;
@@ -36,12 +36,12 @@ void PlayerLogic::update()
             }
             else
             {
-                vel -= 0.002f;
+                vel += 0.002f;
             }
         }
         else
         {
-            acc -= 0.001f;
+            acc += 0.001f;
         }
         //rotation = 0.0f;
     }
