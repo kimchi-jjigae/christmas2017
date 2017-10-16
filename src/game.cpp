@@ -139,24 +139,18 @@ void Game::startScenario()
         "punch",
         [&](const spr::CollisionContext& context)
         {
-            dpx::TableId fist = context.entityId;
-            dpx::TableId child = context.collidedWithId;
-            removeEntity(child, mData);
+            const dpx::TableId fist = context.entityId;
+            const dpx::TableId child = context.collidedWithId;
+            AutoWalk& autoWalk = dpx::get(child, *mData.game.tAutoWalk);
+            spr::Physics& physics = dpx::get(child, *mData.spr.tPhysics);
+            physics.velocity = glm::vec2(4.0f,-8.0f);
+            autoWalk.on = false;
         }
     }};
     armCollider["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, executors};
     armCollider["obb_collider"_hash] = spr::ObbCollider{glm::vec2(19.0f, 19.0f)};
     armCollider["hitbox"_hash] = spr::Hitbox{glm::vec2(-9.5f, -9.5f), glm::vec2(9.5f, 9.5f)};
     mData.armColliderId = addEntity(armCollider, mData);
-    /*
-struct EntityCollider
-{
-    enum Type { _Base, CircleCollider, ObbCollider, };
-    Type entityColliderType;
-    CollisionType collisionType;
-    std::vector<CollisionExecutor> executors;
-};
-*/
 }
 
 void Game::setup(const std::vector<std::string>& args)
@@ -219,22 +213,34 @@ void Game::loop()
                 removeEntity(toRemove, mData);
             }
 
-            glm::vec3 childSpawnPosition = {300.0f, 150.0f, 0.0f};
             if(spr::randomChance(0.01f, mData.randomEngine))
             {
+                float ySpawnPos = spr::randomFloatRange(mData.bounds.top, mData.bounds.bottom, mData.randomEngine);
+                glm::vec3 childSpawnPosition = {425.0f, ySpawnPos, 0.0f};
                 spr::EntityProperties newChild = spr::createSpriteProperties(childSpawnPosition, {}, {}, {48.0f, 48.0f}, *spr::findTexture("child"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
-                newChild["auto_walk"_hash] = AutoWalk{-1.0f};
+                newChild["physics"_hash] = spr::Physics{glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.1f)};
+                newChild["auto_walk"_hash] = AutoWalk{true, -1.0f};
                 newChild["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, {}};
                 newChild["obb_collider"_hash] = spr::ObbCollider{glm::vec2(32.0f, 48.0f)};
                 newChild["hitbox"_hash] = spr::Hitbox{glm::vec2(-16.0f, -24.0f), glm::vec2(10.0f, 24.0f)};
                 addEntity(newChild, mData);
             }
-            dpx::join([&](int32_t id, AutoWalk& autoWalk, spr::Position& position)
+            dpx::join([&](int32_t id, AutoWalk& autoWalk, spr::Position& position, spr::Physics& physics)
             {
-                const float vel = autoWalk.velocity;
-                glm::vec3& pos = position.coordinate;
-                pos.x += vel;
-            }, *mData.game.tAutoWalk, *mData.spr.tPosition);
+                if(autoWalk.on)
+                {
+                    const float vel = autoWalk.velocity;
+                    glm::vec3& pos = position.coordinate;
+                    pos.x += vel;
+                    physics.velocity.x = 0.0f;
+                    physics.acceleration.x = 0.0f;
+                    physics.acceleration.y = 0.0f;
+                }
+                else
+                {
+                    physics.acceleration.y = 0.1f;
+                }
+            }, *mData.game.tAutoWalk, *mData.spr.tPosition, *mData.spr.tPhysics);
 
             mEntityLogic.update();
 
