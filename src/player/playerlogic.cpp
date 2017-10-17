@@ -16,9 +16,13 @@ void PlayerLogic::update()
     (void)mData;
     if(mData.stoppedPlayerActions.count(PlayerAction::LoadPunch))
     { // upon the frame of punch releasing
-        float& acc = get(mData.armAnchorId, *mData.game.tAngularPhysics).acceleration;
         float& vel = get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity;
         vel *= -2.0f;
+    }
+    else if(mData.startedPlayerActions.count(PlayerAction::LoadPunch))
+    { // upon the frame of punch releasing
+        float& vel = get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity;
+        vel = 0.0f;
     }
     else
     {
@@ -31,7 +35,7 @@ void PlayerLogic::update()
         else {
             float& acc = get(mData.armAnchorId, *mData.game.tAngularPhysics).acceleration;
             float& vel = get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity;
-            acc = 0.01f;
+            acc = 0.01f; // keeps going even if nothing happens
             if(vel >= 0.00f)
             {
                 vel = 0.00f;

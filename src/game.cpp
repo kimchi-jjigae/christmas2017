@@ -34,6 +34,7 @@
 #include <debugguidata.hpp>
 #include <entity/entityutil.hpp>
 #include <entitystates/entitystates.hpp>
+#include <child/child.hpp>
 #include <showdatatables.hpp>
 #include <tablecapacity.hpp>
 
@@ -153,6 +154,8 @@ void Game::startScenario()
                 glm::vec2 punchDirection = glm::vec2(1.5f, -3.0f);
                 physics.velocity = punchDirection * punchVelocity;
                 autoWalk.on = false;
+
+                // load blood effects
             }
         }
     }};
@@ -222,31 +225,38 @@ void Game::loop()
                 removeEntity(toRemove, mData);
             }
 
-            if(spr::randomChance(0.01f, mData.randomEngine))
+            if(spr::randomChance(0.01f, mData.randomEngine)) 
             {
                 float ySpawnPos = spr::randomFloatRange(mData.bounds.top, mData.bounds.bottom, mData.randomEngine);
-                glm::vec3 childSpawnPosition = {425.0f, ySpawnPos, 0.0f};
-                spr::EntityProperties newChild = spr::createSpriteProperties(childSpawnPosition, {}, {}, {48.0f, 48.0f}, *spr::findTexture("child"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
-                newChild["physics"_hash] = spr::Physics{glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.1f)};
-                newChild["auto_walk"_hash] = AutoWalk{true, -1.0f};
-                newChild["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, {}};
-                newChild["obb_collider"_hash] = spr::ObbCollider{glm::vec2(32.0f, 48.0f)};
-                newChild["hitbox"_hash] = spr::Hitbox{{glm::vec2(-16.0f, -24.0f), glm::vec2(10.0f, 24.0f)}};
-                addEntity(newChild, mData);
+                glm::vec3 childSpawnPosition = {0.0f, ySpawnPos, 0.0f};
+                //glm::vec3 childSpawnPosition = {425.0f, ySpawnPos, 0.0f};
+                int32_t health = 3;
+                ChildType type = ChildType::Girl;
+                spawnChild(childSpawnPosition, -1.0f, health, type, mData);
+                //dpx::TableId newChildId = spawnChild(childSpawnPosition, -1.0f, health, type);
             }
             dpx::join([&](int32_t id, AutoWalk& autoWalk, spr::Position& position, spr::Physics& physics)
-            {
-                if(autoWalk.on)
-                {
+            { // for every child every frame
+                glm::vec3& pos = position.coordinate;
+                if(autoWalk.on) 
+                { // autowalking
                     const float vel = autoWalk.velocity;
-                    glm::vec3& pos = position.coordinate;
                     pos.x += vel;
-                    physics.velocity.x = 0.0f;
-                    physics.acceleration.x = 0.0f;
-                    physics.acceleration.y = 0.0f;
+                    physics.velocity = {0.0f, 0.0f};
+                    physics.acceleration = {0.0f, 0.0f};
                 }
                 else
-                { physics.acceleration.y = 0.1f; }
+                { // flying away
+                    if(pos.y >= autoWalk.walkLineY)
+                    { // check they don't fall below walking line
+                        pos.y = autoWalk.walkLineY;
+                        autoWalk.on = true;
+                    }
+                    else 
+                    {
+                        physics.acceleration.y = 0.1f;
+                    }
+                }
             }, *mData.game.tAutoWalk, *mData.spr.tPosition, *mData.spr.tPhysics);
 
             mEntityLogic.update();
@@ -366,3 +376,4 @@ void Game::handleInput()
     
     io.MousePos = static_cast<glm::vec2>(mData.mousePosition);
 }
+
