@@ -208,6 +208,22 @@
                 "auto_add",
                 "auto_del"
             ]
+        },
+        {
+            "columns": [
+                {
+                    "data_type": "float",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "landingYCoordinate"
+                }
+            ],
+            "dependencies": [],
+            "description": "",
+            "external_id": true,
+            "inherits": null,
+            "name": "splash_landing",
+            "tags": []
         }
     ]
 }

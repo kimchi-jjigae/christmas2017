@@ -228,8 +228,8 @@ void Game::loop()
             if(spr::randomChance(0.01f, mData.randomEngine)) 
             {
                 float ySpawnPos = spr::randomFloatRange(mData.bounds.top, mData.bounds.bottom, mData.randomEngine);
-                glm::vec3 childSpawnPosition = {0.0f, ySpawnPos, 0.0f};
-                //glm::vec3 childSpawnPosition = {425.0f, ySpawnPos, 0.0f};
+                //glm::vec3 childSpawnPosition = {0.0f, ySpawnPos, 0.0f};
+                glm::vec3 childSpawnPosition = {425.0f, ySpawnPos, 0.0f};
                 int32_t health = 3;
                 ChildType type = ChildType::Girl;
                 spawnChild(childSpawnPosition, -1.0f, health, type, mData);
