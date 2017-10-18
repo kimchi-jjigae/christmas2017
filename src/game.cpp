@@ -27,6 +27,8 @@
 #include <spr/resources/audiosample.hpp>
 #include <spr/showdatatables.hpp>
 
+#include <blood/blood.hpp>
+#include <child/child.hpp>
 #include <constants/allconstants.hpp>
 #include <data/datatables.hpp>
 #include <data/angularphysics.hpp>
@@ -34,7 +36,6 @@
 #include <debugguidata.hpp>
 #include <entity/entityutil.hpp>
 #include <entitystates/entitystates.hpp>
-#include <child/child.hpp>
 #include <showdatatables.hpp>
 #include <tablecapacity.hpp>
 
@@ -96,7 +97,7 @@ void Game::loadResources()
     ensureCapacity(1024, mData.game);
 
     //textures
-    loadAndAddTexture("blood1"_hash, "assets/blood.png", mData.spr); 
+    loadAndAddTexture("blood1"_hash, "assets/blood1.png", mData.spr); 
     loadAndAddTexture("blood2a"_hash, "assets/blood2a.png", mData.spr); 
     loadAndAddTexture("blood2b"_hash, "assets/blood2b.png", mData.spr); 
     loadAndAddTexture("bg"_hash, "assets/bg.png", mData.spr); 
@@ -122,7 +123,7 @@ void Game::loadResources()
 void Game::startScenario()
 {
     //initialise game
-    spr::EntityProperties bg = spr::createSpriteProperties({0.0f, 0.0f, 0.0f}, {}, {}, {640.0f, 400.0f}, *spr::findTexture("bg"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties bg = spr::createSpriteProperties({0.0f, 0.0f, -1.0f}, {}, {}, {640.0f, 400.0f}, *spr::findTexture("bg"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
     spr::EntityProperties santa = spr::createSpriteProperties({-270.0f, 100.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
 
     addEntity(bg, mData);
@@ -155,7 +156,11 @@ void Game::startScenario()
                 physics.velocity = punchDirection * punchVelocity;
                 autoWalk.on = false;
 
-                // load blood effects
+                const glm::vec3 position = dpx::get(child, *mData.spr.tPosition).coordinate;
+                const float yPos = autoWalk.walkLineY;
+                const float speed = 3.0f;
+                const int32_t amount = 20;
+                spawnBloodSplash(position, yPos, speed, amount, mData);
             }
         }
     }};
@@ -258,6 +263,17 @@ void Game::loop()
                     }
                 }
             }, *mData.game.tAutoWalk, *mData.spr.tPosition, *mData.spr.tPhysics);
+
+            dpx::join([&](int32_t id, SplashLanding& splashLanding, spr::Position& position, spr::Physics& physics)
+            { // for every blood particle every frame
+                glm::vec3& pos = position.coordinate;
+                if(pos.y >= splashLanding.landingYCoordinate)
+                { // check they don't fall below splashing line
+                    pos.y = splashLanding.landingYCoordinate;
+                    physics.acceleration = {0.0f, 0.0f};
+                    physics.velocity = {0.0f, 0.0f};
+                }
+            }, *mData.game.tSplashLanding, *mData.spr.tPosition, *mData.spr.tPhysics);
 
             mEntityLogic.update();
 

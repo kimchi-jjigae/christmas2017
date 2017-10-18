@@ -223,7 +223,11 @@
             "external_id": true,
             "inherits": null,
             "name": "splash_landing",
-            "tags": []
+            "tags": [
+                "entity",
+                "auto_add",
+                "auto_del"
+            ]
         }
     ]
 }
