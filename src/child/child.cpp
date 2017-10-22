@@ -3,6 +3,7 @@
 #include <data/angularphysics.hpp>
 #include <data/autowalk.hpp>
 #include <data/health.hpp>
+#include <data/leftsidecleanup.hpp>
 #include <entity/entityutil.hpp>
 
 #include <spr/data/entitycollider.hpp>
@@ -24,5 +25,6 @@ dpx::TableId spawnChild(const glm::vec3& childSpawnPosition, const float speed, 
     newChild["obb_collider"_hash] = spr::ObbCollider{glm::vec2(32.0f, 48.0f)};
     newChild["hitbox"_hash] = spr::Hitbox{{glm::vec2(-16.0f, -24.0f), glm::vec2(10.0f, 24.0f)}};
     newChild["health"_hash] = Health{health};
+    newChild["left_side_cleanup"_hash] = LeftSideCleanup{};
     return addEntity(newChild, data);
 }

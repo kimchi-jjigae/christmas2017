@@ -6,10 +6,11 @@
 #include "entityutil.hpp"
 #include <gamedata.hpp>
 #include <startupconstants.hpp>
-#include <spr/data/position.hpp>
+#include <spr/data/worldposition.hpp>
 #include <spr/data/animatedsprite.hpp>
 #include <spr/data/fourdirectionalsprite.hpp>
 #include <spr/data/entitycollider.hpp>
+#include <data/leftsidecleanup.hpp>
 #include <constants/world.hpp>
 
 EntityLogic::EntityLogic(GameData& data):
@@ -33,6 +34,12 @@ void EntityLogic::update()
         }
     }, *mData.spr.tSprite);
 
+    dpx::join([&](dpx::TableId id, const spr::WorldPosition& position, const LeftSideCleanup&)
+    {
+        if(position.coordinate.x < -400.0f)
+            removeEntityData(id, mData);
+    }, *mData.spr.tWorldPosition, *mData.game.tLeftSideCleanup);
+
     forEach([&](int32_t id)
     {
         removeEntityData(id, mData);
@@ -43,7 +50,7 @@ void EntityLogic::update()
 
 void EntityLogic::updateSpatialTree()
 {
-    join([&] (int32_t id, const spr::Position& position, const spr::EntityCollider&)
+    join([&] (int32_t id, const spr::WorldPosition& position, const spr::EntityCollider&)
     {
         float halfSpatialStorageSize = mData.c->world->spatialStorageSize / 2.0f;
 
@@ -51,5 +58,5 @@ void EntityLogic::updateSpatialTree()
         {
             mData.spatialEntityStorage.move(static_cast<int32_t>(id), {position.coordinate.x + halfSpatialStorageSize, position.coordinate.y + halfSpatialStorageSize});
         }
-    }, *mData.spr.tPosition, *mData.spr.tEntityCollider);
+    }, *mData.spr.tWorldPosition, *mData.spr.tEntityCollider);
 }
