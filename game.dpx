@@ -228,6 +228,19 @@
                 "auto_add",
                 "auto_del"
             ]
+        },
+        {
+            "columns": [],
+            "dependencies": [],
+            "description": "entities with this component will be deleted if they go too far to the left",
+            "external_id": true,
+            "inherits": null,
+            "name": "left_side_cleanup",
+            "tags": [
+                "entity",
+                "auto_add",
+                "auto_del"
+            ]
         }
     ]
 }
