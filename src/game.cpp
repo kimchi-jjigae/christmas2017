@@ -64,6 +64,7 @@ Game::Game() :
     io.DisplaySize.y = static_cast<float>(mData.screenSize.y);
     io.IniFilename = "data/imgui.ini";
     io.MousePos = {0, 0};
+    io.DeltaTime = 1.0f/60.0f;
     unsigned char* pixels;
     int width, height;
     io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
@@ -71,6 +72,8 @@ Game::Game() :
     mImguiFontTexture = spr::gl::createTexture(glm::ivec2(width, height), pixels, mData.spr);
 
     io.Fonts->TexID = reinterpret_cast<void*>(get(mImguiFontTexture, *mData.spr.tGlTexture).glId);
+
+    mInputLogic.mapImguiKeys(io.KeyMap);
 
     loadResources();
 
@@ -181,6 +184,11 @@ void Game::loop()
     mFrameLogic.newFrame();
     spr::FrameBlock frameBlock(mData.profiler);
 
+    {
+        spr::ProfileBlock b("clear_screen"_hash, spr::Color::Gray, mData.profiler);
+        mRenderLogic.frameStart(mData.c->world->voidColor);
+    }
+
     while(mFrameLogic.timeRemains())
     {
         mFrameLogic.advanceDeltaTime();
@@ -196,7 +204,8 @@ void Game::loop()
         mInputLogic.update();
         handleInput();
 
-        if(!mData.paused || mData.advancePaused)
+        bool advanceFrame = !mData.paused || mData.advancePaused;
+        if(advanceFrame)
         {
             {
                 spr::ProfileBlock b("player_logic"_hash, spr::Color::Yellow, mData.profiler);
@@ -295,16 +304,6 @@ void Game::loop()
 #endif
     }
 
-    //imgui
-    ImGuiIO& io = ImGui::GetIO();
-    mGuiBlocksMouse = io.WantCaptureMouse;
-    io.DeltaTime = 1.0f/60.0f;
-
-    {
-        spr::ProfileBlock b("clear_screen"_hash, spr::Color::Gray, mData.profiler);
-        mRenderLogic.frameStart(mData.c->world->voidColor);
-    }
-
     {
         spr::ProfileBlock b("datatables"_hash, spr::Color::Pink, mData.profiler);
         if(mData.showTables)
@@ -344,8 +343,6 @@ void Game::loop()
 
 void Game::handleInput()
 {
-    ImGuiIO& io = ImGui::GetIO();
-
     if(mData.systemInput.quit)
     {
         quit();
@@ -356,40 +353,7 @@ void Game::handleInput()
         glm::ivec2 size = *mData.systemInput.resized;
         mData.screenSize = size;
 
-        io.DisplaySize.x = static_cast<float>(mData.screenSize.x);
-        io.DisplaySize.y = static_cast<float>(mData.screenSize.y);
-
         mRenderLogic.resizeWindow(mData.screenSize);
     }
-    
-    if(mData.mouseClick)
-    {
-        auto button = mData.mouseClick->button;
-        if(button == MouseButton::Left)
-            io.MouseDown[0] = true;
-        else if(button == MouseButton::Right)
-            io.MouseDown[1] = true;
-        else if(button == MouseButton::Middle)
-            io.MouseDown[2] = true;
-    }
-    
-    if(mData.mouseRelease)
-    {
-        auto button = mData.mouseRelease->button;
-    
-        if(button == MouseButton::Left)
-            io.MouseDown[0] = false;
-        else if(button == MouseButton::Right)
-            io.MouseDown[1] = false;
-        else if(button == MouseButton::Middle)
-            io.MouseDown[2] = false;
-    }
-    
-    if(mData.mouseWheel)
-    {
-        io.MouseWheel = static_cast<float>(*mData.mouseWheel);
-    }
-    
-    io.MousePos = static_cast<glm::vec2>(mData.mousePosition);
 }
 
