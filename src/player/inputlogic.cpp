@@ -46,6 +46,10 @@ void InputLogic::update()
             if(event.key.repeat != 0)
                 continue;
 
+            if(event.key.keysym.sym == SDLK_ESCAPE)
+            {
+                mData.systemInput.quit = true;
+            }
             else if(event.key.keysym.sym == SDLK_w)
             {
                 mData.startedPlayerActions.insert(PlayerAction::Up);
