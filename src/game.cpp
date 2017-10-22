@@ -33,6 +33,7 @@
 #include <data/datatables.hpp>
 #include <data/angularphysics.hpp>
 #include <data/autowalk.hpp>
+#include <data/health.hpp>
 #include <debugguidata.hpp>
 #include <entity/entityutil.hpp>
 #include <entitystates/entitystates.hpp>
@@ -153,10 +154,12 @@ void Game::startScenario()
                 const dpx::TableId fist = context.entityId;
                 const dpx::TableId child = context.collidedWithId;
                 AutoWalk& autoWalk = dpx::get(child, *mData.game.tAutoWalk);
+                int32_t& health = dpx::get(child, *mData.game.tHealth).amount;
                 spr::Physics& physics = dpx::get(child, *mData.spr.tPhysics);
                 float punchVelocity = std::fabs(dpx::get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity);
                 glm::vec2 punchDirection = glm::vec2(1.5f, -3.0f);
                 physics.velocity = punchDirection * punchVelocity;
+                --health;
                 autoWalk.on = false;
 
                 const glm::vec3 position = dpx::get(child, *mData.spr.tPosition).coordinate;

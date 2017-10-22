@@ -143,7 +143,11 @@
             "external_id": true,
             "inherits": null,
             "name": "health",
-            "tags": []
+            "tags": [
+                "entity",
+                "auto_add",
+                "auto_del"
+            ]
         },
         {
             "columns": [
