@@ -289,6 +289,9 @@ void Game::loop()
 
             mEntityLogic.update();
 
+            // making background move
+            // spawning more background if necessary
+
             if(mData.advancePaused > 0)
                 --mData.advancePaused;
 
