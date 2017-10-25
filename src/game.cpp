@@ -33,6 +33,7 @@
 #include <data/datatables.hpp>
 #include <data/angularphysics.hpp>
 #include <data/autowalk.hpp>
+#include <data/leftsidecleanup.hpp>
 #include <debugguidata.hpp>
 #include <entity/entityutil.hpp>
 #include <entitystates/entitystates.hpp>
@@ -126,10 +127,9 @@ void Game::loadResources()
 void Game::startScenario()
 {
     //initialise game
-    spr::EntityProperties bg = spr::createSpriteProperties({0.0f, 0.0f, -1.0f}, {}, {}, {640.0f, 400.0f}, *spr::findTexture("bg"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    setupBackground(mData);
     spr::EntityProperties santa = spr::createSpriteProperties({-270.0f, 100.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
 
-    addEntity(bg, mData);
     mData.santaId = addEntity(santa, mData);
     spr::EntityProperties armAnchor = spr::createSceneProperties({-3.0f, 0.0f, 0.0f}, {}, mData.santaId);
     armAnchor["angular_physics"_hash] = AngularPhysics{0.0f, 0.0f, 0.262f};
