@@ -48,6 +48,6 @@ dpx::TableId spawnBloodParticle(const glm::vec3& position, const glm::vec2 veloc
     spr::EntityProperties newBlood = spr::createSpriteProperties(position, {}, {}, textureSize, textureId, data.mainShader, data.mainViewport, data.worldCamera);
     newBlood["physics"_hash] = spr::Physics{velocity, glm::vec2(0.0f, 0.1f)};
     newBlood["splash_landing"_hash] = SplashLanding{landingYPos};
-    newBlood["left_side_cleanup"_hash] = LeftSideCleanup{};
+    newBlood["left_side_cleanup"_hash] = LeftSideCleanup{-400.0};
     return addEntity(newBlood, data);
 }
