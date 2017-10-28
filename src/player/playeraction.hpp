@@ -1,16 +1,12 @@
 #pragma once
 
-#include <functional>
+#include <spr/hash/stringhash.hpp>
 
-enum class PlayerAction { Up, Down, Left, Right, LoadPunch };
-
-namespace std
+namespace PlayerAction
 {
-    template<> struct hash<PlayerAction>
-    {
-        size_t operator()(PlayerAction playerAction) const
-        {
-	        return static_cast<size_t>(playerAction);
-        }
-    };
+    constexpr spr::StringHash Up = "player_up"_hash;
+    constexpr spr::StringHash Down = "player_down"_hash;
+    constexpr spr::StringHash Left = "player_left"_hash;
+    constexpr spr::StringHash Right = "player_right"_hash;
+    constexpr spr::StringHash LoadPunch = "player_loadpunch"_hash;
 }

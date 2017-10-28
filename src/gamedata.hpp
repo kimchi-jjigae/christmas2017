@@ -15,7 +15,7 @@
 #include <data/datatables.hpp>
 #include <player/playeraction.hpp>
 #include <startupconstants.hpp>
-#include <input/input.hpp>
+#include <spr/input/inputlogic.hpp>
 #include <spr/profiler/profiler.hpp>
 
 struct GameData
@@ -36,19 +36,10 @@ struct GameData
     bool showDebugMenu = false;
     bool showTables = false;
     bool showProfiler = false;
-    
-    //logic data
-    spr::FrameLogic::Data frameData;
 
-    //input
-    SystemInput systemInput;
-    th::Optional<MouseClick> mouseClick;
-    th::Optional<MouseRelease> mouseRelease;
-    th::Optional<int32_t> mouseWheel;
-    glm::ivec2 mousePosition;
-    std::unordered_set<PlayerAction> startedPlayerActions;
-    std::unordered_set<PlayerAction> ongoingPlayerActions;
-    std::unordered_set<PlayerAction> stoppedPlayerActions;
+    //logicdata
+    spr::InputLogic::Data inputData;
+    spr::FrameLogic::Data frameData;
 
     //rendering
     dpx::TableId mainShader = dpx::Null;

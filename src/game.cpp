@@ -12,12 +12,14 @@
 #include <spr/data/rotation.hpp>
 #include <spr/data/tables.hpp>
 #include <spr/debug/debug.hpp>
+#include <spr/debug/debugactions.hpp>
 #include <spr/debug/debugmenu.hpp>
 #include <spr/debugguidata.hpp>
 #include <spr/entitystates/stateutil.hpp>
 #include <spr/entity/spawnentity.hpp>
 #include <spr/gl/texture.hpp>
 #include <spr/gl/viewport.hpp>
+#include <spr/input/bindingutil.hpp>
 #include <spr/physics/collisiontype.hpp>
 #include <spr/profiler/profileblock.hpp>
 #include <spr/profiler/profilergui.hpp>
@@ -47,7 +49,7 @@ const spr::GlContextSettings::Type contextType = spr::GlContextSettings::Type::E
 Game::Game() :
     mWindow(cInitialScreenSize, "Game", {0, 0, 0, 2, 0, contextType}),
     mFrameLogic(mData.frameData, mData.spr),
-    mInputLogic(mData),
+    mInputLogic(mData.inputData),
     mPlayerLogic(mData),
     mEntityStatesLogic(mData.spr),
     mEntityLogic(mData),
@@ -146,7 +148,7 @@ void Game::startScenario()
         "punch",
         [&](const spr::CollisionContext& context)
         {
-            if(mData.ongoingPlayerActions.count(PlayerAction::LoadPunch))
+            if(mData.inputData.ongoingActions.count(PlayerAction::LoadPunch))
             {
                 // ignore fist if currently loading punch
             }
@@ -181,17 +183,26 @@ void Game::setup(const std::vector<std::string>& args)
 {
     if(args.size() > 1 && args[1] == "p")
         mData.paused = true;
+
+    spr::addBinding({}, spr::KeyCode::Comma, spr::DebugAction::ToggleTables, &mData.showTables, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::Period, spr::DebugAction::ToggleProfiler, &mData.showProfiler, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::Slash, spr::DebugAction::ToggleDebugMenu, &mData.showDebugMenu, mData.inputData);
+
+    spr::addBinding({}, spr::KeyCode::W, PlayerAction::Up, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::Up, PlayerAction::Up, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::S, PlayerAction::Down, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::Down, PlayerAction::Down, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::A, PlayerAction::Left, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::Left, PlayerAction::Left, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::D, PlayerAction::Right, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::Right, PlayerAction::Right, nullptr, mData.inputData);
+    spr::addBinding({}, spr::KeyCode::Space, PlayerAction::LoadPunch, nullptr, mData.inputData);
 }
 
 void Game::loop()
 {
     mFrameLogic.newFrame();
     spr::FrameBlock frameBlock(mData.profiler);
-
-    {
-        spr::ProfileBlock b("clear_screen"_hash, spr::Color::Gray, mData.profiler);
-        mRenderLogic.frameStart(mData.c->world->voidColor);
-    }
 
     while(mFrameLogic.timeRemains())
     {
@@ -205,8 +216,8 @@ void Game::loop()
         DataTablesCapacity capacitiesBefore = tablesCapacity(mData.game);
 #endif
 
-        mInputLogic.update();
-        handleInput();
+        mInputLogic.readInput();
+        handleSystemInput();
 
         bool advanceFrame = !mData.paused || mData.advancePaused;
         if(advanceFrame)
@@ -312,6 +323,11 @@ void Game::loop()
     }
 
     {
+        spr::ProfileBlock b("clear_screen"_hash, spr::Color::Gray, mData.profiler);
+        mRenderLogic.frameStart(mData.c->world->voidColor);
+    }
+
+    {
         spr::ProfileBlock b("datatables"_hash, spr::Color::Pink, mData.profiler);
         if(mData.showTables)
         {
@@ -348,16 +364,16 @@ void Game::loop()
     }
 }
 
-void Game::handleInput()
+void Game::handleSystemInput()
 {
-    if(mData.systemInput.quit)
+    if(mData.inputData.systemInput.quit)
     {
         quit();
     }
     
-    if(mData.systemInput.resized)
+    if(mData.inputData.systemInput.resized)
     {
-        glm::ivec2 size = *mData.systemInput.resized;
+        glm::ivec2 size = *mData.inputData.systemInput.resized;
         mData.screenSize = size;
 
         mRenderLogic.resizeWindow(mData.screenSize);

@@ -10,7 +10,7 @@
 #include <spr/scene/scenelogic.hpp>
 #include <entity/entitylogic.hpp>
 #include <player/playerlogic.hpp>
-#include <player/inputlogic.hpp>
+#include <spr/input/inputlogic.hpp>
 #include <spr/window/glwindow.hpp>
 #include <spr/physics/physicslogic.hpp>
 #include <rendering/renderlogic.hpp>
@@ -27,7 +27,7 @@ class Game : public spr::Application
         void setup(const std::vector<std::string>& args) override;
         void loop() override;
     private:
-        void handleInput();
+        void handleSystemInput();
         //game data
         GameData mData;
 
@@ -37,9 +37,6 @@ class Game : public spr::Application
         //frame
         spr::FrameLogic mFrameLogic;
 
-        //input
-        InputLogic mInputLogic;
-
         //system
         th::Optional<int32_t> mClickedEntity;
 
@@ -48,6 +45,7 @@ class Game : public spr::Application
         bool mGuiBlocksMouse;
 
         //logic
+        spr::InputLogic mInputLogic;
         PlayerLogic mPlayerLogic;
         spr::EntityStatesLogic mEntityStatesLogic;
         EntityLogic mEntityLogic;

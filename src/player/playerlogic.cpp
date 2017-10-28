@@ -14,19 +14,19 @@ PlayerLogic::PlayerLogic(GameData& data):
 void PlayerLogic::update()
 {
     (void)mData;
-    if(mData.stoppedPlayerActions.count(PlayerAction::LoadPunch))
+    if(mData.inputData.stoppedActions.count(PlayerAction::LoadPunch))
     { // upon the frame of punch releasing
         float& vel = get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity;
         vel *= -2.0f;
     }
-    else if(mData.startedPlayerActions.count(PlayerAction::LoadPunch))
+    else if(mData.inputData.startedActions.count(PlayerAction::LoadPunch))
     { // upon the frame of punch releasing
         float& vel = get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity;
         vel = 0.0f;
     }
     else
     {
-        if(mData.ongoingPlayerActions.count(PlayerAction::LoadPunch))
+        if(mData.inputData.ongoingActions.count(PlayerAction::LoadPunch))
         {
             // +ve charge up, -ve release
             float& acc = get(mData.armAnchorId, *mData.game.tAngularPhysics).acceleration;
@@ -42,22 +42,22 @@ void PlayerLogic::update()
             }
         }
     }
-    if(mData.ongoingPlayerActions.count(PlayerAction::Left))
+    if(mData.inputData.ongoingActions.count(PlayerAction::Left))
     {
         glm::vec3& coordinate = get(mData.santaId, *mData.spr.tPosition).coordinate;
         coordinate.x -= 1.0f;
     }
-    if(mData.ongoingPlayerActions.count(PlayerAction::Right))
+    if(mData.inputData.ongoingActions.count(PlayerAction::Right))
     {
         glm::vec3& coordinate = get(mData.santaId, *mData.spr.tPosition).coordinate;
         coordinate.x += 1.0f;
     }
-    if(mData.ongoingPlayerActions.count(PlayerAction::Up))
+    if(mData.inputData.ongoingActions.count(PlayerAction::Up))
     {
         glm::vec3& coordinate = get(mData.santaId, *mData.spr.tPosition).coordinate;
         coordinate.y -= 2.0f;
     }
-    if(mData.ongoingPlayerActions.count(PlayerAction::Down))
+    if(mData.inputData.ongoingActions.count(PlayerAction::Down))
     {
         glm::vec3& coordinate = get(mData.santaId, *mData.spr.tPosition).coordinate;
         coordinate.y += 2.0f;
