@@ -1,11 +1,13 @@
 #include "game.hpp"
 #include <algorithm>
+
 #include <dpx/accesspattern.hpp>
-#include <dpx/randomget.hpp>
-#include <dpx/foreach.hpp>
 #include <dpx/count.hpp>
+#include <dpx/foreach.hpp>
 #include <dpx/join.hpp>
+#include <dpx/randomget.hpp>
 #include <imgui/imgui.h>
+#include <input/inputgroup.hpp>
 #include <spr/data/entitycollider.hpp>
 #include <spr/data/hitbox.hpp>
 #include <spr/data/obbcollider.hpp>
@@ -15,18 +17,19 @@
 #include <spr/debug/debugactions.hpp>
 #include <spr/debug/debugmenu.hpp>
 #include <spr/debugguidata.hpp>
-#include <spr/entitystates/stateutil.hpp>
 #include <spr/entity/spawnentity.hpp>
+#include <spr/entitystates/stateutil.hpp>
 #include <spr/gl/texture.hpp>
 #include <spr/gl/viewport.hpp>
 #include <spr/input/bindingutil.hpp>
+#include <spr/input/inputgroup.hpp>
 #include <spr/physics/collisiontype.hpp>
 #include <spr/profiler/profileblock.hpp>
 #include <spr/profiler/profilergui.hpp>
 #include <spr/random/random.hpp>
 #include <spr/resources/animation.hpp>
-#include <spr/resources/texture.hpp>
 #include <spr/resources/audiosample.hpp>
+#include <spr/resources/texture.hpp>
 #include <spr/showdatatables.hpp>
 
 #include <background/background.hpp>
@@ -184,19 +187,23 @@ void Game::setup(const std::vector<std::string>& args)
     if(args.size() > 1 && args[1] == "p")
         mData.paused = true;
 
-    spr::addBinding({}, spr::KeyCode::Comma, spr::DebugAction::ToggleTables, &mData.showTables, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::Period, spr::DebugAction::ToggleProfiler, &mData.showProfiler, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::Slash, spr::DebugAction::ToggleDebugMenu, &mData.showDebugMenu, mData.inputData);
+    spr::registerInputGroup(InputGroup::Debug, true, mData.inputData);
+    spr::registerInputGroup(InputGroup::Global, true, mData.inputData);
+    spr::registerInputGroup(InputGroup::Gameplay, true, mData.inputData);
 
-    spr::addBinding({}, spr::KeyCode::W, PlayerAction::Up, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::Up, PlayerAction::Up, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::S, PlayerAction::Down, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::Down, PlayerAction::Down, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::A, PlayerAction::Left, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::Left, PlayerAction::Left, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::D, PlayerAction::Right, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::Right, PlayerAction::Right, nullptr, mData.inputData);
-    spr::addBinding({}, spr::KeyCode::Space, PlayerAction::LoadPunch, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::W, PlayerAction::Up, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::Up, PlayerAction::Up, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::S, PlayerAction::Down, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::Down, PlayerAction::Down, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::A, PlayerAction::Left, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::Left, PlayerAction::Left, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::D, PlayerAction::Right, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::Right, PlayerAction::Right, nullptr, mData.inputData);
+    spr::addBinding(InputGroup::Gameplay, {}, spr::KeyCode::Space, PlayerAction::LoadPunch, nullptr, mData.inputData);
+
+    spr::addBinding(InputGroup::Debug, {}, spr::KeyCode::Comma, spr::DebugAction::ToggleTables, &mData.showTables, mData.inputData);
+    spr::addBinding(InputGroup::Debug, {}, spr::KeyCode::Period, spr::DebugAction::ToggleProfiler, &mData.showProfiler, mData.inputData);
+    spr::addBinding(InputGroup::Debug, {}, spr::KeyCode::Slash, spr::DebugAction::ToggleDebugMenu, &mData.showDebugMenu, mData.inputData);
 }
 
 void Game::loop()
