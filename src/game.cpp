@@ -204,6 +204,8 @@ void Game::setup(const std::vector<std::string>& args)
     spr::addBinding(InputGroup::Debug, {}, spr::KeyCode::Comma, spr::DebugAction::ToggleTables, &mData.showTables, mData.inputData);
     spr::addBinding(InputGroup::Debug, {}, spr::KeyCode::Period, spr::DebugAction::ToggleProfiler, &mData.showProfiler, mData.inputData);
     spr::addBinding(InputGroup::Debug, {}, spr::KeyCode::Slash, spr::DebugAction::ToggleDebugMenu, &mData.showDebugMenu, mData.inputData);
+
+    spr::addBinding(InputGroup::Global, {}, spr::KeyCode::Escape, "quit_game"_hash, nullptr, mData.inputData);
 }
 
 void Game::loop()
@@ -318,6 +320,7 @@ void Game::loop()
                 spr::ProfileBlock b("scene_logic"_hash, spr::Color::Brown, mData.profiler);
                 mSceneLogic.update();
             }
+            mInputLogic.clearStartedAndStopped();
         }
 
 #ifdef DEBUG_ON
@@ -373,7 +376,7 @@ void Game::loop()
 
 void Game::handleSystemInput()
 {
-    if(mData.inputData.systemInput.quit)
+    if(mData.inputData.systemInput.quit || mData.inputData.startedActions.count("quit_game"_hash))
     {
         quit();
     }

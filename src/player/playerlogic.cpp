@@ -20,7 +20,7 @@ void PlayerLogic::update()
         vel *= -2.0f;
     }
     else if(mData.inputData.startedActions.count(PlayerAction::LoadPunch))
-    { // upon the frame of punch releasing
+    { // upon the frame of punch loading
         float& vel = get(mData.armAnchorId, *mData.game.tAngularPhysics).velocity;
         vel = 0.0f;
     }
