@@ -27,6 +27,7 @@
 #include <spr/resources/audiosample.hpp>
 #include <spr/showdatatables.hpp>
 
+#include <background/background.hpp>
 #include <blood/blood.hpp>
 #include <child/child.hpp>
 #include <constants/allconstants.hpp>

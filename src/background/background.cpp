@@ -14,20 +14,23 @@
 
 void setupBackground(GameData& data)
 {
-    int32_t bgSegmentCount = std::static_cast<int32_t>(mData.mainViewport.width / bgSegmentWidth) + 1;
-    float leftmostX = -(std::static_cast<float>(bgSegmentCount) / 2.0f) * bgSegmentWidth;
+    float bgSegmentWidth = 64.0f;
+    //int32_t bgSegmentCount = static_cast<int32_t>(600.0f / bgSegmentWidth) + 1;
+    int32_t bgSegmentCount = static_cast<int32_t>(data.screenSize.x / bgSegmentWidth) + 1;
+    float leftmostX = -(static_cast<float>(bgSegmentCount) / 2.0f) * bgSegmentWidth;
     for(int32_t i = 0; i < bgSegmentCount; ++i)
     {
         // choose random texture
-        //int32_t texture = spr::randomIntRange(0, mData.bgSegments.length, mData.randomEngine);
-        //*spr::findTexture("bg"_hash, mData.spr)
+        //int32_t texture = spr::randomIntRange(0, data.bgSegments.length, data.randomEngine);
+        //*spr::findTexture("bg"_hash, data.spr)
+        int32_t texture = *spr::findTexture("bg"_hash, data.spr);
         float posX = leftmostX + (bgSegmentWidth * i);
         float posY = 0.0f;
-        float speed = mData.scrollSpeed;
-        spr::EntityProperties bgSegment = spr::createSpriteProperties({posX, posY, -1.0f}, {}, {}, {bgSegmentWidth, 400.0f}, texture, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+        float speed = data.scrollSpeed;
+        spr::EntityProperties bgSegment = spr::createSpriteProperties({posX, posY, -1.0f}, {}, {}, {bgSegmentWidth, 400.0f}, texture, data.mainShader, data.mainViewport, data.worldCamera);
         bgSegment["left_side_cleanup"_hash] = LeftSideCleanup{posX - bgSegmentWidth};
         bgSegment["auto_walk"_hash] = AutoWalk{true, speed, posY};
-        addEntity(bg, mData);
+        addEntity(bgSegment, data);
     }
 }
 

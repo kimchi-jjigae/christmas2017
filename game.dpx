@@ -234,7 +234,14 @@
             ]
         },
         {
-            "columns": [],
+            "columns": [
+                {
+                    "data_type": "float",
+                    "field_type": "default",
+                    "field_type_variables": [],
+                    "name": "leftPosition"
+                }
+            ],
             "dependencies": [],
             "description": "entities with this component will be deleted if they go too far to the left",
             "external_id": true,
