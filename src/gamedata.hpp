@@ -14,6 +14,8 @@
 #include <constants/constants.hpp>
 #include <data/datatables.hpp>
 #include <player/playeraction.hpp>
+#include <player/playerlogic.hpp>
+#include <rendering/renderlogic.hpp>
 #include <startupconstants.hpp>
 #include <spr/input/inputlogic.hpp>
 #include <spr/profiler/profiler.hpp>
@@ -40,12 +42,8 @@ struct GameData
     //logicdata
     spr::InputLogic::Data inputData;
     spr::FrameLogic::Data frameData;
-
-    //rendering
-    dpx::TableId mainShader = dpx::Null;
-    dpx::TableId mainViewport = dpx::Null;
-    dpx::TableId worldCamera = dpx::Null;
-    dpx::TableId guiCamera = dpx::Null;
+    PlayerLogic::Data playerData;
+    RenderLogic::Data renderData;
     
     //entities
     dpx::IdSet entitiesToRemove;

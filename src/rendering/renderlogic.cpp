@@ -13,26 +13,27 @@
 #include <spr/camera/camera.hpp>
 #include <spr/gl/texture.hpp>
 
-RenderLogic::RenderLogic(GameData& data):
+RenderLogic::RenderLogic(RenderLogic::Data& renderData, GameData& data):
+    mRenderData(renderData),
     mData(data),
     mSpriteRenderer(mData.spr),
     mTextRenderer(mData.spr),
     mImguiRenderer(mData.spr)
 {
     //setup cameras and views
-    mData.mainViewport = insert(spr::Viewport
+    mRenderData.mainViewport = insert(spr::Viewport
     {
         {0, 0},
         {1366, 768},
     }, *mData.spr.tViewport).id;
-    mData.guiCamera = insert(spr::Camera
+    mRenderData.guiCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
         glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
         glm::mat4(1.0f),
 
     }, *mData.spr.tCamera).id;
-    mData.worldCamera = insert(spr::Camera
+    mRenderData.worldCamera = insert(spr::Camera
     {
         {0.0f, 0.0f, 0.0f},
         glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
@@ -40,7 +41,7 @@ RenderLogic::RenderLogic(GameData& data):
     }, *mData.spr.tCamera).id;
 
     //initialize our global debug renderer
-    spr::DRen::initialize(mData.worldCamera, data.spr);
+    spr::DRen::initialize(mRenderData.worldCamera, data.spr);
 
     //setup our shader
     std::string vertex = 
@@ -78,7 +79,7 @@ void main()
     gl_FragColor = texture2D(texture, vTex) * vColor;
 }
 )";
-    mData.mainShader = createShaderProgram(vertex, fragment, {{"position", 0}, {"texCoord", 1}, {"color", 2}}, mData.spr);
+    mRenderData.mainShader = createShaderProgram(vertex, fragment, {{"position", 0}, {"texCoord", 1}, {"color", 2}}, mData.spr);
 
     //setup gl values
     glEnable(GL_BLEND);
@@ -90,7 +91,7 @@ void RenderLogic::frameStart(spr::Color clearColor)
     glClearColor(clearColor.rAsFloat(), clearColor.gAsFloat(), clearColor.bAsFloat(), clearColor.aAsFloat());
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-    spr::gl::setViewport(mData.mainViewport, mData.spr);
+    spr::gl::setViewport(mRenderData.mainViewport, mData.spr);
 
     mImguiRenderer.frameStart();
 }
@@ -102,9 +103,9 @@ void RenderLogic::renderFrame()
     //all texts
     mTextRenderer.render();
     //draw all debug primitives
-    spr::DRen::render(true, mData.mainViewport, mData.worldCamera, mData.mainShader);
+    spr::DRen::render(mRenderData.reduceDebugTtl, mRenderData.mainViewport, mRenderData.worldCamera, mRenderData.mainShader);
     //imgui
-    mImguiRenderer.renderFrame(mData.mainViewport, mData.guiCamera, mData.mainShader);
+    mImguiRenderer.renderFrame(mRenderData.mainViewport, mRenderData.guiCamera, mRenderData.mainShader);
 }
 
 void RenderLogic::resizeWindow(glm::ivec2 iSize)
@@ -114,13 +115,13 @@ void RenderLogic::resizeWindow(glm::ivec2 iSize)
     float zoom = 0.5f;
     glm::vec2 worldHalfSize = halfSize * zoom;
 
-    spr::gl::resizeViewport(mData.screenSize, mData.mainViewport, mData.spr);
+    spr::gl::resizeViewport(mData.screenSize, mRenderData.mainViewport, mData.spr);
 
-    spr::Camera& worldCamera = get(mData.worldCamera, *mData.spr.tCamera);
+    spr::Camera& worldCamera = get(mRenderData.worldCamera, *mData.spr.tCamera);
     glm::mat4 worldProjection = glm::ortho(-worldHalfSize.x, worldHalfSize.x, worldHalfSize.y, -worldHalfSize.y, -100.0f, 100.0f);
     worldCamera.projection = worldProjection;
 
-    spr::Camera& guiCamera = get(mData.guiCamera, *mData.spr.tCamera);
+    spr::Camera& guiCamera = get(mRenderData.guiCamera, *mData.spr.tCamera);
     glm::mat4 guiProjection = glm::ortho(0.0f, size.x, size.y, 0.0f, -100.0f, 100.0f);
     guiCamera.projection = guiProjection;
 }

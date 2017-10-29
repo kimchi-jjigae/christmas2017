@@ -58,7 +58,7 @@ Game::Game() :
     mCollisionLogic(mData.spr),
     mSceneLogic(mData.spr),
     mPhysicsLogic(mData.frameData, mData.spr),
-    mRenderLogic(mData),
+    mRenderLogic(mData.renderData, mData),
     mAudioLogic(mData.spr)
 {
     mData.randomEngine.seed(std::random_device()());
@@ -199,6 +199,7 @@ void Game::loop()
     mFrameLogic.newFrame();
     spr::FrameBlock frameBlock(mData.profiler);
 
+    mData.renderData.reduceDebugTtl = false;
     while(mFrameLogic.timeRemains())
     {
         mFrameLogic.advanceDeltaTime();
@@ -258,6 +259,8 @@ void Game::loop()
                 mSceneLogic.update();
             }
             mInputLogic.clearStartedAndStopped();
+
+            mData.renderData.reduceDebugTtl = true;
         }
 
 #ifdef DEBUG_ON
