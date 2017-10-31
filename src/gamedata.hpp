@@ -69,5 +69,5 @@ struct GameData
         40.0f, 176.0f, -276.0f, 276.0f
     };
 
-    float scrollSpeed = 4.0f;
+    float scrollSpeed = -0.5f;
 };
