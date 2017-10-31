@@ -19,7 +19,7 @@
 #include <child/child.hpp>
 #include <constants/world.hpp>
 
-EntityLogic::EntityLogic(GameData& data):
+EntityLogic::EntityLogic(GameData& data) :
     mData(data)
 {
 }
@@ -40,27 +40,24 @@ void EntityLogic::update()
         }
     }, *mData.spr.tSprite);
 
-    dpx::join([&](dpx::TableId id, const spr::WorldPosition& position, const LeftSideCleanup&)
-    {
-        if(position.coordinate.x < -400.0f)
-            removeEntityData(id, mData);
-    }, *mData.spr.tWorldPosition, *mData.game.tLeftSideCleanup);
-
-    forEach([&](int32_t id)
-    {
-        removeEntityData(id, mData);
-    }, mData.entitiesToRemove);
-
+    // spawn new children
     if(spr::randomChance(0.01f, mData.randomEngine)) 
     {
         float ySpawnPos = spr::randomFloatRange(mData.bounds.top, mData.bounds.bottom, mData.randomEngine);
-        //glm::vec3 childSpawnPosition = {0.0f, ySpawnPos, 0.0f};
         glm::vec3 childSpawnPosition = {425.0f, ySpawnPos, 0.0f};
         int32_t health = 3;
         ChildType type = ChildType::Girl;
         spawnChild(childSpawnPosition, -1.0f, health, type, mData);
         //dpx::TableId newChildId = spawnChild(childSpawnPosition, -1.0f, health, type);
     }
+
+    // update left-side cleanups
+    dpx::join([&](dpx::TableId id, const spr::WorldPosition& position, const LeftSideCleanup&)
+    {
+        if(position.coordinate.x < -400.0f)
+            removeEntityData(id, mData);
+    }, *mData.spr.tWorldPosition, *mData.game.tLeftSideCleanup);
+
     dpx::join([&](int32_t id, AutoWalk& autoWalk, spr::Position& position)
     { // for everything with autowalk
         glm::vec3& pos = position.coordinate;
@@ -76,8 +73,6 @@ void EntityLogic::update()
         glm::vec3& pos = position.coordinate;
         if(autoWalk.on) 
         { 
-            const float vel = autoWalk.velocity;
-            pos.x += vel;
             physics.velocity = {0.0f, 0.0f};
             physics.acceleration = {0.0f, 0.0f};
         }
@@ -106,6 +101,11 @@ void EntityLogic::update()
         }
     }, *mData.game.tSplashLanding, *mData.spr.tPosition, *mData.spr.tPhysics);
 
+    // remove entities
+    forEach([&](int32_t id)
+    {
+        removeEntityData(id, mData);
+    }, mData.entitiesToRemove);
 
     clear(mData.entitiesToRemove);
 }
