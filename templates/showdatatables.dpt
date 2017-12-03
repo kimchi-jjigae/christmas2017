@@ -4,11 +4,12 @@
 
 #include <spr/debug/debuggui.hpp>
 #include <data/datatables.hpp>
+#include <dpx/tableid.hpp>
 @foreach-table@
 #include <data/$table-name$.hpp>
 @end@
 
-inline void showDataTables(const std::string& category, th::Optional<int32_t>& clickedEntity, const GameTables& tables, spr::Tables& sprTables)
+inline void showDataTables(const std::string& category, th::Optional<dpx::TableId>& clickedEntity, const GameTables& tables, spr::Tables& sprTables)
 {
     spr::showDataTables(category, clickedEntity, sprTables
 @foreach-table@

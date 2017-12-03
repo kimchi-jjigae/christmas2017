@@ -29,6 +29,7 @@
 #include <spr/resources/animation.hpp>
 #include <spr/resources/audiosample.hpp>
 #include <spr/resources/texture.hpp>
+#include <spr/resources/resourcemodule.hpp>
 #include <spr/showdatatables.hpp>
 
 #include <background/background.hpp>
@@ -105,23 +106,10 @@ void Game::loadResources()
     spr::sprEnsureCapacity(1024, mData.spr);
     ensureCapacity(1024, mData.game);
 
+    spr::scanResourceModules("assets", mData.spr);
+
     //textures
-    loadAndAddTexture("blood1"_hash, "assets/blood1.png", mData.spr); 
-    loadAndAddTexture("blood2a"_hash, "assets/blood2a.png", mData.spr); 
-    loadAndAddTexture("blood2b"_hash, "assets/blood2b.png", mData.spr); 
-    loadAndAddTexture("bg"_hash, "assets/bg.png", mData.spr); 
-    loadAndAddTexture("santa"_hash, "assets/santa.png", mData.spr); 
-    loadAndAddTexture("arm"_hash, "assets/arm.png", mData.spr); 
-    loadAndAddTexture("child"_hash, "assets/girl.png", mData.spr); 
-   
-    //animations
-    //addSpriteAnimation("explosion"_hash, spr::SpriteAnimation
-    //{
-    //    {0, 0},
-    //    {48, 48},
-    //    3,
-    //    8
-    //}, mData.spr);
+    spr::loadAllTextures(mData.spr);
 
     //audio
     //loadAndAddAudioSample("shoot_bullet"_hash, "data/audio/bulletshoot.ogg", mData.spr);
@@ -133,14 +121,14 @@ void Game::startScenario()
 {
     //initialise game
     setupBackground(mData);
-    spr::EntityProperties santa = spr::createSpriteProperties({-270.0f, 100.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties santa = spr::createSpriteProperties({-270.0f, 100.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("christmas.santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
 
     mData.santaId = addEntity(santa, mData);
     spr::EntityProperties armAnchor = spr::createSceneProperties({-3.0f, 0.0f, 0.0f}, {}, mData.santaId);
     armAnchor["angular_physics"_hash] = AngularPhysics{0.0f, 0.0f, 0.262f};
     mData.armAnchorId = addEntity(armAnchor, mData);
 
-    spr::EntityProperties arm = spr::createSpriteProperties({4.0f, 15.0f, 0.0f}, {}, mData.armAnchorId, {23.0f, 42.0f}, *spr::findTexture("arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties arm = spr::createSpriteProperties({4.0f, 15.0f, 0.0f}, {}, mData.armAnchorId, {23.0f, 42.0f}, *spr::findTexture("christmas.arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
     mData.armId = addEntity(arm, mData);
 
     spr::EntityProperties armCollider = spr::createSceneProperties({2.0f, 11.0f, 0.0f}, {}, mData.armId);

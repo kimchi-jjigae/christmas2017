@@ -11,6 +11,7 @@ void removeEntityDataGenerated(dpx::TableId entityId, struct GameTables& tables)
 
 @file-entityaddremove.cpp@
 #include "entityaddremove.hpp"
+#include <thero/assert.hpp>
 #include <data/datatables.hpp>
 @foreach-table@
 @if-has_tag=entity@
@@ -42,6 +43,7 @@ void addEntityGenerated(dpx::TableId entityId, spr::EntityProperties properties,
 @foreach-child@
         else if(data.$table-lName$Type == spr::$table-Name$::$child-Name$)
         {
+            TH_ASSERT(properties.count("$child-_name$"_hash) != 0, "trying to add entity " << entityId << " to table $child-_name$ but that data has not been provided");
             spr::insert$table-Name$(entityId, std::move(data),
                     std::move(properties.at("$child-_name$"_hash).get<spr::$child-Name$>()),
                     tables);

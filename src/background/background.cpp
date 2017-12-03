@@ -22,8 +22,8 @@ void setupBackground(GameData& data)
     {
         // choose random texture
         //int32_t texture = spr::randomIntRange(0, data.bgSegments.length, data.randomEngine);
-        //*spr::findTexture("bg"_hash, data.spr)
-        int32_t texture = *spr::findTexture("bg"_hash, data.spr);
+        //*spr::findTexture("christmas.bg"_hash, data.spr)
+        int32_t texture = *spr::findTexture("christmas.bg"_hash, data.spr);
         float posX = leftmostX + (bgSegmentWidth * i);
         float posY = 0.0f;
         float speed = data.scrollSpeed;

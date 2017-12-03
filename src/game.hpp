@@ -38,7 +38,7 @@ class Game : public spr::Application
         spr::FrameLogic mFrameLogic;
 
         //system
-        th::Optional<int32_t> mClickedEntity;
+        th::Optional<dpx::TableId> mClickedEntity;
 
         dpx::TableId mImguiFontTexture;
 

@@ -34,6 +34,8 @@ dependencies.include_conscript(env, '#dependencies/thero')
 dependencies.include_conscript(env, '#dependencies/glm')
 dependencies.include_conscript(env, '#dependencies/binpack')
 dependencies.include_conscript(env, '#dependencies/stb_truetype')
+dependencies.include_conscript(env, '#dependencies/json')
+dependencies.include_conscript(env, '#dependencies/tinydir')
 
 #use them
 dependencies.use_lib(env = env, lib_name = 'spring')
@@ -45,6 +47,8 @@ dependencies.use_lib(env = env, lib_name = 'thero', headers_only = True)
 dependencies.use_lib(env = env, lib_name = 'glm', headers_only = True)
 dependencies.use_lib(env = env, lib_name = 'binpack')
 dependencies.use_lib(env = env, lib_name = 'stb_truetype')
+dependencies.use_lib(env = env, lib_name = 'json', headers_only = True)
+dependencies.use_lib(env = env, lib_name = 'tinydir', headers_only = True)
 
 #add generated files as includes
 env.Append(CPPPATH=['#build/' + mode + '/spring/generated'])

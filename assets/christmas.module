@@ -1,0 +1,41 @@
+{
+    "name" : "christmas",
+    "resources" :
+    [
+        {
+            "name": "blood1",
+            "type": "texture",
+            "path": "blood1.png"
+        },
+        {
+            "name": "blood2a",
+            "type": "texture",
+            "path": "blood2a.png"
+        },
+        {
+            "name": "blood2b",
+            "type": "texture",
+            "path": "blood2b.png"
+        },
+        {
+            "name": "bg",
+            "type": "texture",
+            "path": "bg.png"
+        },
+        {
+            "name": "santa",
+            "type": "texture",
+            "path": "santa.png"
+        },
+        {
+            "name": "arm",
+            "type": "texture",
+            "path": "arm.png"
+        },
+        {
+            "name": "child",
+            "type": "texture",
+            "path": "girl.png"
+        }
+    ]
+}

@@ -37,3 +37,6 @@
 [submodule "dependencies/glm"]
 	path = dependencies/glm
 	url = git@gitlab.com:spring-dev/libs/glm.git
+[submodule "dependencies/tinydir"]
+	path = dependencies/tinydir
+	url = git@gitlab.com:spring-dev/libs/tinydir.git

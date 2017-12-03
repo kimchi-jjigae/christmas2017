@@ -7,9 +7,9 @@
 #include <data/datatables.hpp>
 #include <dpx/tableid.hpp>
 
-bool erase$table-Name$(int32_t id, GameTables& tables);
+bool erase$table-Name$(dpx::TableId id, GameTables& tables);
 @foreach-child@
-int32_t insert$table-Name$(@if-has_external_id@ dpx::TableId id, @end@struct $table-Name$ $table-name$, struct $child-Name$ $child-name$, GameTables& tables);
+dpx::TableId insert$table-Name$(@if-has_external_id@ dpx::TableId id, @end@struct $table-Name$ $table-name$, struct $child-Name$ $child-name$, GameTables& tables);
 @end@
 @end@
 
@@ -21,14 +21,15 @@ int32_t insert$table-Name$(@if-has_external_id@ dpx::TableId id, @end@struct $ta
 @foreach-child@
 #include <data/$child-name$.hpp>
 @end@
+#include <dpx/tableid.hpp>
 #include <dpx/insert.hpp>
 #include <dpx/erase.hpp>
 
 @foreach-child@
-int32_t insert$table-Name$(@if-has_external_id@ dpx::TableId id, @end@struct $table-Name$ $table-name$, struct $child-Name$ $child-name$, GameTables& tables)
+dpx::TableId insert$table-Name$(@if-has_external_id@ dpx::TableId id, @end@struct $table-Name$ $table-name$, struct $child-Name$ $child-name$, GameTables& tables)
 {
     $table-name$.$table-lName$Type = $table-Name$::$child-Name$;
-    int32_t newId = insert(@if-has_external_id@ id, @end@std::move($table-name$), *tables.t$table-Name$).id;
+    dpx::TableId newId = insert(@if-has_external_id@ id, @end@std::move($table-name$), *tables.t$table-Name$).id;
 
     insert(newId, std::move($child-name$), *tables.t$child-Name$);
 
@@ -36,7 +37,7 @@ int32_t insert$table-Name$(@if-has_external_id@ dpx::TableId id, @end@struct $ta
 }
 @end@
 
-bool erase$table-Name$(int32_t id, GameTables& tables)
+bool erase$table-Name$(dpx::TableId id, GameTables& tables)
 {
     bool erased = erase(id, *tables.t$table-Name$);
 @foreach-child@

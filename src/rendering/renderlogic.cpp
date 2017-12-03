@@ -102,7 +102,7 @@ void RenderLogic::renderFrame()
     //all texts
     mTextRenderer.render();
     //draw all debug primitives
-    spr::DRen::render(mData.mainViewport, mData.worldCamera, mData.mainShader);
+    spr::DRen::render(true, mData.mainViewport, mData.worldCamera, mData.mainShader);
     //imgui
     mImguiRenderer.renderFrame(mData.mainViewport, mData.guiCamera, mData.mainShader);
 }

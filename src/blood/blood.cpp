@@ -33,16 +33,16 @@ void spawnBloodSplash(const glm::vec3& childSpawnPosition, const float landingYP
 
 dpx::TableId spawnBloodParticle(const glm::vec3& position, const glm::vec2 velocity, float landingYPos, GameData& data)
 {
-    dpx::TableId textureId = *spr::findTexture("blood1"_hash, data.spr);
+    dpx::TableId textureId = *spr::findTexture("christmas.blood1"_hash, data.spr);
     glm::vec2 textureSize = {1.0f, 1.0f};
     if(spr::randomChance(0.2f, data.randomEngine))
     {
-        textureId = *spr::findTexture("blood2a"_hash, data.spr);
+        textureId = *spr::findTexture("christmas.blood2a"_hash, data.spr);
         textureSize = {2.0f, 2.0f};
     }
     if(spr::randomChance(0.2f, data.randomEngine))
     {
-        textureId = *spr::findTexture("blood2b"_hash, data.spr);
+        textureId = *spr::findTexture("christmas.blood2b"_hash, data.spr);
         textureSize = {2.0f, 2.0f};
     }
     spr::EntityProperties newBlood = spr::createSpriteProperties(position, {}, {}, textureSize, textureId, data.mainShader, data.mainViewport, data.worldCamera);
