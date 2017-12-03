@@ -121,14 +121,14 @@ void Game::startScenario()
 {
     //initialise game
     setupBackground(mData);
-    spr::EntityProperties santa = spr::createSpriteProperties({-270.0f, 100.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("christmas.santa"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties santa = spr::createSpriteProperties({-270.0f, 100.0f, 0.0f}, {}, {}, {48.0f, 48.0f}, *spr::findTexture("christmas.santa"_hash, mData.spr), mData.renderData.mainShader, mData.renderData.mainViewport, mData.renderData.worldCamera);
 
     mData.santaId = addEntity(santa, mData);
     spr::EntityProperties armAnchor = spr::createSceneProperties({-3.0f, 0.0f, 0.0f}, {}, mData.santaId);
     armAnchor["angular_physics"_hash] = AngularPhysics{0.0f, 0.0f, 0.262f};
     mData.armAnchorId = addEntity(armAnchor, mData);
 
-    spr::EntityProperties arm = spr::createSpriteProperties({4.0f, 15.0f, 0.0f}, {}, mData.armAnchorId, {23.0f, 42.0f}, *spr::findTexture("christmas.arm"_hash, mData.spr), mData.mainShader, mData.mainViewport, mData.worldCamera);
+    spr::EntityProperties arm = spr::createSpriteProperties({4.0f, 15.0f, 0.0f}, {}, mData.armAnchorId, {23.0f, 42.0f}, *spr::findTexture("christmas.arm"_hash, mData.spr), mData.renderData.mainShader, mData.renderData.mainViewport, mData.renderData.worldCamera);
     mData.armId = addEntity(arm, mData);
 
     spr::EntityProperties armCollider = spr::createSceneProperties({2.0f, 11.0f, 0.0f}, {}, mData.armId);

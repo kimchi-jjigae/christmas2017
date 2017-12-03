@@ -27,7 +27,7 @@ void setupBackground(GameData& data)
         float posX = leftmostX + (bgSegmentWidth * i);
         float posY = 0.0f;
         float speed = data.scrollSpeed;
-        spr::EntityProperties bgSegment = spr::createSpriteProperties({posX, posY, -1.0f}, {}, {}, {bgSegmentWidth, 400.0f}, texture, data.mainShader, data.mainViewport, data.worldCamera);
+        spr::EntityProperties bgSegment = spr::createSpriteProperties({posX, posY, -1.0f}, {}, {}, {bgSegmentWidth, 400.0f}, texture, data.renderData.mainShader, data.renderData.mainViewport, data.renderData.worldCamera);
         bgSegment["left_side_cleanup"_hash] = LeftSideCleanup{posX - bgSegmentWidth};
         bgSegment["auto_walk"_hash] = AutoWalk{true, speed, posY};
         addEntity(bgSegment, data);

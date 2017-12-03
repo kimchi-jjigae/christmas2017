@@ -14,7 +14,6 @@
 #include <constants/constants.hpp>
 #include <data/datatables.hpp>
 #include <player/playeraction.hpp>
-#include <player/playerlogic.hpp>
 #include <rendering/renderlogic.hpp>
 #include <startupconstants.hpp>
 #include <spr/input/inputlogic.hpp>
@@ -42,7 +41,6 @@ struct GameData
     //logicdata
     spr::InputLogic::Data inputData;
     spr::FrameLogic::Data frameData;
-    PlayerLogic::Data playerData;
     RenderLogic::Data renderData;
     
     //entities

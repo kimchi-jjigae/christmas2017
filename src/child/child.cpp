@@ -18,7 +18,7 @@
 
 dpx::TableId spawnChild(const glm::vec3& childSpawnPosition, const float speed, const int32_t health, const ChildType type, GameData& data)
 {
-    spr::EntityProperties newChild = spr::createSpriteProperties(childSpawnPosition, {}, {}, {48.0f, 48.0f}, *spr::findTexture("christmas.child"_hash, data.spr), data.mainShader, data.mainViewport, data.worldCamera);
+    spr::EntityProperties newChild = spr::createSpriteProperties(childSpawnPosition, {}, {}, {48.0f, 48.0f}, *spr::findTexture("christmas.child"_hash, data.spr), data.renderData.mainShader, data.renderData.mainViewport, data.renderData.worldCamera);
     newChild["physics"_hash] = spr::Physics{glm::vec2(0.0f, 0.0f), glm::vec2(0.0f, 0.1f)};
     newChild["auto_walk"_hash] = AutoWalk{true, speed, childSpawnPosition.y};
     newChild["entity_collider"_hash] = spr::EntityCollider{spr::EntityCollider::ObbCollider, spr::CollisionType::Trigger, {}};
